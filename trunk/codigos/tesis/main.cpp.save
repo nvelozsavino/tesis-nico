@@ -1,0 +1,244 @@
+#include <iostream>
+
+#include "cv.h"
+#include "highgui.h"
+#include <stdio.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <time.h>
+
+
+
+#include "spectrum.hpp"
+#include "generales.hpp"
+#include "muestra.hpp"
+//#include "perturbacion.h"
+#include "camara.hpp"
+#include "interferometro.hpp"
+#include "ruido.hpp"
+#include <iostream>
+//#define TIMESTEP 1e-3
+#define MAXTIME 10
+//#define FREQ 100
+//#define RUIDO 1
+#define ARCHIVO "archivos/video.avi"
+using namespace std;
+using namespace cv;
+
+
+
+
+int main(){
+    //clock_t begin,end;
+	Mat img ;
+	int c;
+    Spectrum fuente;
+    fuente.initSpectrum(DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,1000);
+    //fuente.setPlain(0.5e-9,1000e-9,1);
+	fuente.setGausian(1,546.1e-9,10e-9);
+	Camara camara;
+	Muestra muestra;
+	//camara.initCamara(30,1/30,COLOR);
+
+	muestra.initMuestra(100e-3,100e-3,1e3);
+	muestra.setMuestraFromFile("archivos/pozo.png",7*546.1e-9,IN_DEPTH,0,0);
+	muestra.setMuestraPlain(1,IN_VISIBILITY);
+	camara.initCamaraFromFiles(30, 1/30,"archivos/red","archivos/green","archivos/blue");
+    Ruido ruido;
+    ruido.initRuido((30.f/(float)(1<<4)),1<<(10+4));
+    ruido.setTimeArray(1/30.f);
+    //ruido.addNoise(20);
+    ruido.addHarmonics(20e-9,30,1,4,-1);
+
+
+    float ti=camara.integrationTime;
+	Interferometro interf;
+	interf.initInterferometro(&muestra,&fuente,&camara,ruido.getDeltaT(),0e-9,0e-9);
+    float fps=camara.fps;
+
+    CvSize size = cvSize(muestra.width,muestra.height);
+    //IplImage *img8=cvCreateImage(size,IPL_DEPTH_8U,3);
+
+    VideoWriter writer;
+
+    if (!writer.open(ARCHIVO,CV_FOURCC('D', 'I', 'V', '3'),fps,size)){
+        return 1;
+    }
+
+
+    interf.inclinacionX=-1e-6;
+    interf.inclinacionY=1e-6;
+
+    //FILE * pFile;
+    //pFile = fopen ("archivos/si_rnn.xls","w");
+    double fcontrol=15;
+    double fcOld=15;
+    double contrOld;
+    double contraste;
+    double time;
+    int r=0;
+//    int nt=(int)(ti/ruido.getDeltaT());
+    for (int t=0;t<(int)(MAXTIME/ti);t++){
+        time=t*ti;
+        if (time<MAXTIME/9){
+            r=0;
+        } else {
+            r=1;
+        }
+        //control.clear();
+        //control.addHarmonics(50e-9,fcontrol,1,10,0);
+        //control.setPointer(0);
+        //control.iFFT();
+        //getRuido(N, dst, ti,50e-9, 30, 20);
+        ruido.setNoise(20e-9);
+        ruido.iFFT();
+        ruido.copyTimeArray();
+        //ruido.addNoise();
+        int nt=ruido.getNset();
+        for (int i=0;i<nt;i++){
+            interf.integra(ruido.getV());
+        }
+        interf.getInterferograma(ruido.getV());
+        imshow( "simulador", interf.valores);
+        interf.valores.convertTo(img,CV_8UC3,255);
+        writer<<img;
+
+        Mat blackwhite;
+            //img.convertTo(blackwhite,CV_32FC3,1/255);
+        cvtColor(interf.valores, blackwhite, CV_RGB2GRAY);
+
+        double min,max;
+        minMaxLoc(blackwhite, &min, &max);
+        contrOld=contraste;
+        contraste=max-min;
+        double dC=(contraste-contrOld)/fabs(contraste);
+        double dF=(fcontrol-fcOld);///fabs(fcontrol);
+        if (r==1){
+            if (dF>0){
+                if (dC>0.1){
+                    fcOld=fcontrol;
+                    fcontrol++;
+                } else if (dC<-0.1){
+                    fcOld=fcontrol;
+                    fcontrol--;
+                } else {
+                    fcOld=fcontrol;
+                    //fcontrol++;
+                }
+            } else if (dF<0){
+                if (dC>0.1){
+                    fcOld=fcontrol;
+                    fcontrol--;
+                } else if (dC<-0.1){
+                    fcOld=fcontrol;
+                    fcontrol++;
+                } else {
+                    fcOld=fcontrol;
+                    //fcontrol++;
+                }
+            } else {
+                if (dC>0.1){
+                    fcOld=fcontrol;
+                    //fcontrol++;
+                } else if (dC<-0.1){
+                    fcOld=fcontrol;
+                    //fcontrol--;
+                } else {
+                    fcOld=fcontrol;
+                    fcontrol++;
+                }
+            }
+        }
+
+
+
+
+
+        printf("t=%.4f\tcontrast=%.4f\tfc=%.2f\tdC=%.4f\tdF=%.4f\n",time,contraste,fcontrol,dC,dF);
+
+		c = cvWaitKey(2);
+        if ((char)c==27){
+            break;
+        }
+    }
+//    delete[] dst;
+	return 0;
+}
+    /*
+    //for (float t=0;t<MAXTIME;t+=TIMESTEP){
+        tcamara+=TIMESTEP;
+        //sum++;
+        //float ran=;
+
+        //scaleAdd(interf.valores,TIMESTEP/camara.integrationTime,cuadro,cuadro);
+        if (tcamara>=camara.integrationTime){
+            //f=(FREQ*(float)((rand()%1000)/(float)1000));
+            //cuadro/=sum;
+            //sum=0;
+            interf.getInterferograma(op+yout);
+            //cvtColor(interf.valores,interf.valores,CV_XYZ2BGR);
+
+
+
+            imshow( "simulador", interf.valores);
+            interf.valores.convertTo(img,CV_8UC3,255);
+            */
+            /*
+            Mat hist;
+            float rangos[]={0,1};
+            getHist(interf.valores,hist,interf.valores.cols,50,rangos);
+
+
+            //hist2.convertTo(hist,CV_8UC3);
+            imshow( "histograma", hist);
+            Mat tempA;
+            tempA.create(img.rows+hist.rows,img.cols,hist.type());
+            tempA.setTo(Scalar::all(0));
+            Mat roiA(tempA, Rect(0,0,img.cols,img.rows));
+            Mat roiB(tempA, Rect(0,img.rows, hist.cols, hist.rows));
+            img.copyTo(roiA);
+            hist.copyTo(roiB);
+            imshow( "simhist", tempA);
+            writer<<tempA;
+*/
+/*
+
+            writer<<img;
+
+            Mat blackwhite;
+            //img.convertTo(blackwhite,CV_32FC3,1/255);
+            cvtColor(interf.valores, blackwhite, CV_RGB2GRAY);
+
+            double min,max;
+            float errorOut;
+            minMaxLoc(blackwhite, &min, &max);
+            contraste=max-min;
+            heta=(ti*546.1e-9/2)*sqrt((1-(max-min)*(max-min))/((max-min)*(max-min)));
+            yest=heta/(2*M_PI*ti);
+            errorOut=network.train(-(yest-yout));
+            push(-(yest-yout),input,NUM_INPUTS);
+            yout=network.getOutput(input);
+
+            //interf.getInterferograma((100e-9*sin(2*M_PI*i/20)));
+            //cuadro.setTo(Scalar::all(0));
+            tcamara=0;
+            printf("t=%.4f\tcontrast=%.4f\n",t,contraste);
+            fprintf(pFile,"%.4f\t%.4f\n",t,contraste);
+        }
+        //cout<< "width: "<<img.rows<< " height: " << img.cols<< "channels: "<< img.channels()<<endl;
+		//printf("tiempo = %.2f\n", (float)(i/fps));
+		c = cvWaitKey(2);
+        if( (char) c == 27 )
+            break;
+	}
+
+    //cvDestroyWindow("simulador");
+    fclose(pFile);
+    //cvReleaseVideoWriter(&writer);
+
+	return 0;
+
+
+
+}
+*/

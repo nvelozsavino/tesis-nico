@@ -1,0 +1,276 @@
+# depslib dependency file v1.0
+1283889323 source:/home/nico/Documents/Tesis/svn/tesis/main.cpp
+	<iostream>
+	"cv.h"
+	"highgui.h"
+	<stdio.h>
+	<math.h>
+	<time.h>
+	"rnn.h"
+	"spectrum.hpp"
+	"generales.hpp"
+	"muestra.hpp"
+	"camara.hpp"
+	"interferometro.hpp"
+	<iostream>
+
+1283871636 /home/nico/Documents/Tesis/svn/simulador/spectrum.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<string.h>
+	<fstream>
+	<cstdlib>
+	<cstdio>
+	<sstream>
+	"cv.h"
+	"highgui.h"
+
+1283871666 /home/nico/Documents/Tesis/svn/generales/generales.hpp
+	<math.h>
+	<cstdlib>
+	<iostream>
+	"cv.h"
+	<time.h>
+
+1283871636 /home/nico/Documents/Tesis/svn/simulador/muestra.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	"cv.h"
+	"highgui.h"
+	<iostream>
+	<string>
+
+1283871636 /home/nico/Documents/Tesis/svn/simulador/camara.hpp
+	"spectrum.hpp"
+	<cstdlib>
+	<iostream>
+
+1283871636 /home/nico/Documents/Tesis/svn/simulador/interferometro.hpp
+	"generales.hpp"
+	"camara.hpp"
+	"spectrum.hpp"
+	"muestra.hpp"
+	"cv.h"
+	"highgui.h"
+
+1283888043 /home/nico/Documents/Tesis/svn/rnn4/rnn.h
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1284566884 source:/home/nico/Documents/Tesis/svn/repos/tesis/main.cpp
+	<iostream>
+	"cv.h"
+	"highgui.h"
+	<stdio.h>
+	<math.h>
+	<time.h>
+	"spectrum.hpp"
+	"generales.hpp"
+	"muestra.hpp"
+	"camara.hpp"
+	"interferometro.hpp"
+	"ruido.hpp"
+	<iostream>
+
+1284162637 /home/nico/Documents/Tesis/svn/repos/rnn4/rnn.h
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1284388276 /home/nico/Documents/Tesis/svn/repos/simulador/spectrum.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<string.h>
+	<fstream>
+	<cstdlib>
+	<cstdio>
+	<sstream>
+	"cv.h"
+	"highgui.h"
+
+1284388279 /home/nico/Documents/Tesis/svn/repos/generales/generales.hpp
+	<math.h>
+	<cstdlib>
+	<iostream>
+	"cv.h"
+	<time.h>
+
+1284388276 /home/nico/Documents/Tesis/svn/repos/simulador/muestra.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	"cv.h"
+	"highgui.h"
+	<iostream>
+	<string>
+
+1284388276 /home/nico/Documents/Tesis/svn/repos/simulador/camara.hpp
+	"spectrum.hpp"
+	<cstdlib>
+	<iostream>
+
+1284388276 /home/nico/Documents/Tesis/svn/repos/simulador/interferometro.hpp
+	"generales.hpp"
+	"camara.hpp"
+	"spectrum.hpp"
+	"muestra.hpp"
+	"cv.h"
+	"highgui.h"
+
+1284403744 /home/nico/Documents/Tesis/svn/repos/simulador/ruido.hpp
+	<time.h>
+	<stdlib.h>
+	<math.h>
+
+1284561608 /home/nico/Documents/Tesis/svn/repos/ruido/ruido.hpp
+	<time.h>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+
+1295374854 source:/home/nico/Documents/tesis-svn/tesis/main.cpp
+	<iostream>
+	"cv.h"
+	"highgui.h"
+	<stdio.h>
+	<math.h>
+	<time.h>
+	"spectrum.hpp"
+	"generales.hpp"
+	"muestra.hpp"
+	"camara.hpp"
+	"interferometro.hpp"
+	"ruido.hpp"
+	<iostream>
+
+1295373373 /home/nico/Documents/tesis-svn/simulador/spectrum.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<string.h>
+	<fstream>
+	<cstdlib>
+	<cstdio>
+	<sstream>
+	"cv.h"
+	"highgui.h"
+
+1295373377 /home/nico/Documents/tesis-svn/generales/generales.hpp
+	<math.h>
+	<cstdlib>
+	<iostream>
+	"cv.h"
+	<time.h>
+
+1295373373 /home/nico/Documents/tesis-svn/simulador/muestra.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	"cv.h"
+	"highgui.h"
+	<iostream>
+	<string>
+
+1295373373 /home/nico/Documents/tesis-svn/simulador/camara.hpp
+	"spectrum.hpp"
+	<cstdlib>
+	<iostream>
+
+1295373373 /home/nico/Documents/tesis-svn/simulador/interferometro.hpp
+	"generales.hpp"
+	"camara.hpp"
+	"spectrum.hpp"
+	"muestra.hpp"
+	"cv.h"
+	"highgui.h"
+
+1295373376 /home/nico/Documents/tesis-svn/ruido/ruido.hpp
+	<time.h>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+
+1295380971 source:/home/nico/Documents/tesis/codigos/tesis/main.cpp
+	<iostream>
+	"cv.h"
+	"highgui.h"
+	<stdio.h>
+	<math.h>
+	<time.h>
+	"spectrum.hpp"
+	"generales.hpp"
+	"muestra.hpp"
+	"camara.hpp"
+	"interferometro.hpp"
+	"ruido.hpp"
+	<iostream>
+
+1284061632 /home/nico/Documents/tesis/codigos/simulador/spectrum.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<string.h>
+	<fstream>
+	<cstdlib>
+	<cstdio>
+	<sstream>
+	"cv.h"
+	"highgui.h"
+
+1284275916 /home/nico/Documents/tesis/codigos/generales/generales.hpp
+	<math.h>
+	<cstdlib>
+	<iostream>
+	"cv.h"
+	<time.h>
+
+1284061632 /home/nico/Documents/tesis/codigos/simulador/muestra.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	"cv.h"
+	"highgui.h"
+	<iostream>
+	<string>
+
+1284061632 /home/nico/Documents/tesis/codigos/simulador/camara.hpp
+	"spectrum.hpp"
+	<cstdlib>
+	<iostream>
+
+1284061632 /home/nico/Documents/tesis/codigos/simulador/interferometro.hpp
+	"generales.hpp"
+	"camara.hpp"
+	"spectrum.hpp"
+	"muestra.hpp"
+	"cv.h"
+	"highgui.h"
+
+1284447680 /home/nico/Documents/tesis/codigos/ruido/ruido.hpp
+	<time.h>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+
