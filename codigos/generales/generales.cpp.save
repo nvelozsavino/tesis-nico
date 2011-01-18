@@ -1,0 +1,129 @@
+
+#include "generales.hpp"
+
+int myRound(float valor, roundType tipo=ROUND_APROX){
+	switch (tipo){
+		case ROUND_DOWN: // por debajo
+			return ((int)valor);
+			break;
+		case ROUND_UP:	//por encima
+			if ((int)valor==valor){
+				return ((int)valor);
+			} else {
+				return (((int)valor)+1);
+			}
+			break;
+		case ROUND_APROX:
+			if (abs( ((int)valor)-valor )>=0.5){
+				return (((int)valor)+1);
+			} else {
+				return (((int)valor));
+			}
+			break;
+		default:
+			return (0);
+			break;
+	}
+}
+
+bool setPoint(float *arreglo, unsigned int x, unsigned int y, unsigned int w, unsigned int h, float valor){
+	if ((y*w+x)>=(w*h) || (y*w+x)<0 || x>=w || x<0 || y>=h || y<0 ){
+		return false;
+	}
+	arreglo[y*w+x]=valor;
+	return true;
+}
+
+bool getPoint(float *arreglo, unsigned int x, unsigned int y, unsigned int w, unsigned int h, float *valor){
+	if ((y*w+x)>=(w*h) || (y*w+x)<0 || x>=w || x<0 || y>=h || y<0 ){
+		return false;
+	}
+	*valor=arreglo[y*w+x];
+	return true;
+}
+
+
+void ajustaFFT(const Mat& src, Mat &dst){
+
+    Mat tempA;
+    Mat tempB;
+    //rows=N
+    //cols=1
+    tempA.create(2*src.rows,src.cols,src.type());
+    tempA.setTo(Scalar::all(0));
+
+    Mat roiA(tempA, Rect(0,src.rows,src.cols,src.rows));
+    src.copyTo(roiA);
+    Mat roiB(tempA,Rect(0,0,src.cols,src.rows));
+    src.copyTo(roiB);
+    tempA(Rect(0, src.rows/2, src.cols, src.rows)).copyTo(dst);
+
+}
+
+void desplaza(const Mat& src, Mat &dst, int desp){
+    Mat tempA;
+    Mat tempB;
+    int d;
+
+    if (desp>0){
+        d=desp;
+        tempA.create(src.rows+2*d,src.cols,src.type());
+        tempA.setTo(Scalar::all(0));
+        Mat roiA(tempA, Rect(0,2*d,src.cols,src.rows));
+        src.copyTo(roiA);
+        tempA(Rect(0, d, src.cols, src.rows)).copyTo(dst);
+    } else {
+        d=-desp;
+        tempA.create(src.rows+2*d,src.cols,src.type());
+        tempA.setTo(Scalar::all(0));
+        Mat roiA(tempA, Rect(0,0,src.cols,src.rows));
+        src.copyTo(roiA);
+        tempA(Rect(0, d, src.cols, src.rows)).copyTo(dst);
+    }
+    //cout<<"src=" <<src.rows<<"  dst="<<dst.rows<<endl;
+}
+
+double diffclock(clock_t clock1,clock_t clock2){
+    double diffticks=clock1-clock2;
+    double diffms=(diffticks*1000000)/CLOCKS_PER_SEC;
+    return diffms;
+}
+
+void getHist(const Mat& src, Mat &dst, int width, int height, float rangos[]){
+
+    Mat gray;
+    src.convertTo(gray,CV_)
+    cvtColor(src, gray, CV_BGR2HLS);
+
+    // let's quantize the hue to 30 levels
+    // and the saturation to 32 levels
+    int bins = width;
+    int hsize[] = {bins};
+    // hue varies from 0 to 179, see cvtColor
+   // float xranges[] = rangos;//{ 0, 256 };
+    // saturation varies from 0 (black-gray-white) to
+    // 255 (pure spectrum color)
+    const float* ranges[] = { rangos };
+    MatND hist;
+    // we compute the histogram from the 0-th and 1-st channels
+    int channels[] = {1};
+
+    calcHist( &gray, 1, channels, Mat(), // do not use mask
+        hist, 1, hsize, ranges,
+        true, // the histogram is uniform
+        false );
+    double maxVal=0;
+    minMaxLoc(hist, 0, &maxVal, 0, 0);
+
+    Mat histImg = Mat::zeros(height,bins, CV_8UC3);
+    rectangle(histImg, Point(0,0), Point(bins,height), CV_RGB(255,255,255),-1);
+
+    for( int h = 0; h < bins; h++ ){
+            float binVal = hist.at<float>(h);
+            int intensity = round(binVal*height/maxVal);
+            line(histImg,Point(h,height), Point(h,height-intensity), CV_RGB(0,0,0));
+
+            //rectangle( histImg, Point(h*scale, s*scale),Point( (h+1)*scale - 1, (s+1)*scale - 1),Scalar::all(intensity),CV_FILLED );
+        }
+        histImg.copyTo(dst);
+}
