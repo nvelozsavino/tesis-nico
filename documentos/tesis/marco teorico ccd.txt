@@ -1,0 +1,20 @@
+TESIS - MARCO TEÓRICO
+CCD:  Charge-Couple Device
+
+[1]
+	El CCD es un decetecor de fotones dividido en miles o millones de pixeles que guardan información de fotonoces incidentes que componen la imagen
+	
+	El sensor CCD está compuesto por una delgada capa de semiconductor tipicamente de Silicio capáz de atrapar y retener un par electron-hueco producto de un foton incidente
+	
+	La superficie del semiconductor está cubierta por una rejilla de tiras transparentes mnuy delgadas que llevan un voltaje y forman los pixeles
+	
+	Cada pixel funciona como un sensor de luz llamado fotodiodo que actua como un pozo de potencial para almacenar los portadores de carga derivados del foton incidente. 
+	
+	Usualmente los portadores de carga producto de un fotón incidente son llamados fotoelectrones
+	
+	Arquitecturas de los CCD
+		
+		Full-Frame CCD: En una camara CCD full-frame se tiene un arreglo de pixeles que conforman el registro paralelo que es la superficie que acumula y guarda los fotoelectrones. Luego de una exposición, una secuencia 
+	
+	
+	
