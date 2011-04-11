@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "cv.h"
-#include "highgui.h"
+#include <opencv2/opencv.hpp>
+//#include "highgui.h"
 #include <stdio.h>
 #define _USE_MATH_DEFINES
 #include <math.h>

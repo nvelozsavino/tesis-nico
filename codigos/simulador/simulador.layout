@@ -8,12 +8,15 @@
 		<Cursor position="3910" topLine="120" />
 	</File>
 	<File name="interferometro.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="359" topLine="0" />
+		<Cursor position="198" topLine="0" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="7">
-		<Cursor position="465" topLine="42" />
+		<Cursor position="54" topLine="0" />
+	</File>
+	<File name="muestra.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="199" topLine="0" />
 	</File>
 	<File name="spectrum.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="493" topLine="3" />
+		<Cursor position="303" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
