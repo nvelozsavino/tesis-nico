@@ -1,0 +1,27 @@
+1.  Obtencion del patron de correlación de la fuente
+    1.1.  Se selecciona un ROI pequeño de modo que el FPS sea alto => la frecuencia de muestreo del ruido que se logre será 1/FPS
+    1.2.  Se hace un barrido del camino optico y para cada punto del ROI se genera un arreglo del patron de correlacion (Patron correlacion vs distancia)
+    1.3.  Se haya el punto de maxima correlación entre todos los patrones y se promedian en ese punto => Se obtiene un único patrón de correlación
+    
+  
+2.  Estimacion del vector de movimiento
+    2.1.  Se selecciona un ROI pequeño (las mismas configuraciones de la camara para el punto 1)
+    2.2.  En la primera imagen, se toma el valor de cada punto del ROI y se intersecta con el patrón de correlación de la fuente y se guardan en un arreglo
+    2.3.  En la segunda imagen, se repite el procedimiento de 2.2
+    2.4.  Se saca un arreglo para cada punto de todas las posibles combinaciones de distancias entre los arreglos obtenidos en el punto 2.2 y 2.3
+    2.5.  Se saca el histograma de todas las distancias obtenidas en todos los puntos del punto 2.4
+    2.6.  Se selecciona como vector de movimiento aquel punto en que el histograma sea maximo
+    
+3.  Estimación del ruido
+    3.1.  Se repite el punto 2 una cantidad de veces para cada imagen => se genera una señal estimada del ruido
+    3.2.  Se le saca la transformada de fourier de la señal obtenida
+    3.3.  Se antitransforma la transformada del punto 3.2
+
+4.  Anulación del ruido
+    4.1.  Con la señal obtenida en el punto 2.6 se realiza un control PID con memoria para tratar de anular el ruido
+    
+5.  Aumento del contraste
+    5.1.  Se utiliza todo el tamaño de la imagen => el FPS debe reducirse drasticamente => Lo que se observe probablemente sea variaciones en el contraste => Desactiva la realimentacion
+    5.2.  Se calcula el contraste sin introducir cambios en el piezoelectrico.
+    5.3.  Con la información obtenida en la parte 3.3 se introducen señales al piezoeléctrico para ver si se aumenta el contraste (se varia fase y amplitud)
+    5.4.  Se queda con la mejor fase y amplitud que mejore el contraste

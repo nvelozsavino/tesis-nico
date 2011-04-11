@@ -4,8 +4,8 @@
 #include "camara.hpp"
 #include "spectrum.hpp"
 #include "muestra.hpp"
-#include "cv.h"
-#include "highgui.h"
+#include <opencv2/opencv.hpp>
+//#include "highgui.h"
 //#include "perturbacion.hpp"
 using namespace cv;
 #define LIGHT_SPEED		3e8
