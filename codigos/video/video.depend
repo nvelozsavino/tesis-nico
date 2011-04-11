@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1302535395 source:c:\users\veloz\documents\tesis\codigos\video\main.cpp
+	<opencv2/opencv.hpp>
+	<opencv2/highgui/highgui.hpp>
+	<iostream>
+

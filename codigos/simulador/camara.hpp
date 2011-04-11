@@ -36,6 +36,13 @@
 #define SPECTRUM_SIZE	1000
 #define SPECTRUM_RESOLUTION
 
+typedef struct {
+    int top;
+    int left;
+    int width;
+    int height;
+} ROI;
+
 
 class Camara {
     public:
@@ -44,7 +51,8 @@ class Camara {
     Spectrum *sensor;
     unsigned int fps;
     float integrationTime;
-
+    int hasROI;
+    ROI roi;
 
 
     //int createCamara(Camara *camara, )
@@ -63,6 +71,8 @@ class Camara {
     //Funciones set
     void setFPS(unsigned int f);
     void setIntegrationTime(float it);
+    int setROI (int top, int left, int width, int height);
+    int clearROI (void);
 
 };
 
