@@ -2,8 +2,46 @@
 #include <iostream>
 
 
-void Camara::initCamara(unsigned int f, float it,tipoCamara type=COLOR){
+ROI::ROI(){
+    top=0;
+    left=0;
+    width=0;
+    height=0;
+}
+ROI::ROI(unsigned int w, unsigned int h, unsigned int t, unsigned int l){
+        top=t;
+        left=l;
+        width=w;
+        height=h;
+    }
+
+int ROI::operator == (ROI src){
+    int t,l,w,h;
+    t=(top == src.top);
+    l=(left == src.left);
+    w=(width == src.width);
+    h=(height == src.height);
+
+    return (t && l && w && h );
+}
+
+int ROI::operator != (ROI src){
+    int t,l,w,h;
+    t=(top != src.top);
+    l=(left != src.left);
+    w=(width != src.width);
+    h=(height != src.height);
+
+    return (t || l || w || h );
+}
+
+void Camara::initCamara(unsigned int f, float it, tipoCamara type=COLOR){
     tipo=type;
+    hasROI=false;
+    roi.top=0;
+    roi.left=0;
+    roi.width=0;
+    roi.height=0;
     //Spectrum *se;
 	if (tipo==COLOR){
 		sensor=new Spectrum[3];//(200e-9,1000e-9,SPECTRUM_SIZE);
@@ -46,6 +84,10 @@ Camara::~Camara(){
     }
 }
 
+Camara::Camara(){
+    hasROI=false;
+}
+
 unsigned int Camara::getFPS(void){
     return fps;
 }
@@ -64,4 +106,12 @@ void Camara::setFPS(unsigned int f){
 }
 void Camara::setIntegrationTime(float it){
     integrationTime=it;
+}
+
+void Camara::setROI (unsigned int width, unsigned int height,unsigned int top=0, unsigned int left=0){
+    hasROI=true;
+    roi.top=top;
+    roi.left=left;
+    roi.width=width;
+    roi.height=height;
 }

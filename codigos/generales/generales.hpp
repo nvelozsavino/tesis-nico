@@ -58,6 +58,7 @@ void ajustaFFT(const Mat& src, Mat& dst);
 
 
 void desplaza(const Mat& src, Mat &dst, int desp);
+void copyPart(const Mat& src, Mat &dst, unsigned int width,unsigned int height, unsigned int top,unsigned int left);
 
 double diffclock(clock_t clock1,clock_t clock2);
 

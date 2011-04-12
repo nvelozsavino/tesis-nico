@@ -59,6 +59,32 @@ void ajustaFFT(const Mat& src, Mat &dst){
 
 }
 
+void copyPart(const Mat& src, Mat &dst, unsigned int width,unsigned int height, unsigned int top=0,unsigned int left=0){
+    unsigned int realWidth,realHeight;
+    unsigned int dstWidth,dstHeight;
+    dst.create(height,width,src.type());
+    dst.setTo(Scalar::all(0));
+
+        if (left>(unsigned int)src.cols || top>(unsigned int)src.rows) {
+            return;
+        }
+        realWidth=src.cols-left;
+        realHeight=src.rows-top;
+        if (realWidth>width) {
+            dstWidth=width;
+        } else {
+            dstWidth=realWidth;
+        }
+        if (realHeight>height) {
+            dstHeight=height;
+        } else {
+            dstHeight=realHeight;
+        }
+        Mat roi(dst,Rect(0,0,dstWidth,dstHeight));
+        src(Rect(left,top,dstWidth,dstHeight)).copyTo(roi);
+        return;
+}
+
 void desplaza(const Mat& src, Mat &dst, int desp){
     Mat tempA;
     Mat tempB;
