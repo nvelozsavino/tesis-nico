@@ -391,8 +391,9 @@ int main(){
                 clear(prueba,N);
             }
             status=11;
-            fprintf(fp,"Se deja de buscar aleatoriamente\t");
-            printf("\n\n\tSe deja de buscar aleatoriamente\n");
+            fprintf(fp,"Se deja de buscar aleatoriamente3\t");
+            printf("\n\n\tSe deja de buscar aleatoriamente3\n");
+            camara.setROI(10,300,100,100);
             break;
             default:
             break;

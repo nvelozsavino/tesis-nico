@@ -28,7 +28,9 @@ class Interferometro {
 	//float **valores;
 	unsigned int width;
 	unsigned int height;
-
+    Mat roiDepth;
+    Mat roiVisibility;
+    ROI camaraROI;
 
 	//Constructor
 	Interferometro(){};
@@ -43,6 +45,7 @@ class Interferometro {
 	//Funciones Get
 	void getInterferograma(float opticalPath);
 
+    int setMats(void);
 };
 
 #endif

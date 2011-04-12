@@ -36,19 +36,13 @@
 #define SPECTRUM_SIZE	1000
 #define SPECTRUM_RESOLUTION
 
+typedef struct {
+    unsigned int top;
+    unsigned int left;
+    unsigned int width;
+    unsigned int height;
+} ROI;
 
-class ROI {
-    public:
-        unsigned int top;
-        unsigned int left;
-        unsigned int width;
-        unsigned int height;
-
-    ROI();
-    ROI(unsigned int w, unsigned int h, unsigned int t, unsigned int l);
-    int operator== (ROI src);
-    int operator!= (ROI src);
-};
 
 class Camara {
     public:
@@ -63,7 +57,7 @@ class Camara {
 
     //int createCamara(Camara *camara, )
     //Constructor
-    Camara();
+    Camara(){};
     void initCamara(unsigned int f, float it,tipoCamara type);
     void initCamaraFromFiles(unsigned int f, float it,string red,string green, string blue);
     //Destructor
@@ -77,7 +71,7 @@ class Camara {
     //Funciones set
     void setFPS(unsigned int f);
     void setIntegrationTime(float it);
-    void setROI (unsigned int width, unsigned int height,unsigned int top, unsigned int left);
+    int setROI (unsigned int width, unsigned int height,unsigned int top, unsigned int left);
 
 };
 
