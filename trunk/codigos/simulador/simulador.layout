@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="camara.cpp" open="1" top="1" tabpos="1">
+	<File name="camara.cpp" open="1" top="0" tabpos="1">
 		<Cursor position="2290" topLine="70" />
 	</File>
-	<File name="camara.hpp" open="1" top="0" tabpos="3">
-		<Cursor position="1288" topLine="54" />
+	<File name="camara.hpp" open="1" top="1" tabpos="3">
+		<Cursor position="1288" topLine="51" />
 	</File>
 	<File name="interferometro.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="3174" topLine="15" />
+		<Cursor position="4286" topLine="46" />
 	</File>
 	<File name="interferometro.hpp" open="1" top="0" tabpos="6">
-		<Cursor position="654" topLine="19" />
+		<Cursor position="654" topLine="10" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="7">
 		<Cursor position="54" topLine="0" />

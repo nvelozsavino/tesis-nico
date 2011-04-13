@@ -2,7 +2,6 @@
 using namespace cv;
 
 int Interferometro::setMats(void){
-    unsigned int realWidth,realHeight;
     unsigned int left,top,myWidth,myHeight;
     if (camaraROI!=camara->roi) {
         left=camara->roi.left;
@@ -47,11 +46,12 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 	int dim;
 	if (camara->tipo==COLOR){
 	    dim=3;
-	    valores.create(width, height, CV_32FC3);
+	//    valores.create(width, height, CV_32FC3);
 	} else {
-	    valores.create(width, height, CV_32FC1);
+	//    valores.create(width, height, CV_32FC1);
 	    dim=1;
 	}
+
 	    //Mat multip[3];
     Xmax=new float[dim];
     Xmin=new float[dim];
@@ -116,7 +116,7 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
         //cout<<"interferograma=" <<interferograma[i].rows<<"  interf="<<interf[i].rows<<endl;
 
     }
-
+/*
     //integra(Xmax[0]/3,1);
     Mat imagen;
     imagen.create(500,1800,CV_32FC3);
@@ -138,6 +138,7 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 
     }
     imshow( "patrones de interferencia", imagen);
+    */
     /*for (;;){
         int c = cvWaitKey(1000);
         if( (char) c == 27)
@@ -157,7 +158,6 @@ Interferometro::~Interferometro(){
 
 
 void Interferometro::integra(float opticalPath){
-    Mat temp;
     int desp;
     int dim;
     if (camara->tipo==COLOR){
@@ -166,12 +166,33 @@ void Interferometro::integra(float opticalPath){
 		dim=1;
 	}
 
-
+    int cols, rows,type;
 	for (int d=0;d<dim;d++){
+        cols=interf[d].cols;
+        rows=interf[d].rows;
+        type=interf[d].type();
 	    float v=opticalPath*interferograma[d].rows/Xmax[d];//2*fabs(depth)+Xmax[i])/(2*Xmax[i])
 	    desp=(int)v;
-        desplaza(interferograma[d],temp,desp);
-        interf[d]+=temp*scale;
+        cout<<"despMurio por aqui"<<endl;
+	    if (abs(desp)<interferograma[d].rows){
+	        
+	        Mat temp;
+            if (desp>0) {
+                temp.create(rows-desp,cols,type);
+                interferograma[d](Rect(0,0,cols,rows-desp)).copyTo(temp);
+                interf[d](Rect(0,desp,cols,rows-desp))+=temp*scale;
+
+            } else {
+                temp.create(rows+desp,desp,type);
+                interferograma[d](Rect(0,-desp,cols,rows+desp)).copyTo(temp);
+                interf[d](Rect(0,0,cols,rows+desp))+=temp*scale;
+
+            }
+	    }
+
+        //Mat temp;
+        //desplaza(interferograma[d],temp,desp);
+        //interf[d]+=temp*scale;
         //scaleAdd(temp,scale,interf[d],interf[d]);
 	}
 }
@@ -190,6 +211,7 @@ void Interferometro::getInterferograma(float opticalPath){
 	unsigned int x,y;
 //	width=muestra->width;
 //	height=muestra->height;
+    setMats();
 	if (camara->tipo==COLOR){
 		dim=3;
 		valores.create(width,height,CV_32FC3);
@@ -206,10 +228,10 @@ void Interferometro::getInterferograma(float opticalPath){
     for (x=0;x<width;x++){
         for (y=0;y<height;y++){
             //depth=
-            inclinacion=x*inclinacionX/width + y*inclinacionY/height;
-            depth=get2D32F(muestra->depth,x,y)+opticalPath+inclinacion;
+            inclinacion=x*inclinacionX/muestra->width + y*inclinacionY/muestra->height;
+            depth=get2D32F(roiDepth,x,y)+opticalPath+inclinacion;
             //depth*=2;
-            vis=get2D32F(muestra->visibilidad,x,y)/2;
+            vis=get2D32F(roiVisibility,x,y)/2;
             //cout <<"depth = "<<depth<<endl;
             //int c = cvWaitKey(25);
 
