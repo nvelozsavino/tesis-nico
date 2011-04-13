@@ -87,7 +87,7 @@ void copyPart(const Mat& src, Mat &dst, unsigned int width,unsigned int height, 
 
 void desplaza(const Mat& src, Mat &dst, int desp){
     Mat tempA;
-    Mat tempB;
+    //Mat tempB;
     int d;
 
     if (desp>0){

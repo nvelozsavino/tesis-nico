@@ -158,7 +158,6 @@ Interferometro::~Interferometro(){
 
 
 void Interferometro::integra(float opticalPath){
-    Mat temp;
     int desp;
     int dim;
     if (camara->tipo==COLOR){
@@ -166,14 +165,27 @@ void Interferometro::integra(float opticalPath){
 	} else {
 		dim=1;
 	}
-
-
+    int cols, rows,type;
+    cols=interferograma[0].cols;
+    rows=interferograma[0].rows;
+    type=interferograma[0].type();
 	for (int d=0;d<dim;d++){
 	    float v=opticalPath*interferograma[d].rows/Xmax[d];//2*fabs(depth)+Xmax[i])/(2*Xmax[i])
 	    desp=(int)v;
+// Esto mejora en 25% la velocidad de procesamiento
+	    if ((unsigned int)desp<(unsigned int)rows){
+            if (desp>0) {
+                interf[d](Rect(0,desp,cols,rows-desp))+=interferograma[d](Rect(0,0,cols,rows-desp))*scale;
+            } else {
+                interf[d](Rect(0,0,cols,rows+desp))+=interferograma[d](Rect(0,-desp,cols,rows+desp))*scale;
+            }
+	    }
+//Con respecto a esta parte
+        /*
+        Mat temp;
         desplaza(interferograma[d],temp,desp);
         interf[d]+=temp*scale;
-        //scaleAdd(temp,scale,interf[d],interf[d]);
+        */
 	}
 }
 
