@@ -3,17 +3,16 @@ using namespace cv;
 
 int Interferometro::setMats(void){
     unsigned int left,top,myWidth,myHeight;
-    if (camaraROI!=camara->roi) {
-        left=camara->roi.left;
-        myWidth=camara->roi.width;
-        top=camara->roi.top;
-        myHeight=camara->roi.height;
+    if (camaraROI!=camara->roi()) {
+        left=camara->roi().left;
+        myWidth=camara->roi().width;
+        top=camara->roi().top;
+        myHeight=camara->roi().height;
         copyPart(muestra->visibilidad,roiVisibility,myWidth,myHeight,left,top);
         copyPart(muestra->depth,roiDepth,myWidth,myHeight,left,top);
-        camaraROI=camara->roi;
-        width=camara->roi.width;
-        height=camara->roi.height;
-
+        camaraROI=camara->roi();
+        width=camara->roi().width;
+        height=camara->roi().height;
         return 1;
     } else {
         return 0;
@@ -39,6 +38,7 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 	inclinacionX=inclX;
 	inclinacionY=inclY;
     scale=timestep/camara->integrationTime;
+    
 	if (!camara->hasROI){
         camara->setROI(muestra->width,muestra->height,0,0);
 	}
@@ -165,35 +165,27 @@ void Interferometro::integra(float opticalPath){
 	} else {
 		dim=1;
 	}
-
     int cols, rows,type;
+    cols=interferograma[0].cols;
+    rows=interferograma[0].rows;
+    type=interferograma[0].type();
 	for (int d=0;d<dim;d++){
-        cols=interf[d].cols;
-        rows=interf[d].rows;
-        type=interf[d].type();
 	    float v=opticalPath*interferograma[d].rows/Xmax[d];//2*fabs(depth)+Xmax[i])/(2*Xmax[i])
 	    desp=(int)v;
-        cout<<"despMurio por aqui"<<endl;
-	    if (abs(desp)<interferograma[d].rows){
-	        
-	        Mat temp;
+// Esto mejora en 25% la velocidad de procesamiento
+	    if ((unsigned int)desp<(unsigned int)rows){
             if (desp>0) {
-                temp.create(rows-desp,cols,type);
-                interferograma[d](Rect(0,0,cols,rows-desp)).copyTo(temp);
-                interf[d](Rect(0,desp,cols,rows-desp))+=temp*scale;
-
+                interf[d](Rect(0,desp,cols,rows-desp))+=interferograma[d](Rect(0,0,cols,rows-desp))*scale;
             } else {
-                temp.create(rows+desp,desp,type);
-                interferograma[d](Rect(0,-desp,cols,rows+desp)).copyTo(temp);
-                interf[d](Rect(0,0,cols,rows+desp))+=temp*scale;
-
+                interf[d](Rect(0,0,cols,rows+desp))+=interferograma[d](Rect(0,-desp,cols,rows+desp))*scale;
             }
 	    }
-
-        //Mat temp;
-        //desplaza(interferograma[d],temp,desp);
-        //interf[d]+=temp*scale;
-        //scaleAdd(temp,scale,interf[d],interf[d]);
+//Con respecto a esta parte
+        /*
+        Mat temp;
+        desplaza(interferograma[d],temp,desp);
+        interf[d]+=temp*scale;
+        */
 	}
 }
 

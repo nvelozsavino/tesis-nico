@@ -11,41 +11,47 @@ using namespace cv;
 #define LIGHT_SPEED		3e8
 
 class Interferometro {
-    //Spectrum *multip;
-    float *Xmax;
-    float *Xmin;
-    Mat *interferograma;
-    Mat *interf;
-    float *Io;
+    private:
+        float _timeStep;
+        int setMats(void);
     public:
-    float scale;
-    Spectrum *fuente;
-	Camara *camara;
-	Muestra *muestra;
-    float inclinacionX;
-	float inclinacionY;
-	Mat valores;
-	//float **valores;
-	unsigned int width;
-	unsigned int height;
-    Mat roiDepth;
-    Mat roiVisibility;
-    ROI camaraROI;
+    //Spectrum *multip;
+        float *Xmax;
+        float *Xmin;
+        Mat *interferograma;
+        Mat *interf;
+        float *Io;
+        public:
+        float scale;
+        Spectrum *fuente;
+        Camara *camara;
+        Muestra *muestra;
+        float inclinacionX;
+        float inclinacionY;
+        Mat valores;
+        //float **valores;
+        unsigned int width;
+        unsigned int height;
+        Mat roiDepth;
+        Mat roiVisibility;
+        ROI camaraROI;
+        ParametrosCamara camaraParam;
 
-	//Constructor
-	Interferometro(){};
-	void initInterferometro(Muestra *muestra, Spectrum *fuente, Camara *camara,float timestep, float inclX, float inclY);
-    void integra(float opticalPath);
-	//Destructor
-	~Interferometro();
+        //Constructor
+        Interferometro(){};
+        void initInterferometro(Muestra *muestra, Spectrum *fuente, Camara *camara,float timestep, float inclX, float inclY);
+        void integra(float opticalPath);
+        //Destructor
+        ~Interferometro();
 
-	//Funciones Set
+        //Funciones Set
+        int timeStep(float TimeStep);
+
+        //Funciones Get
+        void getInterferograma(float opticalPath);
+        float timeStep();
 
 
-	//Funciones Get
-	void getInterferograma(float opticalPath);
-
-    int setMats(void);
 };
 
 #endif

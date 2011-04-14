@@ -87,7 +87,8 @@ int main(){
 	//muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
 	muestra.setMuestraPlain(0,IN_DEPTH);
 	muestra.setMuestraPlain(1,IN_VISIBILITY);
-	camara.initCamaraFromFiles(30, 1/30,"../archivos/red","../archivos/green","../archivos/blue");
+	camara.initFPS(800,600,30,COLOR);
+	camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue");
     Ruido ruido;
     ruido.initRuido((30.f/(float)(1<<0)),1<<(10+0));
     ruido.setTimeArray(1/30.f);
@@ -95,11 +96,13 @@ int main(){
     ruido.addHarmonics(30e-9,30,1,4,-1);
 
 
-    float ti=camara.integrationTime;
+
 	Interferometro interf;
 	interf.initInterferometro(&muestra,&fuente,&camara,ruido.getDeltaT(),0e-9,0e-9);
-    float fps=camara.fps;
-
+    float fps=camara.fps();
+    float tstep=Interferometro.timeStep();
+    float ti=camara.exposureTime();
+    float nit=camara.getNotIntegrationTime();
     CvSize size = cvSize(muestra.width,muestra.height);
     //IplImage *img8=cvCreateImage(size,IPL_DEPTH_8U,3);
 
@@ -164,12 +167,15 @@ int main(){
     int superior=0;
     time=0;
     while (1){
-        time+=ti;
+        time+=tstep;
         ruido.setNoise(5e-9);
         ruido.iFFT();
         ruido.copyTimeArray();
         int nt=ruido.getNset();
         float ruidovalue;
+        if (time<nit){
+            //no hace nada
+        } else
         for (int i=0;i<nt-1;i++){
             ruidovalue=ruido.getV()-(control[i]+prueba[i]);
             interf.integra(ruidovalue);
