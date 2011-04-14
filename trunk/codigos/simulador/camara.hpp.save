@@ -44,6 +44,8 @@ typedef struct {
 
 #define DEFAULT_TIPO    COLOR
 #define DEFAULT_TRANSPORT_TIME  1e-9
+#define DEFAULT_EXPOSURE_TIME  1e-9
+#define DEFAULT_SHUTTER_TIME    0
 #define DEFAULT_WIDTH   800
 #define DEFAULT_HEIGHT  600
 #define DEFAULT_FPS     60
@@ -78,52 +80,127 @@ class Camara {
         Spectrum *_sensor;
         autoSettings _autoConfig;
         int calcTimes();
+        int _fromFiles;
+        string _redFile,_greenFile,_blueFile,_whiteFile;
 
     public:
-        int operator== (Camara src);
-        int operator!= (Camara src);
-        
-        float exposureTime();
-        int exposureTime(float ExposureTime);
 
-        float fps();
-        int fps(float Fps);
+//Constructor
+Camara::Camara(){
+    _sensor=NULL;
+    _redFile="";
+    _greenFile="";
+    _blueFile="";
+    _whiteFile="";
+    init(DEFAULT_WIDTH,DEFAULT_HEIGHT,DEFAULT_FPS,DEFAULT_EXPOSURE_TIME,DEFAULT_TIPO,DEFAULT_FRAME_TYPE,DEFAULT_TRANSPORT_TIME,DEFAULT_SHUTTER_TIME);
+    setSpectrumsDefaults();
 
-//        bool hasROI ();
+}
 
-        ROI roi ();
-        int roi (unsigned int width, unsigned int height,unsigned int top, unsigned int left);
+int Camara::init(unsigned int Width, unsigned int Height,float Fps, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME);
+{
 
-        Spectrum sensor (int index);
+    _width=Width;
+    _height=Height;
+    _fps=Fps;
+    _exposureTime=ExposureTime;
+    _tipo=Tipo;
+    _frameType=FrameType;
+    _transportTime=TransportTime;
+    _shutterTime=ShutterTime;
+    _autoConfig=FIXED_FPS_FIXED_EXPOSE;
+    _roi.top=0;
+    _roi.left=0;
+    _roi.width=_width;
+    _roi.height=_height;
+    return calcTimes();
+}
 
-        int setSize(unsigned int width, unsigned int height);
+void Camara::initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME);
+{
+    _width=Width;
+    _height=Height;
+    _fps=Fps;
+    _exposureTime=DEFAULT_EXPOSURE_TIME;
+    _tipo=Tipo;
+    _frameType=FrameType;
+    _transportTime=TransportTime;
+    _shutterTime=ShutterTime;
+    _autoConfig=FIXED_FPS_AUTO_EXPOSE;
+    _roi.top=0;
+    _roi.left=0;
+    _roi.width=_width;
+    _roi.height=_height;
+    return calcTimes();
 
-        unsigned int width();
-        //int width (unsigned int Width);
+}
 
-        unsigned int height();
-        //int height (unsigned int Height);
+void Camara::initExposureTime(unsigned int Width, unsigned int Height, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME);
+{
+    _width=Width;
+    _height=Height;
+    _fps=DEFAULT_FPS;
+    _exposureTime=ExposureTime;
+    _tipo=Tipo;
+    _frameType=FrameType;
+    _transportTime=TransportTime;
+    _shutterTime=ShutterTime;
+    _autoConfig=AUTO_FPS_FIXED_EXPOSE;
+    _roi.top=0;
+    _roi.left=0;
+    _roi.width=_width;
+    _roi.height=_height;
+    return calcTimes();
 
-        int tipo (tipoCamara Tipo);
-        tipoCamara tipo();
 
-        autoSettings autoConfig();
-        int autoConfig(autoSettings AutoConfig);
+}
 
-        tipoFrame frameType();
+//Destructor
+Camara::~Camara();
 
-        //int createCamara(Camara *camara, )
-        //Constructor
-        Camara();
+//Operadores
+int Camara::operator== (Camara src);
+int Camara::operator!= (Camara src);
 
-        void init(unsigned int width, unsigned int height,)
+//Funciones GET
+unsigned int Camara::width();
+unsigned int Camara::height();
+ROI Camara::roi ();
+float Camara::fps();
+float Camara::exposureTime();
+tipoCamara Camara::tipo();
+tipoFrame Camara::frameType();
+float Camara::transportTime();
+float Camara::shutterTime();
+int Camara::fromFiles();
+string Camara::redFile();
+string Camara::greenFile();
+string Camara::blueFile();
+string Camara::whiteFile();
+Spectrum Camara::sensor (int index);
+autoSettings Camara::autoConfig();
 
-        void initCamaraFPS(unsigned int width, unsigned int height, float fps, tipoCamara tipo, tipoFrame frameType, float transportTime,float shutterTime);
-        void initCamaraET(unsigned int width, unsigned int height, float ExposureTime, tipoCamara tipo, tipoFrame frame, float transportTime,float shutterTime);
 
-        int setSpectrums(string redFile,string greenFile, string blueFile);
-        //Destructor
-        ~Camara();
+//Funciones SET
+int Camara::setSize(unsigned int width, unsigned int height);
+int Camara::roi (unsigned int width, unsigned int height,unsigned int top, unsigned int left);
+int Camara::roi (ROI Roi);
+int Camara::fps(float Fps);
+int Camara::exposureTime(float ExposureTime);
+int Camara::fpsExposureTime(float Fps,float ExposureTime);
+int Camara::tipo(tipoCamara Tipo);
+int Camara::frameType(tipoFrame FrameType);
+int Camara::transportTime(float TransportTime);
+int Camara::shutterTime(float ShutterTime);
+int Camara::setSpectrumsFiles(string RedFile, string GreenFile, string BlueFile);
+int Camara::setSpectrumsFiles(string WhiteFile);
+int Camara::setSpectrumsDefaults();
+int Camara::autoConfig(autoSettings AutoConfig);
+
+
+//Funciones Privadas
+int Camara::calcTimes();
+
 
 
 };

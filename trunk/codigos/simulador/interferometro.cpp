@@ -3,22 +3,30 @@ using namespace cv;
 
 int Interferometro::setMats(void){
     unsigned int left,top,myWidth,myHeight;
-    if (camaraROI!=camara->roi) {
-        left=camara->roi.left;
-        myWidth=camara->roi.width;
-        top=camara->roi.top;
-        myHeight=camara->roi.height;
+    if (camaraParam!=camara->getParametros()) {
+        left=camara->roi().left;
+        myWidth=camara->roi().width;
+        top=camara->roi().top;
+        myHeight=camara->roi().height;
         copyPart(muestra->visibilidad,roiVisibility,myWidth,myHeight,left,top);
         copyPart(muestra->depth,roiDepth,myWidth,myHeight,left,top);
-        camaraROI=camara->roi;
-        width=camara->roi.width;
-        height=camara->roi.height;
-
+        camaraROI=camara->roi();
+        width=camara->roi().width;
+        height=camara->roi().height;
+        scale=_timeStep*camara->fps();
         return 1;
     } else {
         return 0;
     }
 
+}
+int Interferometro::timeStep(float TimeStep){
+    _timeStep=timeStep;
+    return setMats();
+}
+
+float Interferometro::timeStep(){
+    return _timeStep;
 }
 
 void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente, Camara *myCamara, float timestep, float inclX=0, float inclY=0){
@@ -38,13 +46,16 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 //	interferometro->perturbacion=perturbacion;
 	inclinacionX=inclX;
 	inclinacionY=inclY;
-    scale=timestep/camara->integrationTime;
+	_timeStep=timestep;
+    //scale=timestep*camara->fps();
+    /*
 	if (!camara->hasROI){
         camara->setROI(muestra->width,muestra->height,0,0);
 	}
+	*/
 	setMats();
 	int dim;
-	if (camara->tipo==COLOR){
+	if (camara->tipo()==COLOR){
 	    dim=3;
 	//    valores.create(width, height, CV_32FC3);
 	} else {
@@ -66,15 +77,15 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 
     for (int i=0;i<dim;i++){
         //fuente->lamda2freq();
-        endFreqSensor=LIGHT_SPEED/camara->sensor[i].startLamda;
-        multFreq(fuente->valoresFreq,endFreqFuente,camara->sensor[i].valoresFreq,endFreqSensor,&multip,&endFreqMultip);
+        endFreqSensor=LIGHT_SPEED/camara->sensor(i).startLamda;
+        multFreq(fuente->valoresFreq,endFreqFuente,camara->sensor(i).valoresFreq,endFreqSensor,&multip,&endFreqMultip);
         multiply(multip,multip,multip);
 
         float maxLamda;
-        if (fuente->endLamda>camara->sensor[i].endLamda){
+        if (fuente->endLamda>camara->sensor(i).endLamda){
             maxLamda=fuente->endLamda;
         } else {
-            maxLamda=camara->sensor[i].endLamda;
+            maxLamda=camara->sensor(i).endLamda;
         }
         //mult(*fuente,camara->sensor[i],multip[i],1);
 
@@ -160,7 +171,7 @@ Interferometro::~Interferometro(){
 void Interferometro::integra(float opticalPath){
     int desp;
     int dim;
-    if (camara->tipo==COLOR){
+    if (camara->tipo()==COLOR){
 		dim=3;
 	} else {
 		dim=1;
@@ -204,7 +215,7 @@ void Interferometro::getInterferograma(float opticalPath){
 //	width=muestra->width;
 //	height=muestra->height;
     setMats();
-	if (camara->tipo==COLOR){
+	if (camara->tipo()==COLOR){
 		dim=3;
 		valores.create(width,height,CV_32FC3);
 	} else {
