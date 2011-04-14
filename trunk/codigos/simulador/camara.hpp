@@ -6,7 +6,13 @@
 #include <cstdlib>
 #include <iostream>
 
- typedef enum {MONO,COLOR} tipoCamara;
+typedef enum {BW,COLOR} tipoCamara;
+typedef enum {FULL_FRAME,FRAME_TRANSFERE,INTERLINE} tipoFrame;
+typedef enum {FIXED_FPS_FIXED_EXPOSE,FIXED_FPS_AUTO_EXPOSE,AUTO_FPS_FIXED_EXPOSE} autoSettings;
+typedef struct {
+
+
+} parametrosCamara;
 #define RAIZ_2PI 2.506628274631000502415765284811
 
 
@@ -36,6 +42,14 @@
 #define SPECTRUM_SIZE	1000
 #define SPECTRUM_RESOLUTION
 
+#define DEFAULT_TIPO    COLOR
+#define DEFAULT_TRANSPORT_TIME  1e-9
+#define DEFAULT_EXPOSURE_TIME  1e-9
+#define DEFAULT_SHUTTER_TIME    0
+#define DEFAULT_WIDTH   800
+#define DEFAULT_HEIGHT  600
+#define DEFAULT_FPS     60
+#define DEFAULT_FRAME_TYPE  INTERLINE
 
 class ROI {
     public:
@@ -50,34 +64,73 @@ class ROI {
     int operator!= (ROI src);
 };
 
+
 class Camara {
+    private:
+        float _exposureTime;
+        float _fps;
+        float _transportTime;
+//        float _adcTime;
+        float _shutterTime;
+        unsigned int _width;
+        unsigned int _height;
+        ROI _roi;
+        tipoCamara _tipo;
+        tipoFrame   _frameType;
+        Spectrum *_sensor;
+        autoSettings _autoConfig;
+        int calcTimes();
+        int _fromFiles;
+        string _redFile,_greenFile,_blueFile,_whiteFile;
+
     public:
+        int operator== (Camara src);
+        int operator!= (Camara src);
 
-    tipoCamara tipo;
-    Spectrum *sensor;
-    unsigned int fps;
-    float integrationTime;
-    bool hasROI;
-    ROI roi;
+        float exposureTime();
+        int exposureTime(float ExposureTime);
 
+        float fps();
+        int fps(float Fps);
 
-    //int createCamara(Camara *camara, )
-    //Constructor
-    Camara();
-    void initCamara(unsigned int f, float it,tipoCamara type);
-    void initCamaraFromFiles(unsigned int f, float it,string red,string green, string blue);
-    //Destructor
-    ~Camara();
+//        bool hasROI ();
 
-    //Funciones get
-    unsigned int getFPS(void);
-    float getIntegrationTime(void);
-    tipoCamara getType(void);
+        ROI roi ();
+        int roi (unsigned int width, unsigned int height,unsigned int top, unsigned int left);
 
-    //Funciones set
-    void setFPS(unsigned int f);
-    void setIntegrationTime(float it);
-    void setROI (unsigned int width, unsigned int height,unsigned int top, unsigned int left);
+        Spectrum sensor (int index);
+
+        int setSize(unsigned int width, unsigned int height);
+
+        unsigned int width();
+        //int width (unsigned int Width);
+
+        unsigned int height();
+        //int height (unsigned int Height);
+
+        int tipo (tipoCamara Tipo);
+        tipoCamara tipo();
+
+        autoSettings autoConfig();
+        int autoConfig(autoSettings AutoConfig);
+
+        tipoFrame frameType();
+
+        int setSpectrums(string RedFile,string GreenFile, string BlueFile);
+        int setSpectrums(string WhiteFile);
+        //int createCamara(Camara *camara, )
+        //Constructor
+        Camara();
+
+        void init(unsigned int Width, unsigned int Height,float Fps, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime);
+
+        void initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime);
+
+        void initExposureTime(unsigned int Width, unsigned int Height, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime);
+        void defaultSpectrums();
+        //Destructor
+        ~Camara();
+
 
 };
 
