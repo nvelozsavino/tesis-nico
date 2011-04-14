@@ -26,25 +26,23 @@ int ROI::operator == (ROI src){
 }
 
 int ROI::operator != (ROI src){
-
-/*
     int t,l,w,h;
     t=(top != src.top);
     l=(left != src.left);
     w=(width != src.width);
     h=(height != src.height);
-*/
-    return !operator==(src);
+
+    return (t || l || w || h );
 }
 
 
 //Constructor
 Camara::Camara(){
     _sensor=NULL;
-    _redFile="";
-    _greenFile="";
-    _blueFile="";
-    _whiteFile="";
+    redFile="";
+    greenFile="";
+    blueFile="";
+    whiteFile="";
     _fromFiles=false;
     init(DEFAULT_WIDTH,DEFAULT_HEIGHT,DEFAULT_FPS,DEFAULT_EXPOSURE_TIME,DEFAULT_TIPO,DEFAULT_FRAME_TYPE,DEFAULT_TRANSPORT_TIME,DEFAULT_SHUTTER_TIME);
 
@@ -161,13 +159,17 @@ void Camara::fileSpectrums(){
     }
 }
 
+
+
+
+
 int Camara::operator== (Camara src){
-    int w =(_width==src.width());
-    int h =(_height==src.height());
-    int r =(_roi==src.roi());
-    int f =(_fps==src.fps());
+    int w,h,roi,et,t,ft
+    int w=(_width==src.width());
+    int h=(_height==src.height());
+    int roi=(_roi==src.roi());
     int et=(_exposureTime==src.exposureTime());
-    int t =(_tipo==src.tipo());
+    int t=(_tipo==src.tipo());
     int ft=(_frameType==src.frameType());
     int tt=(_transportTime==src.transportTime());
     int st=(_shutterTime==src.shutterTime());
@@ -176,56 +178,39 @@ int Camara::operator== (Camara src){
     int fg=(_greenFile==src.greenFile());
     int fb=(_blueFile==src.blueFile());
     int fw=(_whiteFile==src.whiteFile());
-    return (w && h && r && f && et && t && ft && tt && st && ff && fr && fg && fb && fw);
+    if (w &&)
 
 }
-int Camara::operator!= (Camara src){
-    return !operator==(src);
-}
-unsigned int Camara::width();
-unsigned int Camara::height();
-ROI Camara::roi ();
-float Camara::fps();
+int Camara::operator!= (Camara src);
+
 float Camara::exposureTime();
-tipoCamara Camara::tipo();
-tipoFrame Camara::frameType();
-float Camara::transportTime();
-float Camara::shutterTime();
-int Camara::fromFiles();
-string Camara::redFile();
-string Camara::greenFile();
-string Camara::blueFile();
-string Camara::whiteFile();
-
-
-
 int Camara::exposureTime(float ExposureTime);
 
-
+float Camara::fps();
 int Camara::fps(float Fps);
 
 //bool Camara::hasROI ();
 
-
+ROI Camara::roi ();
 int Camara::roi (unsigned int width, unsigned int height,unsigned int top, unsigned int left);
 
 Spectrum Camara::sensor (int index);
 
 int Camara::setSize(unsigned int width, unsigned int height);
 
-
+unsigned int Camara::width();
 //int width (unsigned int Width);
 
-
+unsigned int Camara::height();
 //int height (unsigned int Height);
 
 int Camara::tipo (tipoCamara Tipo);
-
+tipoCamara Camara::tipo();
 
 autoSettings Camara::autoConfig();
 int Camara::autoConfig(autoSettings AutoConfig);
 
-
+tipoFrame Camara::frameType();
 
 int Camara::setSpectrums(string RedFile,string GreenFile, string BlueFile);
 int Camara::setSpectrums(string WhiteFile);

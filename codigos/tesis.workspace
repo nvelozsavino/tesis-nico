@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="tesis/tesis.cbp" active="1">
+		<Project filename="tesis/tesis.cbp">
 			<Depends filename="generales/generales.cbp" />
 			<Depends filename="ruido/ruido.cbp" />
 			<Depends filename="simulador/simulador.cbp" />
@@ -9,5 +9,6 @@
 		<Project filename="generales/generales.cbp" />
 		<Project filename="ruido/ruido.cbp" />
 		<Project filename="simulador/simulador.cbp" />
+		<Project filename="../../Projectos/pruebamat/pruebamat.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>
