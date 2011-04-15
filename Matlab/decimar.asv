@@ -1,0 +1,28 @@
+clc;
+clear all;
+close all;
+d=load('solo_aire.txt');
+x=(d(:,1));
+ydb=d(:,2);
+y=10.^(ydb/20);
+fs=length(x)/(x(length(x))-x(1));
+xmax=500;
+ix=(xmax-x(1))*fs;
+ya=y(1:ix);
+xa=x(1:ix);
+r=floor(length(ya)/100);
+yn=decimate(ya,r);
+fsn=fs/r;
+xn=xa(1):1/fsn:xa(length(xa));
+plot(xa,ya,'r',(xn),yn,'b');
+
+fmax=xmax;
+fs=fmax*2;
+T=1/fs;
+t=0:T:100/fs;
+forma=zeros(1,length(t));
+for i=1:length(xn)
+    fn=xn(i);
+    forma=forma+yn(i)*exp(1i*fn*t);
+end
+plot(t,forma);
