@@ -1,0 +1,418 @@
+#include <iostream>
+
+#include <opencv2/opencv.hpp>
+//#include "highgui.h"
+#include <stdio.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <time.h>
+
+
+
+#include "spectrum.hpp"
+#include "generales.hpp"
+#include "muestra.hpp"
+//#include "perturbacion.h"
+#include "camara.hpp"
+#include "interferometro.hpp"
+#include "ruido.hpp"
+#include <iostream>
+//#define TIMESTEP 1e-3
+#define MAXTIME 10
+//#define FREQ 100
+#define LAMDA_0 546.1e-9
+#define M_DEFAULT 1
+
+#define GET_TIME 10
+#define PORCENTAJEMAS   0.1
+#define PORCENTAJE_STOP 0.5
+#define PORCENTAJE_JUEGO 0.95
+
+#define VECES_SUPERIOR  3
+
+
+#define TO_DIV      50
+#define AMP_DIV     50
+#define S_DIV       50
+
+
+#define MAXTIME_CONTROL (GET_TIME+60)
+#define MAXTIME_TOTAL   (MAXTIME_CONTROL+10)
+
+//#define RUIDO 1
+#define ARCHIVO_VIDEO "../archivos/resultados/video2.avi"
+#define ARCHIVO_DATA "../archivos/resultados/dataplana2.xls"
+using namespace std;
+using namespace cv;
+
+
+void gauss(double* arreglo, float dt, int size,float amp, float to, float s);
+void clear(double* arreglo, int size);
+void add(double* src, double *dst, int size);
+
+void gauss(double* arreglo, float dt, int size,float amp, float to, float s){
+    float t;
+    for (int i=0;i<size;i++){
+        t=i*dt;
+        arreglo[i]=amp*exp(-(t-to)*(t-to)/(2*s*s));
+    }
+}
+void clear(double* arreglo, int size){
+    for (int i=0;i<size;i++){
+        arreglo[i]=0;
+    }
+}
+
+void add(double* src, double *dst, int size){
+    for (int i=0;i<size;i++){
+        dst[i]+=src[i];
+    }
+}
+
+
+int main(){
+    srand(time(NULL));
+    //clock_t begin,end;
+	Mat img ;
+	int c;
+    Spectrum fuente;
+    fuente.initSpectrum(DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,1000);
+    //fuente.setPlain(0.5e-9,1000e-9,1);
+	fuente.setGausian(1,LAMDA_0,10e-9);
+	Camara camara;
+	Muestra muestra;
+	//camara.initCamara(30,1/30,COLOR);
+
+	muestra.initMuestra(500e-3,500e-3,1e3);
+	//muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
+	muestra.setMuestraPlain(0,IN_DEPTH);
+	muestra.setMuestraPlain(1,IN_VISIBILITY);
+	camara.initFPS(800,600,30,COLOR);
+	camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue");
+    Ruido ruido;
+    ruido.initRuido((30.f/(float)(1<<0)),1<<(10+0));
+    ruido.setTimeArray(1/30.f);
+    //ruido.addNoise(50e-9);
+    ruido.addHarmonics(30e-9,30,1,4,-1);
+
+
+
+	Interferometro interf;
+	interf.initInterferometro(&muestra,&fuente,&camara,ruido.getDeltaT(),0e-9,0e-9);
+    float fps=camara.fps();
+    float tstep=Interferometro.timeStep();
+    float ti=camara.exposureTime();
+    float nit=camara.getNotIntegrationTime();
+    CvSize size = cvSize(muestra.width,muestra.height);
+    //IplImage *img8=cvCreateImage(size,IPL_DEPTH_8U,3);
+
+    VideoWriter writer;
+
+    if (!writer.open(ARCHIVO_VIDEO,CV_FOURCC('D', 'I', 'V', '3'),fps,size)){
+        return 1;
+    }
+
+
+    interf.inclinacionX=0e-6;
+    interf.inclinacionY=3e-6;
+
+    //FILE * pFile;
+    //pFile = fopen ("archivos/si_rnn.xls","w");
+
+    double contraste;
+    double heta;
+    double time;
+    int status=0;
+    double baseContrast=0;
+    double bestContrast=0;
+    double bestContrastInRound=0;
+    double sumContrast=0;
+//    int nt=(int)(ti/ruido.getDeltaT());
+    //for (int t=0;t<(int)(MAXTIME/ti);t++){
+    int vs=0;
+    double *prueba;
+    double *control;
+    int N=ruido.getNset();
+    prueba=new double [N];
+    control=new double [N];
+    for (int i=0;i<N;i++){
+        prueba[i]=0;
+        control[i]=0;
+    }
+    float dt=ruido.getDeltaT();
+
+    float maxAmp=0;
+
+    //variables de las se~nales de control
+    /*char *cromosoma;
+    int sizeCromosoma=BYTES_AMP+BYTES_SIGMA+BYTES_TO;
+    cromosoma=new char[sizeCromosoma];
+    */
+    double amp=0;
+    double s=0;
+    double to=0;
+    double bestAmp=0;
+    double ampSwim=0;
+    double bestS=0;
+    double sSwim=0;
+    double bestTo=0;
+    int inbest=0;
+
+    FILE *fp;
+    fp=fopen(ARCHIVO_DATA,"w+");
+    if (fp==NULL){
+        return 1;
+    }
+
+    int superior=0;
+    time=0;
+    while (1){
+        time+=tstep;
+        ruido.setNoise(5e-9);
+        ruido.iFFT();
+        ruido.copyTimeArray();
+        int nt=ruido.getNset();
+        float ruidovalue;
+        if (time<nit){
+            //no hace nada
+        } else
+        for (int i=0;i<nt-1;i++){
+            ruidovalue=ruido.getV()-(control[i]+prueba[i]);
+            interf.integra(ruidovalue);
+        }
+        interf.getInterferograma(ruido.getV()-(control[nt-1]+prueba[nt-1]));
+        imshow( "simulador", interf.valores);
+        interf.valores.convertTo(img,CV_8UC3,255);
+        writer<<img;
+
+        Mat blackwhite;
+        cvtColor(interf.valores, blackwhite, CV_RGB2GRAY);
+
+        double min,max;
+        minMaxLoc(blackwhite, &min, &max);
+        contraste=max-min;
+
+        fprintf(fp,"%f\t%f\t",time,contraste);
+        printf("t=%.3f\tc=%.3f\t%.2f\t",time,contraste,100*contraste/bestContrastInRound);
+        printf("A=%.4f\t s=%.4f\tto=%.4f\n",amp*1e9,s,to);
+        switch (status){
+            case 0:
+                inbest=0;
+                if (time<GET_TIME){
+                    vs++;
+                    baseContrast+=contraste;
+                } else {
+                    baseContrast/=vs;
+                    vs=0;
+                    status=1;
+                    heta=(LAMDA_0/(4*M_PI))*ti*(1-((2*baseContrast)/(M_DEFAULT*(max+min))));
+                    heta*=heta;
+                    maxAmp=N*sqrt(heta/ti);
+                    bestContrast=baseContrast;
+                    fprintf(fp,"Mejor contraste calculado: %f.  Comienza busqueda aleatoria\t",bestContrast);
+                    printf("\n\n\tMejor contraste calculado: %.4f\n\n",bestContrast);
+                }
+                break;
+            case 1:
+                inbest=0;
+                amp=2*maxAmp*(double)(rand()%1000/1000.f)-maxAmp;
+                s=(ti/2)*(double)(rand()%1000/1000.f)+(ti/100);
+                to=0;
+                gauss(prueba,dt,N,amp,to,s);
+                status=2;
+                fprintf(fp,"Generando nueva Gausiana: Amp=%.4fnm  s=%.5fs\t",amp*1e9,s);
+                printf("\n\tGenerando nueva Gausiana: Amp=%.3f\t s=%.3f\n",amp*1e9,s);
+                superior=0;
+                bestContrastInRound=bestContrast;
+                sumContrast=0;
+                break;
+            case 2:
+                if (contraste>(bestContrastInRound*PORCENTAJE_JUEGO)||superior>=VECES_SUPERIOR){
+                    if(superior>=VECES_SUPERIOR){
+                        sumContrast/=VECES_SUPERIOR;
+                        if (sumContrast>bestContrastInRound){
+                            bestContrastInRound=sumContrast;
+                            bestTo=to;
+                            bestAmp=amp;
+                            bestS=s;
+                            fprintf(fp,"Mejor to encontrado: to=%fs\t",bestTo);
+                            printf("\n\tEncontro mejor to=%.4f\n",bestTo);
+                            inbest=1;
+                        }
+                        sumContrast=0;
+                        superior=0;
+                        to+=(N/TO_DIV)*dt;
+                        gauss(prueba,dt,N,amp,to,s);
+                    } else {
+                        sumContrast+=contraste;
+                        superior++;
+                    }
+                } else {
+                    superior=0;
+                    sumContrast=0;
+                    to+=(N/TO_DIV)*dt;
+                    gauss(prueba,dt,N,amp,to,s);
+                }
+                if (to>ti){
+                    if (bestContrastInRound<=bestContrast){
+                        status=1;
+                        inbest=0;
+                    } else {
+                        status=3;
+                        bestContrast=bestContrastInRound;
+                        ampSwim=2*amp;
+                        //bestAmp=amp;
+                        amp=(ampSwim/AMP_DIV);
+                        to=bestTo;
+
+                        gauss(prueba,dt,N,amp,bestTo,bestS);
+                        fprintf(fp,"Comienza barrido de Amplitud\t");
+                        printf("\n\tComienza barrido de Amplitud\n");
+                    }
+                }
+                break;
+            case 3:
+                if (contraste>(bestContrastInRound*PORCENTAJE_JUEGO)||superior>=VECES_SUPERIOR){
+                    if (superior>=VECES_SUPERIOR){
+                        sumContrast/=VECES_SUPERIOR;
+                        if (sumContrast>bestContrastInRound){
+                            bestContrastInRound=sumContrast;
+                            bestTo=to;
+                            bestAmp=amp;
+                            bestS=s;
+                            inbest=1;
+                            fprintf(fp,"Mejor Amplitud encotnrada: amp=%.4fnm\t",bestAmp*1e9);
+                            printf("\n\tEncontro mejor amp=%.4f\n",bestAmp);
+                        }
+                        sumContrast=0;
+
+                        superior=0;
+                        if (ampSwim>0){
+                            amp+=(ampSwim/AMP_DIV);
+                        } else {
+                            amp-=(ampSwim/AMP_DIV);
+                        }
+                        gauss(prueba,dt,N,amp,bestTo,bestS);
+                    } else {
+                        sumContrast+=contraste;
+                        superior++;
+                    }
+                } else {
+                    superior=0;
+                    sumContrast=0;
+
+                    if (ampSwim>0){
+                        amp+=(ampSwim/AMP_DIV);
+                    } else {
+                        amp-=(ampSwim/AMP_DIV);
+                    }
+                    gauss(prueba,dt,N,amp,bestTo,bestS);
+                }
+                if (fabs(amp)>fabs(ampSwim)){
+                        status=4;
+                        bestContrast=bestContrastInRound;
+                        sSwim=2*s;
+                        //bestS=s;
+
+                        amp=bestAmp;
+
+                        s=(sSwim/AMP_DIV);
+                        gauss(prueba,dt,N,bestAmp,bestTo,s);
+                        fprintf(fp,"Comienza barrido de Sigma\t");
+                        printf("\n\tComienza barrido de Sigma\n");
+                }
+                break;
+            case 4:
+                if (contraste>(bestContrastInRound*PORCENTAJE_JUEGO)||superior>=VECES_SUPERIOR){
+                    if (superior>=VECES_SUPERIOR){
+                        sumContrast/=VECES_SUPERIOR;
+                        if (sumContrast>bestContrastInRound){
+                            bestContrastInRound=sumContrast;
+                            bestTo=to;
+                            bestAmp=amp;
+                            bestS=s;
+                            inbest=1;
+                            fprintf(fp,"Mejor sigma encontrada: s=%fs\t",bestS);
+                            printf("\n\tEncontro mejor s=%.4f\n",bestS);
+                        }
+                        sumContrast=0;
+                        superior=0;
+                        s+=(sSwim/S_DIV);
+                        gauss(prueba,dt,N,amp,bestTo,bestS);
+
+                    } else {
+                        sumContrast+=contraste;
+                        superior++;
+                    }
+                } else {
+                    superior=0;
+                    sumContrast=0;
+
+                    s+=(sSwim/S_DIV);
+                    gauss(prueba,dt,N,amp,bestTo,bestS);
+                }
+                if (s>sSwim){
+                        gauss(prueba,dt,N,bestAmp,bestTo,bestS);
+                        add(prueba,control,N);
+                        bestContrast=bestContrastInRound;
+                        fprintf(fp,"Se agrega la gaussiana al control: Amp=%.4fnm s=%fs to=%fs\t",bestAmp*1e9,bestS,bestTo);
+                        printf("\n\n\tSe agrega la gaussiana al control: Amp=%.4fnm s=%fs to=%fs\n",bestAmp*1e9,bestS,bestTo);
+                        if (bestContrast>baseContrast*(1+PORCENTAJE_STOP)){
+                            status=10;
+                            inbest=0;
+                            fprintf(fp,"Mas del 50 del contraste obtenido\t");
+                            printf("\n\n\t\tMas del 50 del contraste obtenido\n\n");
+                        } else {
+                            status=1;
+                            inbest=0;
+                        }
+                }
+                break;
+            case 10:
+                if (inbest==1){
+                    gauss(prueba,dt,N,bestAmp,bestTo,bestS);
+                    add(prueba,control,N);
+                    bestContrast=bestContrastInRound;
+                    fprintf(fp,"Se agrega la gaussiana al control: Amp=%.4fnm s=%fs to=%fs\t",bestAmp*1e9,bestS,bestTo);
+                    printf("\n\n\tSe agrega la gaussiana al control: Amp=%.4fnm s=%fs to=%fs\n",bestAmp*1e9,bestS,bestTo);
+                } else {
+                    clear(prueba,N);
+                }
+                status=11;
+                fprintf(fp,"Se deja de buscar aleatoriamente3\t");
+                printf("\n\n\tSe deja de buscar aleatoriamente3\n");
+                camara.setROI(10,300,100,100);
+                break;
+            default:
+                break;
+        }
+
+
+        fprintf(fp,"\n");
+		c = cvWaitKey(2);
+        if ((char)c==27){
+            if (status<10){
+                status=10;
+            } else {
+                break;
+            }
+        } else if ((char)c==13){
+            status=2;
+
+        }
+        if (time>=MAXTIME_CONTROL&& status<10 &&inbest==0){
+            status=10;
+        }
+        if (time>=MAXTIME_TOTAL&& status>=10 ){
+            break;
+        }
+
+
+    }
+    delete[] control;
+    delete[] prueba;
+    fclose(fp);
+//    delete[] dst;
+	return 0;
+}
+
