@@ -7,9 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/libgenerales" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\Debug\libgenerales" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="obj\Debug\" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -18,9 +18,9 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/libgenerales" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\Release\libgenerales" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj\Release\" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -33,10 +33,6 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-O3" />
-			<Add option="-O2" />
-			<Add option="-O1" />
-			<Add option="-O" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>

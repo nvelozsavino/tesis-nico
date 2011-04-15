@@ -86,12 +86,12 @@ Camara::Camara(){
     param._greenFile="";
     param._blueFile="";
     param._whiteFile="";
-    init(DEFAULT_WIDTH,DEFAULT_HEIGHT,DEFAULT_FPS,DEFAULT_EXPOSURE_TIME,DEFAULT_TIPO,DEFAULT_FRAME_TYPE,DEFAULT_TRANSPORT_TIME,DEFAULT_SHUTTER_TIME);
-    setSpectrumsDefaults();
+    //init(DEFAULT_WIDTH,DEFAULT_HEIGHT,DEFAULT_FPS,DEFAULT_EXPOSURE_TIME,DEFAULT_TIPO,DEFAULT_FRAME_TYPE,DEFAULT_TRANSPORT_TIME,DEFAULT_SHUTTER_TIME);
+//    setSpectrumsDefaults();
 
 }
 
-int Camara::init(unsigned int Width, unsigned int Height,float Fps, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME){
+int Camara::init(unsigned int Width, unsigned int Height,float Fps, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime){
 
     param._width=Width;
     param._height=Height;
@@ -104,12 +104,12 @@ int Camara::init(unsigned int Width, unsigned int Height,float Fps, float Exposu
     param._autoConfig=FIXED_FPS_FIXED_EXPOSE;
     param._roi.top=0;
     param._roi.left=0;
-    param._roi.width=_width;
-    param._roi.height=_height;
+    param._roi.width=param._width;
+    param._roi.height=param._height;
     return calcTimes();
 }
 
-void Camara::initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME){
+int Camara::initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime){
     param._width=Width;
     param._height=Height;
     param._fps=Fps;
@@ -121,13 +121,13 @@ void Camara::initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCama
     param._autoConfig=FIXED_FPS_AUTO_EXPOSE;
     param._roi.top=0;
     param._roi.left=0;
-    param._roi.width=_width;
-    param._roi.height=_height;
+    param._roi.width=param._width;
+    param._roi.height=param._height;
     return calcTimes();
 
 }
 
-void Camara::initExposureTime(unsigned int Width, unsigned int Height, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME){
+int Camara::initExposureTime(unsigned int Width, unsigned int Height, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime){
     param._width=Width;
     param._height=Height;
     param._fps=DEFAULT_FPS;
@@ -139,8 +139,8 @@ void Camara::initExposureTime(unsigned int Width, unsigned int Height, float Exp
     param._autoConfig=AUTO_FPS_FIXED_EXPOSE;
     param._roi.top=0;
     param._roi.left=0;
-    param._roi.width=_width;
-    param._roi.height=_height;
+    param._roi.width=param._width;
+    param._roi.height=param._height;
     return calcTimes();
 
 
@@ -235,7 +235,6 @@ float Camara::getNotIntegrationTime(){
 }
 //Funciones SET
 int Camara::setSize(unsigned int width, unsigned int height) {
-    unsigned int right, buttom;
     param._width=width;
     param._height=height;
     param._roi.left=0;
@@ -268,7 +267,7 @@ int Camara::fps(float Fps){
 }
 int Camara::exposureTime(float ExposureTime){
     param._exposureTime=ExposureTime;
-    param._autoConfig=AUTO_F;
+    param._autoConfig=AUTO_FPS_FIXED_EXPOSE;
     return calcTimes();
 }
 int Camara::fpsExposureTime(float Fps,float ExposureTime){
@@ -307,7 +306,7 @@ int Camara::setSpectrumsFiles(string RedFile, string GreenFile, string BlueFile)
     r=_sensor[2].initSpectrumFromFile(param._redFile,1e-9,1,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
     g=_sensor[1].initSpectrumFromFile(param._greenFile,1e-9,1.5,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
     b=_sensor[0].initSpectrumFromFile(param._blueFile,1e-9,1,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
-    return (calcTimes() || (r||g||b)));
+    return (calcTimes() || (r||g||b));
 }
 int Camara::setSpectrumsFiles(string WhiteFile){
     param._fromFiles=true;
@@ -349,7 +348,8 @@ int Camara::autoConfig(autoSettings AutoConfig){
 int Camara::calcTimes(){
     float exposureTimeMin;
     float fpsMax,fpsMax_ExposeMin;
-    float transportVoid,transportExpose,timeShutter;
+    int transportVoid,transportExpose;
+    float timeShutter;
     int error;
     switch (param._frameType){
         case FULL_FRAME:
@@ -373,11 +373,11 @@ int Camara::calcTimes(){
     }
 
     exposureTimeMin=transportExpose*param._transportTime;
-    fpsMax=1/((transportVoid*_transportTime) + timeShutter +_exposureTime);
+    fpsMax=1/((transportVoid*param._transportTime) + timeShutter +param._exposureTime);
     fpsMax_ExposeMin=1/((transportVoid*param._transportTime) + timeShutter + exposureTimeMin);
     error=0;
-    switch (autoFPSexposure){
-        case 0: //FPS fijo y exposicion fijo
+    switch (param._autoConfig){
+        case FIXED_FPS_FIXED_EXPOSE: //FPS fijo y exposicion fijo
             if (param._exposureTime<exposureTimeMin){
                 param._exposureTime=exposureTimeMin;
                 error=error+2; //Error en exposuretime
@@ -390,17 +390,17 @@ int Camara::calcTimes(){
                 error=error+1; //    Error en FPS
             }
             break;
-        case 1: //FPS fijo, exposicion automatico
+        case FIXED_FPS_AUTO_EXPOSE: //FPS fijo, exposicion automatico
             error=0;
             if (param._fps>fpsMax_ExposeMin){
                 param._exposureTime=exposureTimeMin;
                 param._fps=fpsMax_ExposeMin;
                 error=error+1;
             } else {
-                _exposureTime=(1/param._fps)-((param._transportTime*transportVoid)+timeShutter);
+                param._exposureTime=(1/param._fps)-((param._transportTime*transportVoid)+timeShutter);
             }
             break;
-        case 2: //FPS automatico, exposicion fijo
+        case AUTO_FPS_FIXED_EXPOSE: //FPS automatico, exposicion fijo
             if (param._exposureTime<exposureTimeMin){
                 param._exposureTime=exposureTimeMin;
                 param._fps=fpsMax_ExposeMin;

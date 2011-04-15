@@ -8,8 +8,10 @@ void Muestra::initMuestra(float rWidth,float rHeight, float resolucion){
 	width=myRound(realWidth*resolucion,ROUND_UP);
 	height=myRound(realHeight*resolucion,ROUND_UP);
 	resolucion=width/realWidth;
-	depth.create(width,height,CV_32FC1);
-	visibilidad.create(width,height,CV_32FC1);
+	depth.create(height,width,CV_32FC1);
+	visibilidad.create(height,width,CV_32FC1);
+	int tipo;
+	tipo=depth.type();
 	//depth=new float[width*height];
 	//visibilidad= new float[width*height];
 
@@ -17,6 +19,7 @@ void Muestra::initMuestra(float rWidth,float rHeight, float resolucion){
 	//muestra->visibilidad = (double*) calloc (muestra->width*muestra->height,sizeof(double));
 
 	//muestra->resolucion=resolucion;
+	tipo=0;
 
 }
 

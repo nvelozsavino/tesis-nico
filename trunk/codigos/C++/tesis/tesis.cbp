@@ -14,10 +14,6 @@
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
-				<Linker>
-					<Add library="..\simulador\bin\Debug\libsimulador.a" />
-					<Add library="..\generales\bin\Debug\libgenerales.a" />
-				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin\Release\tesis" prefix_auto="1" extension_auto="1" />
@@ -39,14 +35,14 @@
 			<Add option="-O" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="..\generales" />
 			<Add directory="..\simulador" />
 			<Add directory="..\ruido" />
+			<Add directory="..\generales" />
 		</Compiler>
 		<Linker>
 			<Add library="..\simulador\bin\Debug\libsimulador.a" />
-			<Add library="..\generales\bin\Debug\libgenerales.a" />
 			<Add library="..\ruido\bin\Debug\libruido.a" />
+			<Add library="..\generales\bin\Debug\libgenerales.a" />
 		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>

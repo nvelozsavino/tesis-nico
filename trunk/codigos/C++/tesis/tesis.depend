@@ -336,3 +336,65 @@
 	<stdio.h>
 	<math.h>
 
+1302895968 source:c:\users\nico\documents\tesis\codigos\c++\tesis\main.cpp
+	<iostream>
+	<opencv2/opencv.hpp>
+	<stdio.h>
+	<math.h>
+	<time.h>
+	"spectrum.hpp"
+	"generales.hpp"
+	"muestra.hpp"
+	"camara.hpp"
+	"interferometro.hpp"
+	"ruido.hpp"
+	<iostream>
+
+1302851196 c:\users\nico\documents\tesis\codigos\c++\simulador\spectrum.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<string.h>
+	<fstream>
+	<cstdlib>
+	<cstdio>
+	<sstream>
+	<opencv2/opencv.hpp>
+
+1302897180 c:\users\nico\documents\tesis\codigos\c++\generales\generales.hpp
+	<math.h>
+	<cstdlib>
+	<iostream>
+	<opencv2/opencv.hpp>
+	<time.h>
+
+1302851196 c:\users\nico\documents\tesis\codigos\c++\simulador\muestra.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<opencv2/opencv.hpp>
+	<iostream>
+	<string>
+
+1302895433 c:\users\nico\documents\tesis\codigos\c++\simulador\camara.hpp
+	"spectrum.hpp"
+	<cstdlib>
+	<iostream>
+
+1302892050 c:\users\nico\documents\tesis\codigos\c++\simulador\interferometro.hpp
+	"generales.hpp"
+	"camara.hpp"
+	"spectrum.hpp"
+	"muestra.hpp"
+	<opencv2/opencv.hpp>
+
+1302889828 c:\users\nico\documents\tesis\codigos\c++\ruido\ruido.hpp
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<iostream>
+

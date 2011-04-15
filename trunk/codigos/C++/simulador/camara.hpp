@@ -40,12 +40,12 @@ typedef enum {FIXED_FPS_FIXED_EXPOSE,FIXED_FPS_AUTO_EXPOSE,AUTO_FPS_FIXED_EXPOSE
 #define SPECTRUM_RESOLUTION
 
 #define DEFAULT_TIPO    COLOR
-#define DEFAULT_TRANSPORT_TIME  1e-9
-#define DEFAULT_EXPOSURE_TIME  1e-9
+#define DEFAULT_TRANSPORT_TIME  0.5e-8
 #define DEFAULT_SHUTTER_TIME    0
 #define DEFAULT_WIDTH   800
 #define DEFAULT_HEIGHT  600
 #define DEFAULT_FPS     60
+#define DEFAULT_EXPOSURE_TIME  1/DEFAULT_FPS
 #define DEFAULT_FRAME_TYPE  INTERLINE
 
 class ROI {
@@ -101,9 +101,9 @@ class Camara {
 
         int init(unsigned int Width, unsigned int Height,float Fps, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME);
 
-        void initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME);
+        int initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME);
 
-        void initExposureTime(unsigned int Width, unsigned int Height, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME);
+        int initExposureTime(unsigned int Width, unsigned int Height, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME);
 
         //Destructor
         ~Camara();

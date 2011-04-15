@@ -7,8 +7,8 @@ Ruido::Ruido(){
     _realSize=0;
     _espectro=NULL;
 }
-int Ruido::initRuido(string FileSpectrum, unsigned int MaxPoints){
-    return fileSpectrum(FileSpectrum, MaxPoints);
+int Ruido::initRuido(string FileSpectrum, unsigned int MaxPoints,float Amplitud){
+    return fileSpectrum(FileSpectrum, MaxPoints,Amplitud);
 }
 
 //Destructores
@@ -35,7 +35,7 @@ unsigned int Ruido::realSize(){
     return _realSize;
 }
 //Funciones Set
-int Ruido::fileSpectrum(string FileSpectrum, unsigned int MaxPoints){
+int Ruido::fileSpectrum(string FileSpectrum, unsigned int MaxPoints,float Amplitud){
     FILE *file;
     unsigned int i=0;
     int response;
@@ -52,8 +52,9 @@ int Ruido::fileSpectrum(string FileSpectrum, unsigned int MaxPoints){
         _espectro= new PuntoEspectro[_maxSize];
         do {
             response=fscanf(file,"%f\t%f\n",&(_espectro[i].freq),&(_espectro[i].value));
+            _espectro[i].value*=Amplitud;
             i++;
-        } while (response==2 || response!=EOF || i<_maxSize);
+        } while ((response==2 || response!=EOF) && i<_maxSize);
         _realSize=i;
         for (;i<_maxSize;i++){
             _espectro[i].value=0;
