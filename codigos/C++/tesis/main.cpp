@@ -42,10 +42,11 @@
 //#define RUIDO 1
 #define ARCHIVO_VIDEO "../archivos/resultados/video2.avi"
 #define ARCHIVO_DATA "../archivos/resultados/dataplana2.xls"
+#define EXPOSURE_STEP   5
 using namespace std;
 using namespace cv;
 
-
+/*
 void gauss(double* arreglo, float dt, int size,float amp, float to, float s);
 void clear(double* arreglo, int size);
 void add(double* src, double *dst, int size);
@@ -69,7 +70,7 @@ void add(double* src, double *dst, int size){
     }
 }
 
-
+*/
 int main(){
     srand(time(NULL));
     //clock_t begin,end;
@@ -83,38 +84,65 @@ int main(){
 	Muestra muestra;
 	//camara.initCamara(30,1/30,COLOR);
 
-	muestra.initMuestra(500e-3,500e-3,1e3);
+	muestra.initMuestra(1000e-3,1000e-3,1e3);
 	//muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
 	muestra.setMuestraPlain(0,IN_DEPTH);
 	muestra.setMuestraPlain(1,IN_VISIBILITY);
 	camara.initFPS(800,600,30,COLOR);
-	camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue");
+	if (camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue")){
+        return -1;
+	};
     Ruido ruido;
-    ruido.initRuido((30.f/(float)(1<<0)),1<<(10+0));
-    ruido.setTimeArray(1/30.f);
-    //ruido.addNoise(50e-9);
-    ruido.addHarmonics(30e-9,30,1,4,-1);
+    ruido.initRuido("../archivos/ruido.txt",500,100e-9);
 
-
+    float fps=camara.fps();
+    float exposureTime=camara.exposureTime();
+    float notExposureTime=camara.getNotIntegrationTime();
+	float timeStep=(exposureTime/EXPOSURE_STEP);
 
 	Interferometro interf;
-	interf.initInterferometro(&muestra,&fuente,&camara,ruido.getDeltaT(),0e-9,0e-9);
-    float fps=camara.fps();
-    float tstep=Interferometro.timeStep();
-    float ti=camara.exposureTime();
-    float nit=camara.getNotIntegrationTime();
-    CvSize size = cvSize(muestra.width,muestra.height);
+	interf.initInterferometro(&muestra,&fuente,&camara,timeStep);
+
+    float tstep=interf.timeStep();
+
+    CvSize size = cvSize(camara.roi().width,camara.roi().height);
     //IplImage *img8=cvCreateImage(size,IPL_DEPTH_8U,3);
 
     VideoWriter writer;
 
     if (!writer.open(ARCHIVO_VIDEO,CV_FOURCC('D', 'I', 'V', '3'),fps,size)){
-        return 1;
+        return -1;
     }
 
 
     interf.inclinacionX=0e-6;
     interf.inclinacionY=3e-6;
+
+    float tiempo=notExposureTime;
+    float t=0;
+    while(1){
+        if (t>=exposureTime) {
+            interf.getInterferograma(ruido.getRuido(tiempo));
+            imshow( "simulador", interf.valores);
+            interf.valores.convertTo(img,CV_8UC3,255);
+            writer<<img;
+            t=0;
+            tiempo+=notExposureTime;
+        } else {
+            interf.integra(ruido.getRuido(tiempo));
+            t+=tstep;
+            tiempo+=tstep;
+        }
+
+        c = cvWaitKey(2);
+        if ((char)c==27){
+            break;
+        }
+    }
+    return 0;
+}
+/*
+
 
     //FILE * pFile;
     //pFile = fopen ("archivos/si_rnn.xls","w");
@@ -144,10 +172,10 @@ int main(){
     float maxAmp=0;
 
     //variables de las se~nales de control
-    /*char *cromosoma;
-    int sizeCromosoma=BYTES_AMP+BYTES_SIGMA+BYTES_TO;
-    cromosoma=new char[sizeCromosoma];
-    */
+    //char *cromosoma;
+    //int sizeCromosoma=BYTES_AMP+BYTES_SIGMA+BYTES_TO;
+    //cromosoma=new char[sizeCromosoma];
+
     double amp=0;
     double s=0;
     double to=0;
@@ -415,4 +443,4 @@ int main(){
 //    delete[] dst;
 	return 0;
 }
-
+*/

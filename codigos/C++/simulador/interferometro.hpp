@@ -39,7 +39,7 @@ class Interferometro {
 
         //Constructor
         Interferometro(){};
-        void initInterferometro(Muestra *muestra, Spectrum *fuente, Camara *camara,float timestep, float inclX, float inclY);
+        void initInterferometro(Muestra *muestra, Spectrum *fuente, Camara *camara,float timestep, float inclX=0, float inclY=0);
         void integra(float opticalPath);
         //Destructor
         ~Interferometro();

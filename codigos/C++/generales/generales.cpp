@@ -59,29 +59,31 @@ void ajustaFFT(const Mat& src, Mat &dst){
 
 }
 
-void copyPart(const Mat& src, Mat &dst, unsigned int width,unsigned int height, unsigned int top=0,unsigned int left=0){
+void copyPart(const Mat& src, Mat &dst, unsigned int Width,unsigned int Height, unsigned int Left,unsigned int Top){
     unsigned int realWidth,realHeight;
     unsigned int dstWidth,dstHeight;
-    dst.create(height,width,src.type());
+    int tipo;
+    dst.create(Height,Width,src.type());
     dst.setTo(Scalar::all(0));
-
-        if (left>(unsigned int)src.cols || top>(unsigned int)src.rows) {
+    tipo=dst.type();
+        if (Left>(unsigned int)src.cols || Top>(unsigned int)src.rows) {
             return;
         }
-        realWidth=src.cols-left;
-        realHeight=src.rows-top;
-        if (realWidth>width) {
-            dstWidth=width;
+        realWidth=src.cols-Left;
+        realHeight=src.rows-Top;
+        if (realWidth>Width) {
+            dstWidth=Width;
         } else {
             dstWidth=realWidth;
         }
-        if (realHeight>height) {
-            dstHeight=height;
+        if (realHeight>Height) {
+            dstHeight=Height;
         } else {
             dstHeight=realHeight;
         }
         Mat roi(dst,Rect(0,0,dstWidth,dstHeight));
-        src(Rect(left,top,dstWidth,dstHeight)).copyTo(roi);
+        src(Rect(Left,Top,dstWidth,dstHeight)).copyTo(roi);
+        tipo=dst.type();
         return;
 }
 

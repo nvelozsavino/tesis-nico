@@ -83,27 +83,26 @@ int main(){
 	Muestra muestra;
 	//camara.initCamara(30,1/30,COLOR);
 
-	muestra.initMuestra(500e-3,500e-3,1e3);
+	muestra.initMuestra(1000e-3,1000e-3,1e3);
 	//muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
 	muestra.setMuestraPlain(0,IN_DEPTH);
 	muestra.setMuestraPlain(1,IN_VISIBILITY);
 	camara.initFPS(800,600,30,COLOR);
 	camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue");
     Ruido ruido;
-    ruido.initRuido((30.f/(float)(1<<0)),1<<(10+0));
-    ruido.setTimeArray(1/30.f);
-    //ruido.addNoise(50e-9);
-    ruido.addHarmonics(30e-9,30,1,4,-1);
+    ruido.initRuido("../archivos/ruido.txt",500,100e-9);
 
-
+	float timeStep=(camara.exposureTime()*camara.getNotIntegrationTime()/(camara.exposureTime()+camara.getNotIntegrationTime()))/10;
 
 	Interferometro interf;
-	interf.initInterferometro(&muestra,&fuente,&camara,ruido.getDeltaT(),0e-9,0e-9);
+	interf.initInterferometro(&muestra,&fuente,&camara,timeStep);
+
+
     float fps=camara.fps();
     float tstep=Interferometro.timeStep();
     float ti=camara.exposureTime();
     float nit=camara.getNotIntegrationTime();
-    CvSize size = cvSize(muestra.width,muestra.height);
+    CvSize size = cvSize(camara.roi().width(),camara.roi().height);
     //IplImage *img8=cvCreateImage(size,IPL_DEPTH_8U,3);
 
     VideoWriter writer;
@@ -115,6 +114,28 @@ int main(){
 
     interf.inclinacionX=0e-6;
     interf.inclinacionY=3e-6;
+
+    float tiempo=0;
+    float t=0;
+    while(1){
+        if (t<nit){
+            //nada
+        } else if (t>=nit+et) {
+            interf.getInterferograma(ruido.getRuido(time));
+            imshow( "simulador", interf.valores);
+            interf.valores.convertTo(img,CV_8UC3,255);
+            writer<<img;
+            t=0;
+        } else {
+            interf.integra(ruido.getRuido(time));
+        }
+        t+=tstep;
+        tiempo+=tstep;
+        c = cvWaitKey(2);
+        if ((char)c==27){        
+    }
+
+
 
     //FILE * pFile;
     //pFile = fopen ("archivos/si_rnn.xls","w");
@@ -173,7 +194,9 @@ int main(){
         ruido.copyTimeArray();
         int nt=ruido.getNset();
         float ruidovalue;
-        if (time<)
+        if (time<nit){
+            //no hace nada
+        } else
         for (int i=0;i<nt-1;i++){
             ruidovalue=ruido.getV()-(control[i]+prueba[i]);
             interf.integra(ruidovalue);

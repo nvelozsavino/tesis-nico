@@ -58,15 +58,26 @@ int ParametrosCamara::operator== (ParametrosCamara src){
     tf=(_frameType=src._frameType);
     ac=(_autoConfig==src._autoConfig);
     ff=(_fromFiles==src._fromFiles);
+
     rf=(_redFile==src._redFile);
     gf=(_greenFile==src._greenFile);
     bf=(_blueFile==src._blueFile);
     wf=(_whiteFile==src._whiteFile);
-    if (ff && _fromFiles)
-    
-    
+    if (ff && _fromFiles && tc){
+        if (_tipo==COLOR){
+            sp=(rf && gf && bf);
+        } else {
+            sp=wf;
+        }
+    } else {
+        sp=1;
+    }
+    return (et && f && tt && st && w && h && r && tc && tf && ac && ff && sp );
+
 }
-int ParametrosCamara::operator!= (ParametrosCamara src);
+int ParametrosCamara::operator!= (ParametrosCamara src){
+    return !operator==(src);
+}
 
 //Constructor
 Camara::Camara(){
@@ -80,7 +91,7 @@ Camara::Camara(){
 
 }
 
-int Camara::init(unsigned int Width, unsigned int Height,float Fps, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME){
+int Camara::init(unsigned int Width, unsigned int Height,float Fps, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime){
 
     param._width=Width;
     param._height=Height;
@@ -93,12 +104,12 @@ int Camara::init(unsigned int Width, unsigned int Height,float Fps, float Exposu
     param._autoConfig=FIXED_FPS_FIXED_EXPOSE;
     param._roi.top=0;
     param._roi.left=0;
-    param._roi.width=_width;
-    param._roi.height=_height;
+    param._roi.width=param._width;
+    param._roi.height=param._height;
     return calcTimes();
 }
 
-void Camara::initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME){
+void Camara::initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime){
     param._width=Width;
     param._height=Height;
     param._fps=Fps;
@@ -110,13 +121,13 @@ void Camara::initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCama
     param._autoConfig=FIXED_FPS_AUTO_EXPOSE;
     param._roi.top=0;
     param._roi.left=0;
-    param._roi.width=_width;
-    param._roi.height=_height;
+    param._roi.width=param._width;
+    param._roi.height=param._height;
     return calcTimes();
 
 }
 
-void Camara::initExposureTime(unsigned int Width, unsigned int Height, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType=DEFAULT_FRAME_TYPE, float TransportTime=DEFAULT_TRANSPORT_TIME,float ShutterTime=DEFAULT_SHUTTER_TIME){
+void Camara::initExposureTime(unsigned int Width, unsigned int Height, float ExposureTime, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime){
     param._width=Width;
     param._height=Height;
     param._fps=DEFAULT_FPS;
@@ -128,7 +139,7 @@ void Camara::initExposureTime(unsigned int Width, unsigned int Height, float Exp
     param._autoConfig=AUTO_FPS_FIXED_EXPOSE;
     param._roi.top=0;
     param._roi.left=0;
-    param._roi.width=_width;
+    param._roi.width=param._width;
     param._roi.height=_height;
     return calcTimes();
 
@@ -219,11 +230,19 @@ autoSettings Camara::autoConfig(){
 ParametrosCamara Camara::getParametros(){
     return param;
 }
-
+float Camara::getNotIntegrationTime(){
+    return ((1/param._fps)-param._exposureTime);
+}
 //Funciones SET
 int Camara::setSize(unsigned int width, unsigned int height) {
+    unsigned int right, buttom;
     param._width=width;
     param._height=height;
+    param._roi.left=0;
+    param._roi.top=0;
+    param._roi.width=param._width;
+    param._roi.height=param._height;
+
     return calcTimes();
 }
 int Camara::roi (unsigned int width, unsigned int height,unsigned int top, unsigned int left){

@@ -30,7 +30,7 @@ class Ruido {
     //Variables Publicas
     //Constructores
         Ruido();
-        int initRuido(string FileSpectrum, unsigned int MaxPoints=N_DEFAULT);
+        int initRuido(string FileSpectrum, unsigned int MaxPoints=N_DEFAULT, float Amplitud=1);
 
         //Destructores
         ~Ruido();
@@ -42,7 +42,7 @@ class Ruido {
         unsigned int realSize();
 
         //Funciones Set
-        int fileSpectrum(string FileSpectrum, unsigned int MaxPoints=N_DEFAULT);
+        int fileSpectrum(string FileSpectrum, unsigned int MaxPoints=N_DEFAULT, float Amplitud=1);
 
 
 };

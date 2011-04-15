@@ -21,7 +21,7 @@ int Interferometro::setMats(void){
 
 }
 int Interferometro::timeStep(float TimeStep){
-    _timeStep=timeStep;
+    _timeStep=TimeStep;
     return setMats();
 }
 
@@ -29,7 +29,7 @@ float Interferometro::timeStep(){
     return _timeStep;
 }
 
-void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente, Camara *myCamara, float timestep, float inclX=0, float inclY=0){
+void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente, Camara *myCamara, float timestep, float inclX, float inclY){
 	muestra=myMuestra;
 	camara=myCamara;
 	fuente=myFuente;
@@ -217,10 +217,10 @@ void Interferometro::getInterferograma(float opticalPath){
     setMats();
 	if (camara->tipo()==COLOR){
 		dim=3;
-		valores.create(width,height,CV_32FC3);
+		valores.create(height,width,CV_32FC3);
 	} else {
 		dim=1;
-		valores.create(width,height,CV_32FC1);
+		valores.create(height,width,CV_32FC1);
 	}
     float v,yvd,yvd1,valor,val;
     //int vd;
@@ -231,6 +231,7 @@ void Interferometro::getInterferograma(float opticalPath){
     for (x=0;x<width;x++){
         for (y=0;y<height;y++){
             //depth=
+            int type=roiDepth.type();
             inclinacion=x*inclinacionX/muestra->width + y*inclinacionY/muestra->height;
             depth=get2D32F(roiDepth,x,y)+opticalPath+inclinacion;
             //depth*=2;

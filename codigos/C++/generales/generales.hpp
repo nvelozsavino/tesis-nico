@@ -30,8 +30,10 @@ using namespace std;
 
 //2D Sin Canales
     //Float
-#define set2D32F(mat,x,y,value) (*((float*)((mat).data+((x)*(mat).step+(y)*(mat).elemSize()))))=(value)
-#define get2D32F(mat,x,y) (*((float*)((mat).data+((x)*(mat).step+(y)*(mat).elemSize()))))
+//#define set2D32F(mat,x,y,value) (*((float*)((mat).data+((x)*(mat).step+(y)*(mat).elemSize()))))=(value)
+#define set2D32F(matrix,x,y,value)  (matrix.ptr<float>(x)[y])=(value)
+//#define get2D32F(mat,x,y) (*((float*)((mat).data+((x)*(mat).step+(y)*(mat).elemSize()))))
+#define get2D32F(mat,x,y) (matrix.ptr<float>(x)[y])
 
     //Integer
 #define set2D8U(mat,x,y,value) (*((unsigned char*)((mat).data+((x)*(mat).step+(y)*(mat).elemSize()))))=(value)
@@ -58,7 +60,7 @@ void ajustaFFT(const Mat& src, Mat& dst);
 
 
 void desplaza(const Mat& src, Mat &dst, int desp);
-void copyPart(const Mat& src, Mat &dst, unsigned int width,unsigned int height, unsigned int top,unsigned int left);
+void copyPart(const Mat& src, Mat &dst, unsigned int Width,unsigned int Height, unsigned int Left=0,unsigned int Top=0);
 
 double diffclock(clock_t clock1,clock_t clock2);
 
