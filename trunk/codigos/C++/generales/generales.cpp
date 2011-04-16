@@ -48,14 +48,14 @@ void ajustaFFT(const Mat& src, Mat &dst){
     Mat tempB;
     //rows=N
     //cols=1
-    tempA.create(2*src.rows,src.cols,src.type());
+    tempA.create(src.rows,2*src.cols,src.type());
     tempA.setTo(Scalar::all(0));
 
-    Mat roiA(tempA, Rect(0,src.rows,src.cols,src.rows));
+    Mat roiA(tempA, Rect(src.cols,0,src.cols,src.rows));
     src.copyTo(roiA);
     Mat roiB(tempA,Rect(0,0,src.cols,src.rows));
     src.copyTo(roiB);
-    tempA(Rect(0, src.rows/2, src.cols, src.rows)).copyTo(dst);
+    tempA(Rect(src.cols/2,0, src.cols, src.rows)).copyTo(dst);
 
 }
 
@@ -94,18 +94,18 @@ void desplaza(const Mat& src, Mat &dst, int desp){
 
     if (desp>0){
         d=desp;
-        tempA.create(src.rows+2*d,src.cols,src.type());
+        tempA.create(src.rows,src.cols+2*d,src.type());
         tempA.setTo(Scalar::all(0));
-        Mat roiA(tempA, Rect(0,2*d,src.cols,src.rows));
+        Mat roiA(tempA, Rect(2*d,0,src.cols,src.rows));
         src.copyTo(roiA);
-        tempA(Rect(0, d, src.cols, src.rows)).copyTo(dst);
+        tempA(Rect(d, 0, src.cols, src.rows)).copyTo(dst);
     } else {
         d=-desp;
-        tempA.create(src.rows+2*d,src.cols,src.type());
+        tempA.create(src.rows,src.cols+2*d,src.type());
         tempA.setTo(Scalar::all(0));
         Mat roiA(tempA, Rect(0,0,src.cols,src.rows));
         src.copyTo(roiA);
-        tempA(Rect(0, d, src.cols, src.rows)).copyTo(dst);
+        tempA(Rect(d, 0, src.cols, src.rows)).copyTo(dst);
     }
     //cout<<"src=" <<src.rows<<"  dst="<<dst.rows<<endl;
 }
@@ -160,6 +160,29 @@ void getHist(const Mat& src, Mat &dst, int width, int height, float rangos[]){
             //rectangle( histImg, Point(h*scale, s*scale),Point( (h+1)*scale - 1, (s+1)*scale - 1),Scalar::all(intensity),CV_FILLED );
         }
         histImg.copyTo(dst);
+}
+
+void dibujaPatron(Mat *interferograma, int dim,int width, int height, string nombre){
+    Mat imagen;
+    imagen.create(height,width,CV_32FC3);
+    imagen.setTo(Scalar::all(0));
+    for (int i=0;i<dim;i++){
+        for (int x=0;x<imagen.cols;x++){
+            int j=x*interferograma[i].cols/imagen.cols;
+            int y=50+100*(i)+50*(get2D32F(interferograma[i],j,0,0));
+
+            //cout<<"x: " << j*2*Xmax[i]/(interf[i].rows-1) << " y: "<<y-250 <<endl;
+            set2D32F(imagen,x,y,i,1);
+            set2D32F(imagen,x,100*i,i,1);
+            set2D32F(imagen,x,50+100*i,i,1);
+            set2D32F(imagen,x,100+100*i,i,1);
+        }
+        for (int y=0;y<50;y++){
+            set2D32F(imagen,(int)(imagen.cols/2),50+100*i+y-25,i,1);
+        }
+
+    }
+    imshow( nombre, imagen);
 }
 /*
 // FFT

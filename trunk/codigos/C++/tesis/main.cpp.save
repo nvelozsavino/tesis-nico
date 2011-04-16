@@ -42,10 +42,11 @@
 //#define RUIDO 1
 #define ARCHIVO_VIDEO "../archivos/resultados/video2.avi"
 #define ARCHIVO_DATA "../archivos/resultados/dataplana2.xls"
+#define EXPOSURE_STEP   20
 using namespace std;
 using namespace cv;
 
-
+/*
 void gauss(double* arreglo, float dt, int size,float amp, float to, float s);
 void clear(double* arreglo, int size);
 void add(double* src, double *dst, int size);
@@ -69,7 +70,7 @@ void add(double* src, double *dst, int size){
     }
 }
 
-
+*/
 int main(){
     srand(time(NULL));
     //clock_t begin,end;
@@ -87,54 +88,67 @@ int main(){
 	//muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
 	muestra.setMuestraPlain(0,IN_DEPTH);
 	muestra.setMuestraPlain(1,IN_VISIBILITY);
-	camara.initFPS(800,600,30,COLOR);
-	camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue");
+	camara.initFPS(320,240,30,COLOR);
+	if (camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue")){
+        return -1;
+	};
     Ruido ruido;
-    ruido.initRuido("../archivos/ruido.txt",500,100e-9);
+    ruido.initRuido("../archivos/ruido2.txt",10e-9,30);
 
-	float timeStep=(camara.exposureTime()*camara.getNotIntegrationTime()/(camara.exposureTime()+camara.getNotIntegrationTime()))/10;
+    float fps=camara.fps();
+    float exposureTime=camara.exposureTime();
+    float notExposureTime=camara.getNotIntegrationTime();
+	float timeStep=(exposureTime/(EXPOSURE_STEP));
 
 	Interferometro interf;
 	interf.initInterferometro(&muestra,&fuente,&camara,timeStep);
 
+    float tstep=interf.timeStep();
 
-    float fps=camara.fps();
-    float tstep=Interferometro.timeStep();
-    float ti=camara.exposureTime();
-    float nit=camara.getNotIntegrationTime();
-    CvSize size = cvSize(camara.roi().width(),camara.roi().height);
+    CvSize size = cvSize(camara.roi().width,camara.roi().height);
     //IplImage *img8=cvCreateImage(size,IPL_DEPTH_8U,3);
 
     VideoWriter writer;
 
     if (!writer.open(ARCHIVO_VIDEO,CV_FOURCC('D', 'I', 'V', '3'),fps,size)){
-        return 1;
+        return -1;
     }
 
 
-    interf.inclinacionX=0e-6;
-    interf.inclinacionY=3e-6;
+    interf.inclinacionX=5e-6;
+    interf.inclinacionY=0e-6;
 
-    float tiempo=0;
+    float tiempo=notExposureTime;
     float t=0;
+    int i=0;
     while(1){
-        if (t<nit){
-            //nada
-        } else if (t>=nit+et) {
-            interf.getInterferograma(ruido.getRuido(time));
+        if (t>=exposureTime) {
+            interf.getInterferograma(0);
             imshow( "simulador", interf.valores);
             interf.valores.convertTo(img,CV_8UC3,255);
             writer<<img;
-            t=0;
+            
+            t=exposureTime-t;
+            if(t><notExposureTime){
+            }
+            i++;
+            tiempo=i/fps;
+            cout<<"tiempo = "<< tiempo <<endl;
         } else {
-            interf.integra(ruido.getRuido(time));
+            //cout<<"integra, i="<<i<<endl;
+            interf.integra(ruido.getRuido(tiempo));
+            t+=tstep;
+            tiempo+=tstep;
         }
-        t+=tstep;
-        tiempo+=tstep;
-        c = cvWaitKey(2);
-        if ((char)c==27){        
-    }
 
+        c = cvWaitKey(2);
+        if ((char)c==27){
+            break;
+        }
+    }
+    return 0;
+}
+/*
 
 
     //FILE * pFile;
@@ -165,10 +179,10 @@ int main(){
     float maxAmp=0;
 
     //variables de las se~nales de control
-    /*char *cromosoma;
-    int sizeCromosoma=BYTES_AMP+BYTES_SIGMA+BYTES_TO;
-    cromosoma=new char[sizeCromosoma];
-    */
+    //char *cromosoma;
+    //int sizeCromosoma=BYTES_AMP+BYTES_SIGMA+BYTES_TO;
+    //cromosoma=new char[sizeCromosoma];
+
     double amp=0;
     double s=0;
     double to=0;
@@ -436,4 +450,4 @@ int main(){
 //    delete[] dst;
 	return 0;
 }
-
+*/

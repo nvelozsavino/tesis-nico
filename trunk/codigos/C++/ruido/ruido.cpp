@@ -7,8 +7,8 @@ Ruido::Ruido(){
     _realSize=0;
     _espectro=NULL;
 }
-int Ruido::initRuido(string FileSpectrum, unsigned int MaxPoints,float Amplitud){
-    return fileSpectrum(FileSpectrum, MaxPoints,Amplitud);
+int Ruido::initRuido(string FileSpectrum,float Amplitud, unsigned int MaxPoints){
+    return fileSpectrum(FileSpectrum,Amplitud,MaxPoints);
 }
 
 //Destructores
@@ -35,7 +35,7 @@ unsigned int Ruido::realSize(){
     return _realSize;
 }
 //Funciones Set
-int Ruido::fileSpectrum(string FileSpectrum, unsigned int MaxPoints,float Amplitud){
+int Ruido::fileSpectrum(string FileSpectrum,float Amplitud, unsigned int MaxPoints){
     FILE *file;
     unsigned int i=0;
     int response;

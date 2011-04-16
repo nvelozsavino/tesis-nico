@@ -16,6 +16,8 @@ void Spectrum::initSpectrum(float lamdaStart, float lamdaEnd,unsigned int arrayS
 	*/
 }
 
+
+
 void Spectrum::initGausian(float amplitud, float mean, float sigma, unsigned int arraySize){
 //	float li=mean-3*sigma;
 	float lf=mean+3*sigma;
@@ -23,10 +25,12 @@ void Spectrum::initGausian(float amplitud, float mean, float sigma, unsigned int
 	setGausian(amplitud,mean,sigma,0);
 }
 
+
 Spectrum::~Spectrum(){
 //void freeEspectro(Espectro *espectro){
 
 }
+
 
 void Spectrum::setGausian(float amplitud, float mean, float sigma, float add){
 	float l;
@@ -41,6 +45,7 @@ void Spectrum::setGausian(float amplitud, float mean, float sigma, float add){
 	}
 	lamda2freq();
 }
+
 
 void Spectrum::setPlain(float lamdastart, float lamdaend,float amplitud=1){
 	int is,ie,i;
@@ -69,10 +74,10 @@ void Spectrum::setDelta(float amplitud, float lamda_central, float add){
 int Spectrum::lamda2i(float l){
 	return (int)((l-startLamda)*(size-1)/(endLamda-startLamda));
 }
-
 float Spectrum::lamda2f(float l){
 	return ((l-startLamda)*(size-1)/(endLamda-startLamda));
 }
+
 
 float Spectrum::i2lamda(unsigned int i){
     return (startLamda+i*(endLamda-startLamda)/(size-1));
@@ -85,7 +90,7 @@ float Spectrum::integrarEspectro(void){
 	float ff=LIGHT_SPEED/startLamda;
 	deltaX=ff/(valoresFreq.cols-1);
 	Scalar Io=sum(valoresFreq);
-	result=Io[0]-(get2D32F(valoresFreq,0,0,0) + get2D32F(valoresFreq,valoresFreq.cols-1,0,0))/2;
+	result=Io[0]-(get2D32F(valoresFreq,0,0,0) + get2D32F(valoresFreq,valoresFreq.cols-1))/2;
 /*	for (unsigned int i=0; i<size-1; i++){
 	    result+=0.5*deltaX*get1D32F(valores,i);
 	    result+=0.5*deltaX*get1D32F(valores,i+1);
@@ -186,30 +191,32 @@ void mult(Spectrum& src1,Spectrum& src2,Spectrum& dst,int spd){
             isd=myRound(isf,ROUND_DOWN);
             isu=myRound(isf,ROUND_UP);
             if (isu!=isd){
-                m=(get2D32F(valores,isu,0,0)-get2D32F(valores,isd,0,0))/(isu-isd);
-                b=get2D32F(valores,isd,0,0);
+                m=(get1D32F(valores,isu)-get1D32F(valores,isd))/(isu-isd);
+                b=get1D32F(valores,isd);
                 mults=m*(isf-isd)+b;
             } else {
-                mults=get2D32F(valores,isu,0,0);
+                mults=get1D32F(valores,isu);
             }
 
             isd=myRound(ipf,ROUND_DOWN);
             isu=myRound(ipf,ROUND_UP);
             if (isu!=isd){
 
-                m=(get2D32F(src2.valores,isu,0,0)-get2D32F(src2.valores,isd,0,0))/(isu-isd);
-                b=get2D32F(src2.valores,isd,0,0);
+                m=(get1D32F(src2.valores,isu)-get1D32F(src2.valores,isd))/(isu-isd);
+                b=get1D32F(src2.valores,isd);
                 multp=m*(ipf-isd)+b;
             } else {
-                multp=get2D32F(src2.valores,isu,0,0);
+                multp=get1D32F(src2.valores,isu);
             }
 
-            set2D32F(dst.valores,i,0,0,mults*multp);
+            set1D32F(dst.valores,i,mults*multp);
         }
 	}
 	dst.lamda2freq();
 
 }
+
+
 
 void multFreq(Mat src1, float endFreq1, Mat src2, float endFreq2, Mat *dst, float *endFreqDst){
 
@@ -230,51 +237,52 @@ void multFreq(Mat src1, float endFreq1, Mat src2, float endFreq2, Mat *dst, floa
 		*endFreqDst=endFreq2;
 	}
 
-    res1=(src1.cols)/endFreq1;
-    res2=(src2.cols)/endFreq2;
+    res1=(src1.rows)/endFreq1;
+    res2=(src2.rows)/endFreq2;
 
     if (res1>res2){
-        size_temp=src1.cols;
+        size_temp=src1.rows;
     } else {
-        size_temp=src2.cols;
+        size_temp=src2.rows;
     }
-    dst->create(1,size_temp,CV_32FC1);
+    dst->create(size_temp,1,CV_32FC1);
 
 
 	for (unsigned int i=0;i<size_temp;i++){
 
 		f=i*(*endFreqDst)/(size_temp-1);
-		is1=f*(src1.cols-1)/endFreq1;
-        is2=f*(src2.cols-1)/endFreq2;
+		is1=f*(src1.rows-1)/endFreq1;
+        is2=f*(src2.rows-1)/endFreq2;
 
-        if (is1>(src1.cols-1)){
+        if (is1>(src1.rows-1)){
             mult1=0;
         } else {
             i1=(int)is1;
-            if (i1!=src1.cols-1){
-                yd1=get2D32F(src1,i1,0,0);
-                yu1=get2D32F(src1,i1+1,0,0);
+            if (i1!=src1.rows-1){
+                yd1=get1D32F(src1,i1);
+                yu1=get1D32F(src1,i1+1);
                 mult1=(yu1-yd1)*(is1-i1)+yd1;
             } else {
-                mult1=get2D32F(src1,i1,0,0);
+                mult1=get1D32F(src1,i1);
             }
         }
 
-        if (is2>(src2.cols-1)){
+        if (is2>(src2.rows-1)){
             mult2=0;
         } else {
             i2=(int)is2;
-            if (i2!=src2.cols-1){
-                yd2=get2D32F(src2,i2,0,0);
-                yu2=get2D32F(src2,i2+1,0,0);
+            if (i2!=src2.rows-1){
+                yd2=get1D32F(src2,i2);
+                yu2=get1D32F(src2,i2+1);
                 mult2=(yu2-yd2)*(is2-i2)+yd2;
             } else {
-                mult2=get2D32F(src2,i2,0,0);
+                mult2=get1D32F(src2,i2);
             }
         }
-        set2D32F((*dst),i,0,0,mult1*mult2);
+        set1D32F((*dst),i,mult1*mult2);
 	}
 }
+
 
 int Spectrum::initSpectrumFromFile(string archivo,float resX, float scale,float lamdaStart, float lamdaEnd,unsigned int arraySize){
 
@@ -335,7 +343,7 @@ int Spectrum::initSpectrumFromFile(string archivo,float resX, float scale,float 
                 v=vals[iu];
             }
         }
-        set2D32F(valores,m,0,0,v);
+        set1D32F(valores,m,v);
     }
     lamda2freq();
     return 0;
@@ -403,14 +411,16 @@ int Spectrum::initSpectrumFromFile(string archivo,float resX, float scale,float 
 }
 */
 
+
+
 void Spectrum::lamda2freq(void){
     int N=1+(ALPHA*endLamda/startLamda);
     float ff=LIGHT_SPEED/startLamda;
-    valoresFreq.create(1,N,CV_32FC1);
+    valoresFreq.create(N,1,CV_32FC1);
     valoresFreq.setTo(Scalar::all(0));
-    for (int x=1;x<valoresFreq.cols;x++){
-        float f=x*(ff/(valoresFreq.cols-1));
-        set2D32F(valoresFreq,x,0,0,f2val(f));
+    for (int y=1;y<valoresFreq.rows;y++){
+        float f=y*(ff/(valoresFreq.rows-1));
+        set1D32F(valoresFreq,y,f2val(f));
     }
 
 }
@@ -421,17 +431,17 @@ float Spectrum::f2val(float freq){
         return 0;
     }
     float lamda=LIGHT_SPEED/freq;
-    float i=(lamda-startLamda)*(valores.cols-1)/(endLamda-startLamda);
+    float i=(lamda-startLamda)*(valores.rows-1)/(endLamda-startLamda);
     int id=(int)i;
-    if (id>=valores.cols){
+    if (id>=valores.rows){
         return 0;
     }
-    if (id!=valores.cols-1){
-        float yid=get2D32F(valores,id,0,0);
-        float yid1=get2D32F(valores,id+1,0,0);
+    if (id!=valores.rows-1){
+        float yid=get1D32F(valores,id);
+        float yid1=get1D32F(valores,id+1);
         return ((yid1-yid)*(i-id)+yid);
     }else {
-        return get2D32F(valores,id,0,0);
+        return get1D32F(valores,id);
     }
 }
 

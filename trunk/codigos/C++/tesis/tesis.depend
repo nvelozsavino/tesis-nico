@@ -336,7 +336,7 @@
 	<stdio.h>
 	<math.h>
 
-1302895968 source:c:\users\nico\documents\tesis\codigos\c++\tesis\main.cpp
+1302932687 source:c:\users\nico\documents\tesis\codigos\c++\tesis\main.cpp
 	<iostream>
 	<opencv2/opencv.hpp>
 	<stdio.h>
@@ -364,7 +364,7 @@
 	<sstream>
 	<opencv2/opencv.hpp>
 
-1302897180 c:\users\nico\documents\tesis\codigos\c++\generales\generales.hpp
+1302931796 c:\users\nico\documents\tesis\codigos\c++\generales\generales.hpp
 	<math.h>
 	<cstdlib>
 	<iostream>
@@ -385,14 +385,14 @@
 	<cstdlib>
 	<iostream>
 
-1302892050 c:\users\nico\documents\tesis\codigos\c++\simulador\interferometro.hpp
+1302929101 c:\users\nico\documents\tesis\codigos\c++\simulador\interferometro.hpp
 	"generales.hpp"
 	"camara.hpp"
 	"spectrum.hpp"
 	"muestra.hpp"
 	<opencv2/opencv.hpp>
 
-1302889828 c:\users\nico\documents\tesis\codigos\c++\ruido\ruido.hpp
+1302930696 c:\users\nico\documents\tesis\codigos\c++\ruido\ruido.hpp
 	<stdio.h>
 	<math.h>
 	<stdlib.h>

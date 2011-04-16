@@ -42,7 +42,7 @@
 //#define RUIDO 1
 #define ARCHIVO_VIDEO "../archivos/resultados/video2.avi"
 #define ARCHIVO_DATA "../archivos/resultados/dataplana2.xls"
-#define EXPOSURE_STEP   5
+#define EXPOSURE_STEP   20
 using namespace std;
 using namespace cv;
 
@@ -88,17 +88,17 @@ int main(){
 	//muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
 	muestra.setMuestraPlain(0,IN_DEPTH);
 	muestra.setMuestraPlain(1,IN_VISIBILITY);
-	camara.initFPS(800,600,30,COLOR);
+	camara.initFPS(320,240,30,COLOR);
 	if (camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue")){
         return -1;
 	};
     Ruido ruido;
-    ruido.initRuido("../archivos/ruido.txt",500,100e-9);
+    ruido.initRuido("../archivos/ruido2.txt",10e-9,30);
 
     float fps=camara.fps();
     float exposureTime=camara.exposureTime();
     float notExposureTime=camara.getNotIntegrationTime();
-	float timeStep=(exposureTime/EXPOSURE_STEP);
+	float timeStep=(exposureTime/(EXPOSURE_STEP));
 
 	Interferometro interf;
 	interf.initInterferometro(&muestra,&fuente,&camara,timeStep);
@@ -115,20 +115,30 @@ int main(){
     }
 
 
-    interf.inclinacionX=0e-6;
-    interf.inclinacionY=3e-6;
+    interf.inclinacionX=5e-6;
+    interf.inclinacionY=0e-6;
 
     float tiempo=notExposureTime;
     float t=0;
+    int i=0;
     while(1){
         if (t>=exposureTime) {
-            interf.getInterferograma(ruido.getRuido(tiempo));
+            interf.getInterferograma(0);
             imshow( "simulador", interf.valores);
             interf.valores.convertTo(img,CV_8UC3,255);
             writer<<img;
-            t=0;
-            tiempo+=notExposureTime;
+
+            t=t-exposureTime;
+            if(t<notExposureTime){
+                t=0;
+            } else {
+                t=t-notExposureTime;
+            }
+            i++;
+            tiempo=i/fps;
+            cout<<"tiempo = "<< tiempo <<endl;
         } else {
+            //cout<<"integra, i="<<i<<endl;
             interf.integra(ruido.getRuido(tiempo));
             t+=tstep;
             tiempo+=tstep;

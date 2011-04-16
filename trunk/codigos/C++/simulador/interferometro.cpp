@@ -13,13 +13,14 @@ int Interferometro::setMats(void){
         camaraROI=camara->roi();
         width=camara->roi().width;
         height=camara->roi().height;
-        scale=_timeStep*camara->fps();
+        scale=_timeStep/camara->exposureTime();
         return 1;
     } else {
         return 0;
     }
 
 }
+
 int Interferometro::timeStep(float TimeStep){
     _timeStep=TimeStep;
     return setMats();
@@ -124,32 +125,13 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
         ajustaFFT(interferograma[i],interferograma[i]);
         interferograma[i].copyTo(interf[i]);
         interf[i]*=scale;
-        //cout<<"interferograma=" <<interferograma[i].rows<<"  interf="<<interf[i].rows<<endl;
+        //cout<<"interferograma=" <<interferograma[i].cols<<"  interf="<<interf[i].cols<<endl;
 
     }
-/*
+
     //integra(Xmax[0]/3,1);
-    Mat imagen;
-    imagen.create(500,1800,CV_32FC3);
-    imagen.setTo(Scalar::all(0));
-    for (int i=0;i<dim;i++){
-        for (int x=0;x<imagen.cols;x++){
-            int j=x*interferograma[i].rows/imagen.cols;
-            int y=50+100*(i)+50*(get1D32F(interferograma[i],j));
-
-            //cout<<"x: " << j*2*Xmax[i]/(interf[i].rows-1) << " y: "<<y-250 <<endl;
-            set2D32FC(imagen,y,x,i,1);
-            set2D32FC(imagen,100*i,x,i,1);
-            set2D32FC(imagen,50+100*i,x,i,1);
-            set2D32FC(imagen,100+100*i,x,i,1);
-        }
-        for (int y=0;y<50;y++){
-            set2D32FC(imagen,50+100*i+y-25,(int)(imagen.cols/2),i,1);
-        }
-
-    }
-    imshow( "patrones de interferencia", imagen);
-    */
+    //dibujaPatron(interferograma, dim);
+    //dibujaPatron(interferograma, dim,1000,500, "patron Inicial");
     /*for (;;){
         int c = cvWaitKey(1000);
         if( (char) c == 27)
@@ -167,7 +149,6 @@ Interferometro::~Interferometro(){
     delete[] Io;
 }
 
-
 void Interferometro::integra(float opticalPath){
     int desp;
     int dim;
@@ -176,21 +157,22 @@ void Interferometro::integra(float opticalPath){
 	} else {
 		dim=1;
 	}
-    int cols, rows,type;
-    cols=interferograma[0].cols;
-    rows=interferograma[0].rows;
+    int w, h,type;
+    w=interferograma[0].cols;
+    h=interferograma[0].rows;
     type=interferograma[0].type();
 	for (int d=0;d<dim;d++){
-	    float v=opticalPath*interferograma[d].rows/Xmax[d];//2*fabs(depth)+Xmax[i])/(2*Xmax[i])
+	    float v=opticalPath*interferograma[d].cols/Xmax[d];//2*fabs(depth)+Xmax[i])/(2*Xmax[i])
 	    desp=(int)v;
 // Esto mejora en 25% la velocidad de procesamiento
-	    if ((unsigned int)desp<(unsigned int)rows){
+	    if ((unsigned int)desp<(unsigned int)w){
             if (desp>0) {
-                interf[d](Rect(0,desp,cols,rows-desp))+=interferograma[d](Rect(0,0,cols,rows-desp))*scale;
+                interf[d](Rect(desp,0,w-desp,h))+=interferograma[d](Rect(0,0,w-desp,h))*scale;
             } else {
-                interf[d](Rect(0,0,cols,rows+desp))+=interferograma[d](Rect(0,-desp,cols,rows+desp))*scale;
+                interf[d](Rect(0,0,w+desp,h))+=interferograma[d](Rect(-desp,0,w+desp,h))*scale;
             }
 	    }
+
 //Con respecto a esta parte
         /*
         Mat temp;
@@ -198,9 +180,9 @@ void Interferometro::integra(float opticalPath){
         interf[d]+=temp*scale;
         */
 	}
+	//cout << "integra, opticalPath="<<opticalPath <<endl;
+	//dibujaPatron(interf, dim,1000,500, "patron Integra");
 }
-
-
 
 void Interferometro::getInterferograma(float opticalPath){
 	int dim;
@@ -230,35 +212,25 @@ void Interferometro::getInterferograma(float opticalPath){
     //int c = cvWaitKey(500);
     for (x=0;x<width;x++){
         for (y=0;y<height;y++){
-            //depth=
-            int type=roiDepth.type();
             inclinacion=x*inclinacionX/muestra->width + y*inclinacionY/muestra->height;
-            depth=get2D32F(roiDepth,x,y)+opticalPath+inclinacion;
+            depth=get2D32F(roiDepth,x,y,0)+opticalPath+inclinacion;
             //depth*=2;
-            vis=get2D32F(roiVisibility,x,y)/2;
+            vis=get2D32F(roiVisibility,x,y,0)/2;
             //cout <<"depth = "<<depth<<endl;
             //int c = cvWaitKey(25);
 
             for (int i=0;i<dim;i++){
                 if (fabs(depth)<=Xmax[i]/2){
-                    v=(interf[i].rows-1)*(2*depth+Xmax[i])/(2*Xmax[i]);
+                    v=(interf[i].cols-1)*(2*depth+Xmax[i])/(2*Xmax[i]);
                     //vd=(int)v;
-                    yvd=get1D32F(interf[i],(int)v);
-                    yvd1=get1D32F(interf[i],(int)v+1);
+                    yvd=get2D32F(interf[i],(int)v,0,0);
+                    yvd1=get2D32F(interf[i],(int)v+1,0,0);
                     val=((yvd1-yvd)*(v-(int)v)+yvd);
                     valor=Io[i]*(0.5+vis+(2*sqrt(0.5*vis)*val));
                     //cout <<"valor = "<<valor<<endl;
 
-                    set2D32FC(valores,x,y,i,valor);
+                    set2D32F(valores,x,y,i,valor);
 
-
-                    /*if(valor>=1){
-                        valor=1;
-                    }
-                    if (valor<=0){
-                        valor=0;
-                    }
-                    */
 
                 }
             }
@@ -268,6 +240,7 @@ void Interferometro::getInterferograma(float opticalPath){
         interferograma[i].copyTo(interf[i]);
         interf[i]*=scale;
     }
+    //dibujaPatron(interf, dim,1000,500, "patron Integra2");
 }
 
 
