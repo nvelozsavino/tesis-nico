@@ -8,7 +8,7 @@
 #include <iostream>
 
 
-#define N_DEFAULT   (1<<8)
+#define N_DEFAULT   (100)
 #define TWO_PI (6.2831853071795864769252867665590057683943L)
 using namespace std;
 
@@ -30,7 +30,7 @@ class Ruido {
     //Variables Publicas
     //Constructores
         Ruido();
-        int initRuido(string FileSpectrum, unsigned int MaxPoints=N_DEFAULT, float Amplitud=1);
+        int initRuido(string FileSpectrum, float Amplitud=1,unsigned int MaxPoints=N_DEFAULT);
 
         //Destructores
         ~Ruido();
@@ -42,7 +42,7 @@ class Ruido {
         unsigned int realSize();
 
         //Funciones Set
-        int fileSpectrum(string FileSpectrum, unsigned int MaxPoints=N_DEFAULT, float Amplitud=1);
+        int fileSpectrum(string FileSpectrum,float Amplitud=1, unsigned int MaxPoints=N_DEFAULT);
 
 
 };

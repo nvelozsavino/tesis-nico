@@ -1,47 +1,14 @@
 #include "ruido.hpp"
 
-        PuntoEspectro *_espectro;
-        string _fileSpectrum;
-        unsigned int _size;
-    //Funciones Privadas
-
-    public:
-    //Variables Publicas
-
 //Constructores
 Ruido::Ruido(){
     _fileSpectrum="";
-    _size=0;
-    _minFreq=0;
-    _maxFreq=0;
+    _maxSize=0;
+    _realSize=0;
     _espectro=NULL;
 }
-int initRuido(string FileSpectrum, unsigned int MaxPoints){
-    FILE *file;
-    int i=0;
-    int response;
-    _maxSize=MaxPoints;
-    if (_espectro!=NULL){
-        delete[] _espectro;
-    }
-    _espectro= new PuntoEspectro[_maxSize];
-    file=fopen(FileSpectrum.c_str(),"r");
-    if (file == NULL) {
-        cout<< "Error opening file"<<endl;
-        return -1;
-    } else {
-        do {
-            response=fscanf(file,"%f\t%f\n",&(_espectro[i].freq),&(_espectro[i].value));
-            i++;
-        } while (response==2 || response!=EOF || i<_maxSize);
-        _realSize=i;
-        for (;i<_maxSize;i++){
-            _espectro[i].value=0;
-            _espectro[i].freq=0;
-        }
-        fclose(file);
-    }
-    return 0;
+int Ruido::initRuido(string FileSpectrum, unsigned int MaxPoints,float Amplitud){
+    return fileSpectrum(FileSpectrum, MaxPoints,Amplitud);
 }
 
 //Destructores
@@ -53,407 +20,61 @@ Ruido::~Ruido(){
 //Funciones Get
 float Ruido::getRuido(float time){
     float ruido=0;
-    for (int i=0;i<_realSize;i++){
-        ruido+=_espectro[i].value*cos(2*M_PI*_espectro[i].freq*time);
+    for (unsigned int i=0;i<_realSize;i++){
+        ruido+=_espectro[i].value*cos(TWO_PI*_espectro[i].freq*time);
     }
     return ruido;
 }
 string Ruido::fileSpectrum(){
     return _fileSpectrum;
 }
-float Ruido::maxFreq(){
-    return _maxFreq;
+unsigned int Ruido::maxSize(){
+    return _maxSize;
 }
-float Ruido::minFreq();
-unsigned int Ruido::size();
+unsigned int Ruido::realSize(){
+    return _realSize;
+}
 //Funciones Set
-int Ruido::fileSpectrum(string FileSpectrum);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Ruido::Ruido(){
-    N=0;
-    Nset=0;
-    iPointer=0;
-}
-
-Ruido::~Ruido(){
-    int i;
-    if (N!=0){
-        for (i=0;i<N;i++){
-            delete[] freqArray[i];
-            delete[] timeArray[i];
-        }
-        delete[] freqArray;
-        delete[] timeArray;
-    }
-    if (Nset!=0){
-        delete[] outArray;
-    }
-}
-
-int Ruido::checkN(){
-    int i=N;
-    if(N >= 2){
-        i = N;
-        while(i==2*(i/2)) {
-            i = i/2;  /* While i is even, factor out a 2. */
-        }
-    }  /* For N >=2, we now have N = 2^n iff i = 1. */
-    if(N < 2 || i != 1){
-        return 0;
-    }
-    return 1;
-}
-
-int Ruido::initRuido(double df, int n){
-    int i;
-    N=n;
-    if (checkN()!=1){
-        N=0;
-        return 1;
-    }
-    deltaF=df;
-    rangoT=1/deltaF;
-    rangoF=N*deltaF;
-    deltaT=rangoT/N;
-    freqArray=new double*[N];
-    timeArray=new double*[N];
-    for (i=0;i<N;i++){
-        freqArray[i]=new double[2];
-        timeArray[i]=new double[2];
-        freqArray[i][0]=0;
-        freqArray[i][1]=0;
-        timeArray[i][0]=0;
-        timeArray[i][1]=0;
-    }
-    Nset=0;
-    return 0;
-}
-
-void Ruido::clear(){
-    int i;
-    for (i=0;i<N;i++){
-        freqArray[i][0]=0;
-        freqArray[i][1]=0;
-        timeArray[i][0]=0;
-        timeArray[i][1]=0;
-    }
-}
-void Ruido::addDC(double amp){
-    freqArray[0][0]+=N*amp;
-}
-void Ruido::setDC(double amp){
-    freqArray[0][0]=N*amp;
-}
-
-void Ruido::addGaus(double amp, double fo, double sigma){
-    int i;
-    double f;
-    double g;
-    for (i=0;i<N>>1;i++){
-        f=i*deltaF;
-        g=amp*exp(-(f-fo)*(f-fo)/(2*sigma*sigma));
-        if (i==0){
-            freqArray[i][0]+=N*g;
-        } else {
-            freqArray[i][0]+=N*g;
-            freqArray[N-i][0]+=N*g;
-        }
-    }
-    f=(N>>1)*deltaF;
-    g=amp*exp(-(f-fo)*(f-fo)/(2*sigma*sigma));
-    freqArray[(N>>1)][0]+=N*g;
-}
-int Ruido::setTimeArray(double t){
-    if (Nset!=0){
-        delete[] outArray;
-    }
-    if (t==0 || t>=rangoT){
-        Nset=N;
-    } else {
-        Nset=(int)(t/deltaT);
-    }
-    if (Nset%2==0){
-        Nset++;
-    }
-    tset=deltaT*(Nset-1)/2;
-    outArray=new double[Nset];
-    outArray[(Nset-1)/2]=timeArray[0][0];
-    for (int i=0;i<(Nset-1)/2;i++){
-        outArray[i]=timeArray[N-((Nset-1)/2)+i][0];
-        outArray[i+(((Nset-1)/2)+1)]=timeArray[i+1][0];
-    }
-    return Nset;
-}
-int Ruido::getNset(){
-    return Nset;
-}
-
-int Ruido::setTp(double t){
-    if (t>tset || t<-tset) {
+int Ruido::fileSpectrum(string FileSpectrum, float Amplitud){
+    FILE *file;
+    unsigned int i=0;
+    int response;
+    file=fopen(FileSpectrum.c_str(),"r");
+    if (file == NULL) {
+        cout<< "Error opening file"<<endl;
         return -1;
-    }
-    iTp=((Nset-1)/2)*(1+(t/tset));
-    return 0;
-}
-double Ruido::getTp(){
-    return ((2*tset*iTp/(Nset-1))-tset);
-}
-
-double Ruido::getV(){
-    double ret;
-
-    if (iTp>=Nset){
-        iTp=0;
-    }
-    ret=outArray[iTp++];
-    return ret;
-}
-
-void Ruido::copyTimeArray(){
-    outArray[(Nset-1)/2]=timeArray[0][0];
-    for (int i=0;i<(Nset-1)/2;i++){
-        outArray[i]=timeArray[N-((Nset-1)/2)+i][0];
-        outArray[i+(((Nset-1)/2)+1)]=timeArray[i+1][0];
-    }
-}
-void Ruido::copyFreqArray(){
-    outArray[(Nset-1)/2]=freqArray[0][0]/N;
-    for (int i=0;i<(Nset-1)/2;i++){
-        outArray[i]=freqArray[N-((Nset-1)/2)+i][0]/N;
-        outArray[i+(((Nset-1)/2)+1)]=freqArray[i+1][0]/N;
-    }
-}
-
-double Ruido::getTset(){
-    return tset;
-}
-
-void Ruido::addGausTime(double amp, double to, double sigma){
-    int i;
-    double t;
-    double g;
-    for (i=0;i<N>>1;i++){
-        t=i*deltaT;
-        g=amp*exp(-(t-to)*(t-to)/(2*sigma*sigma));
-        if (i==0){
-            timeArray[i][0]+=g;
-        } else {
-            timeArray[i][0]+=timeArray[N-i][0]=g;
-        }
-    }
-    t=(N>>1)*deltaT;
-    g=amp*exp(-(t-to)*(t-to)/(2*sigma*sigma));
-    timeArray[(N>>1)][0]+=N*g;
-}
-
-void Ruido::iFFT(){
-    ifft(N,timeArray,freqArray);
-}
-
-void Ruido::addNoise(double amp){
-    for (int i=0;i<N;i++){
-        freqArray[i][0]=N*amp;
-    }
-    /*
-    double amp;
-    float fase;
-    int i;
-    for (i=0;i<N;i++){
-        amp=timeArray[0][0];
-        fase=(2)*(double)(rand()%1000)/1000;
-        timeArray[i][0]*=fase;
-    }*/
-}
-
-void Ruido::setNoise(double amp){
-    float fase;
-    int i;
-    freqArray[0][1]=0;
-    //for (i=1;i<(N>>1);i++){
-    for (i=0;i<N;i++){
-        fase=-M_PI+2*M_PI*(double)(rand()%1000)/1000;
-        freqArray[i][1]=N*amp*sin(fase);
-    //    freqArray[N-i][1]=N*fase;
-    }
-    freqArray[(N>>1)][1]=0;//*(amp/2)*(double)(rand()%1000)/1000;
-}
-/*
-void Ruido::multNoise(double amp){
-    float fase;
-    int i;
-    for (i=1;i<Nset;i++){
-    //for (i=0;i<N;i++){
-        fase=(amp)*(double)(rand()%1000)/1000;
-        outArray[i]+=fase;
-        //freqArray[i][1]=fase0+fase;
-        //freqArray[N-i][1]=fase0-fase;
-    }
-    //freqArray[(N>>1)][1]=N*(amp/2)*(double)(rand()%1000)/1000;
-}
-*/
-
-int Ruido::setPointer(double t){
-    if (t>=rangoT){
-        return 1;
-    }
-    iPointer=(int)(t/deltaT);
-    return 0;
-}
-
-double Ruido::getPointer(){
-    return iPointer*deltaT;
-}
-
-double Ruido::getRuido(){
-    double ret;
-    if (iPointer>=N){
-        iPointer=0;
-        ret=timeArray[0][0];
     } else {
-        ret=timeArray[iPointer++][0];
-    }
-    return ret;
-}
-
-int Ruido::getN(){
-    return N;
-}
-
-
-void Ruido::addHarmonics(double amp, double fi, double sigma, int nHarm, double decay){
-
-    float d;
-    for (int i=0;i<nHarm;i++){
-
-        if (decay<0){
-            d=((rand()%1000)/(float)1000)/10;
-        } else {
-            d=decay;
+        _fileSpectrum=FileSpectrum;
+        _maxSize=MaxPoints;
+        if (_espectro!=NULL){
+            delete[] _espectro;
         }
-        addGaus(amp*exp(-i*d),(i+1)*fi,sigma);
-    }
-}
-
-double Ruido::getDeltaT(){
-    return deltaT;
-}
-double Ruido::getDeltaF(){
-    return deltaF;
-}
-double Ruido::getTmax(){
-    return rangoT;
-}
-double Ruido::getFmax(){
-    return rangoF;
-}
-
-void fft(int N, double **x, double **X)
-{
-/* Declare a pointer to scratch space. */
-  double **XX=new double*[N];
-  for(int i=0;i<N;i++){
-      XX[i]=new double[2];
-  }
-
-  //double (*XX)[2] = (double*) malloc(2 * N * sizeof(double));
-
-  /* Calculate FFT by a recursion. */
-  fft_rec(N, 0, 1, x, X, XX);
-
-  /* Free memory. */
-  for (int i=0;i<N;i++){
-      delete[] XX[i];
-  }
-  delete[]XX;
-}
-
-/* FFT recursion */
-void fft_rec(int N, int offset, int delta, double **x, double **X, double **XX) {
-  int N2 = N/2;            /* half the number of points in FFT */
-  int k;                   /* generic index */
-  double cs, sn;           /* cosine and sine */
-  int k00, k01, k10, k11;  /* indices for butterflies */
-  double tmp0, tmp1;       /* temporary storage */
-
-  if(N != 2)  /* Perform recursive step. */
-    {
-      /* Calculate two (N/2)-point DFT's. */
-      fft_rec(N2, offset, 2*delta, x, XX, X);
-      fft_rec(N2, offset+delta, 2*delta, x, XX, X);
-
-      /* Combine the two (N/2)-point DFT's into one N-point DFT. */
-      for(k=0; k<N2; k++)
-        {
-          k00 = offset + k*delta;    k01 = k00 + N2*delta;
-          k10 = offset + 2*k*delta;  k11 = k10 + delta;
-          cs = cos(TWO_PI*k/(double)N); sn = sin(TWO_PI*k/(double)N);
-          tmp0 = cs * XX[k11][0] + sn * XX[k11][1];
-          tmp1 = cs * XX[k11][1] - sn * XX[k11][0];
-          X[k01][0] = XX[k10][0] - tmp0;
-          X[k01][1] = XX[k10][1] - tmp1;
-          X[k00][0] = XX[k10][0] + tmp0;
-          X[k00][1] = XX[k10][1] + tmp1;
+        _espectro= new PuntoEspectro[_maxSize];
+        do {
+            response=fscanf(file,"%f\t%f\n",&(_espectro[i].freq),&(_espectro[i].value));
+            _espectro[i].value*=Amplitud;
+            i++;
+        } while ((response==2 || response!=EOF) && i<_maxSize);
+        _realSize=i;
+        for (;i<_maxSize;i++){
+            _espectro[i].value=0;
+            _espectro[i].freq=0;
         }
+        fclose(file);
     }
-  else  /* Perform 2-point DFT. */
-    {
-      k00 = offset; k01 = k00 + delta;
-      X[k01][0] = x[k00][0] - x[k01][0];
-      X[k01][1] = x[k00][1] - x[k01][1];
-      X[k00][0] = x[k00][0] + x[k01][0];
-      X[k00][1] = x[k00][1] + x[k01][1];
-    }
+    return 0;
 }
 
-/* IFFT */
-void ifft(int N, double **x, double **X){
-  int N2 = N/2;       /* half the number of points in IFFT */
-  int i;              /* generic index */
-  double tmp0, tmp1;  /* temporary storage */
 
-  /* Calculate IFFT via reciprocity property of DFT. */
-  fft(N, X, x);
-  x[0][0] = x[0][0]/N;    x[0][1] = x[0][1]/N;
-  x[N2][0] = x[N2][0]/N;  x[N2][1] = x[N2][1]/N;
-  for(i=1; i<N2; i++)
-    {
-      tmp0 = x[i][0]/N;       tmp1 = x[i][1]/N;
-      x[i][0] = x[N-i][0]/N;  x[i][1] = x[N-i][1]/N;
-      x[N-i][0] = tmp0;       x[N-i][1] = tmp1;
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+

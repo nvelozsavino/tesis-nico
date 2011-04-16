@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="ruido.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="1458" topLine="30" />
+	<File name="ruido.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="437" topLine="25" />
 	</File>
-	<File name="ruido.hpp" open="0" top="0" tabpos="2">
-		<Cursor position="1035" topLine="0" />
+	<File name="ruido.hpp" open="0" top="0" tabpos="5">
+		<Cursor position="717" topLine="19" />
 	</File>
 </CodeBlocks_layout_file>

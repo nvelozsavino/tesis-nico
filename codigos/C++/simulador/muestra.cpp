@@ -94,20 +94,20 @@ void Muestra::setMuestraFromFile(string filename, float resolucion, lugarMuestra
     }
 
     if (imagen.cols>depth.cols){
-        endY=depth.cols;
+        endX=depth.cols;
     } else {
-        endY=imagen.cols;
+        endX=imagen.cols;
     }
     if (imagen.rows>depth.rows){
-        endX=depth.rows;
+        endY=depth.rows;
     } else {
-        endX=imagen.rows;
+        endY=imagen.rows;
     }
     for(int x=startX;x<endX;x++){
         for(int y=startY;y<endY;y++){
             float valor;
-            valor=get2D32F(imagen,x,y);
-            set2D32F(depth,x+x0,y+y0,valor);
+            valor=get2D32F(imagen,x,y,0);
+            set2D32F(depth,x+x0,y+y0,0,valor);
         }
     }
     //imshow("muestra",imagen);
@@ -130,7 +130,7 @@ void Muestra::setMuestraPlain(float amplitud,lugarMuestra lugar){
     }
 	for (unsigned int i=0; i<width;i++){
 		for (unsigned int j=0;j<height;j++){
-			set2D32F((*array),i,j,amplitud);
+			set2D32F((*array),i,j,0,amplitud);
 		}
 	}
 }
