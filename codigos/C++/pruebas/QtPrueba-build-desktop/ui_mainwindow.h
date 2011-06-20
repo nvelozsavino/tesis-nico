@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri 17. Jun 11:41:38 2011
+** Created: Mon 20. Jun 16:58:12 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -20,6 +20,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QMainWindow>
 #include <QtGui/QPushButton>
+#include <QtGui/QSlider>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
@@ -40,12 +41,16 @@ public:
     QVBoxLayout *verticalLayout_2;
     QPushButton *pushButton_ok;
     QPushButton *pushButton_cancel;
+    QSlider *horizontalSlider;
     QLabel *imagelabel;
+    QSpacerItem *verticalSpacer;
+    QSpacerItem *horizontalSpacer_2;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
+        MainWindow->resize(245, 141);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -107,6 +112,14 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
+        horizontalSlider = new QSlider(centralWidget);
+        horizontalSlider->setObjectName(QString::fromUtf8("horizontalSlider"));
+        horizontalSlider->setMinimum(0);
+        horizontalSlider->setMaximum(19);
+        horizontalSlider->setOrientation(Qt::Horizontal);
+
+        verticalLayout->addWidget(horizontalSlider);
+
         imagelabel = new QLabel(centralWidget);
         imagelabel->setObjectName(QString::fromUtf8("imagelabel"));
 
@@ -114,6 +127,14 @@ public:
 
 
         gridLayout->addLayout(verticalLayout, 1, 1, 2, 1);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout->addItem(verticalSpacer, 3, 1, 1, 1);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_2, 2, 2, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
 
