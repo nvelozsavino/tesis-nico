@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(VideoCapture capture, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     }
     ui->imagelabel->setPixmap(QPixmap::fromImage(image));
-
-
+    cap=capture;
+    startTimer(100);
 }
 
 MainWindow::~MainWindow()
@@ -27,6 +27,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_ok_clicked()
 {
+    cap >> imagen;
+    setImg(imagen);
     //ui->label->setText("Ok");
     paintImage();
 }
@@ -35,38 +37,45 @@ void MainWindow::on_pushButton_cancel_clicked()
 {
     //quit();
     //ui->label->setText("Cancel");
+    ui->label_x->setText(QString::number(cap.get(CV_CAP_PROP_FOURCC )));
 }
 
 void MainWindow::setImg(Mat img) {
     int x,y;
     x=img.cols;
-    y=img.rows;
+    y=img.rows;   
     QImage dummy(y,x,QImage::Format_RGB32);
     ui->imagelabel->setPixmap(QPixmap::fromImage(dummy));
-    ui->label_x->setText(QString::number(x));
-    ui->label_y->setText(QString::number(y));
-    pixmap=mat2qimage(img);
+    //ui->label_x->setText(QString::number(x));
+    //ui->label_y->setText(QString::number(y));
+    image=mat2qimage(img);
 
 
 
 }
 
 void MainWindow::paintImage(){
-    ui->imagelabel->setPixmap(pixmap);
+    ui->imagelabel->setPixmap(QPixmap::fromImage(image));
 }
 
 
-QPixmap MainWindow::mat2qimage(const Mat& mat) {
-    QPixmap p;
-    Mat rgb,img;
-    //img=mat;
-    //cvtColor(img, img, CV_BGR2RGB);
-    //ui->label_x->setText(QString::number(img.channels()));
-    //ui->label_y->setText(QString::number(CV_8UC3));
+QImage MainWindow::mat2qimage(const Mat& mat) {
+    //cvtColor(mat,mat,CV_BGR2RGB);
+    QImage img(mat.data, mat.size().width, mat.size().height, mat.step,QImage::Format_RGB888);
 
-    mat.convertTo(img,CV_8UC3,(double)(1/255));
-    cvtColor(img, rgb, CV_BGR2RGB);
-    p.loadFromData((uchar *)rgb.data,rgb.cols,rgb.rows)
-            loadFromData((uchar *)rgb.data, rgb.cols, rgb.rows);
-    return p;
+    return img.rgbSwapped();;
 };
+
+void MainWindow::timerEvent(QTimerEvent*) {
+    cap >> imagen;
+    setImg(imagen);
+    //ui->label->setText("Ok");
+    paintImage();
+}
+
+void MainWindow::on_horizontalSlider_valueChanged(int value)
+{
+    ui->label_y->setText(QString::number(value));
+    //cap.set(CV_CAP_PROP_HUE,(double)value);
+    ui->label_x->setText(QString::number(cap.get(value)));
+}
