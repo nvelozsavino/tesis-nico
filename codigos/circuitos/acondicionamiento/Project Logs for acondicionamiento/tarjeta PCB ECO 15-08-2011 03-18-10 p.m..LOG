@@ -1,0 +1,12 @@
+Removed Pin From Net: NetName=NetR10_2 Pin=R10-2
+Removed Pin From Net: NetName=VFO Pin=R10-3
+Removed Pin From Net: NetName=NetR11_2 Pin=R11-2
+Removed Pin From Net: NetName=VDAC Pin=R11-3
+Change Component Footprint: Designator=R10 Old Footprint=VR3 New Footprint=3006P
+Change Component Footprint: Designator=R11 Old Footprint=VR5 New Footprint=3006P
+Change Component Comment : Designator=R11 Old Comment=RPot New Comment=RTrimPot
+Change Component Comment : Designator=R10 Old Comment=RPot New Comment=RTrimPot
+Added Pin To Net: NetName=NetR10_2 Pin=R10-3
+Added Pin To Net: NetName=NetR11_2 Pin=R11-3
+Change Net Name : Old Net Name=NetR10_2 New Net Name=NetR10_3
+Change Net Name : Old Net Name=NetR11_2 New Net Name=NetR11_3

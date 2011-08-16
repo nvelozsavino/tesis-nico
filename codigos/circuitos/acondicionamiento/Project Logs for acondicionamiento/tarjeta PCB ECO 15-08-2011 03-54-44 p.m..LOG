@@ -1,0 +1,21 @@
+Removed Pin From Net: NetName=+12V Pin=J1-1A
+Removed Pin From Net: NetName=+12V Pin=J1-1B
+Removed Pin From Net: NetName=+12V Pin=J1-1
+Removed Pin From Net: NetName=GND Pin=J1-2A
+Removed Pin From Net: NetName=GND Pin=J1-2B
+Removed Pin From Net: NetName=GND Pin=J1-2
+Removed Pin From Net: NetName=GND Pin=J1-3A
+Removed Pin From Net: NetName=GND Pin=J1-3B
+Removed Pin From Net: NetName=GND Pin=J1-3
+Removed Pin From Net: NetName=-12V Pin=J2-1A
+Removed Pin From Net: NetName=-12V Pin=J2-1B
+Removed Pin From Net: NetName=-12V Pin=J2-1
+Removed Pin From Net: NetName=GND Pin=J2-2A
+Removed Pin From Net: NetName=GND Pin=J2-2B
+Removed Pin From Net: NetName=GND Pin=J2-2
+Removed Pin From Net: NetName=GND Pin=J2-3A
+Removed Pin From Net: NetName=GND Pin=J2-3B
+Removed Pin From Net: NetName=GND Pin=J2-3
+Removed Member From Class: ClassName=esquematico Member=J2
+Removed Member From Class: ClassName=esquematico Member=J3
+Change Component Comment : Designator=J3 Old Comment=+12V New Comment=COAX-F
