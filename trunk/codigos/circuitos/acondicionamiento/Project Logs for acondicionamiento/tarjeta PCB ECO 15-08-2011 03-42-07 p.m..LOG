@@ -1,0 +1,34 @@
+Removed Pin From Net: NetName=VOUT Pin=J1-1
+Removed Pin From Net: NetName=GND Pin=J1-4
+Removed Pin From Net: NetName=GND Pin=J1-5
+Change Component Footprint: Designator=J1 Old Footprint=MCX5.08-H5 New Footprint=KLD-0202
+Change Component Comment : Designator=J1 Old Comment=COAX-F New Comment=PWR2.5
+Added Component: Designator=J2(KLD-0202)
+Added Component: Designator=J3(MCX5.08-H5)
+Added Component: Designator=P4(HDR1X2)
+Added Pin To Net: NetName=+12V Pin=J1-1A
+Added Pin To Net: NetName=+12V Pin=J1-1B
+Added Pin To Net: NetName=+12V Pin=J1-1
+Added Pin To Net: NetName=GND Pin=J1-2A
+Added Pin To Net: NetName=GND Pin=J1-2B
+Added Pin To Net: NetName=GND Pin=J1-3A
+Added Pin To Net: NetName=GND Pin=J1-3B
+Added Pin To Net: NetName=-12V Pin=J2-1A
+Added Pin To Net: NetName=-12V Pin=J2-1B
+Added Pin To Net: NetName=-12V Pin=J2-1
+Added Pin To Net: NetName=GND Pin=J2-2A
+Added Pin To Net: NetName=GND Pin=J2-2B
+Added Pin To Net: NetName=GND Pin=J2-2
+Added Pin To Net: NetName=GND Pin=J2-3A
+Added Pin To Net: NetName=GND Pin=J2-3B
+Added Pin To Net: NetName=GND Pin=J2-3
+Added Pin To Net: NetName=VOUT Pin=J3-1
+Added Pin To Net: NetName=GND Pin=J3-2
+Added Pin To Net: NetName=GND Pin=J3-3
+Added Pin To Net: NetName=GND Pin=J3-4
+Added Pin To Net: NetName=GND Pin=J3-5
+Added Pin To Net: NetName=VOUT Pin=P4-1
+Added Pin To Net: NetName=GND Pin=P4-2
+Added Member To Class: ClassName=esquematico Member=Component J2 PWR2.5
+Added Member To Class: ClassName=esquematico Member=Component J3 COAX-F
+Added Member To Class: ClassName=esquematico Member=Component P4 Header 2
