@@ -1,0 +1,28 @@
+Field=Description~String~Description~100|Field=Designator~String~Designator~100|Field=LibRef~String~LibRef~100|Field=Quantity~Integer~Quantity~100|Field=Value~String~Value~100|ReportField=ProductionQuantity~1|ReportField=ProjectFileName~acondicionamiento.PrjPCB|ReportField=ProjectFullPath~C:\Users\veloz\Documents\tesis\codigos\circuitos\acondicionamiento\acondicionamiento.PrjPCB|ReportField=Title~Bill of Materials For Project [acondicionamiento.PrjPCB] (No PCB Document Selected)|ReportField=TotalQuantity~49|ReportField=ReportTime~11:59:42 a.m.|ReportField=ReportDate~25/08/2011|ReportField=ReportDateTime~25/08/2011 11:59:42 a.m.|ReportField=OutputName~Bill of Materials|ReportField=OutputType~BOM_PartType|ReportField=GeneratorName~BOM|ReportField=GeneratorDescription~Bill of Materials|ReportField=VariantName~None|ReportField=Address1~|ReportField=Address2~|ReportField=Address3~|ReportField=Address4~|ReportField=ApprovedBy~|ReportField=Author~|ReportField=CheckedBy~|ReportField=CompanyName~|ReportField=CurrentDate~25/08/2011|ReportField=CurrentTime~11:57:04 a.m.|ReportField=Date~|ReportField=DocumentFullPathAndName~C:\Users\veloz\Documents\tesis\codigos\circuitos\acondicionamiento\esquematico.SchDoc|ReportField=DocumentName~esquematico.SchDoc|ReportField=DocumentNumber~|ReportField=DrawnBy~|ReportField=Engineer~|ReportField=ImagePath~|ReportField=ModifiedDate~22/08/2011|ReportField=Organization~|ReportField=Revision~|ReportField=Rule~|ReportField=SheetNumber~|ReportField=SheetTotal~|ReportField=Time~|ReportField=Title~|ReportField=DataSourceFileName~acondicionamiento.PrjPCB|ReportField=DataSourceFullPath~C:\Users\veloz\Documents\tesis\codigos\circuitos\acondicionamiento\acondicionamiento.PrjPCB
+Polarized Capacitor (Radial)|C1, C7|Cap Pol1|2|1000uF
+Polarized Capacitor (Radial)|C2, C3, C8|Cap Pol1|3|10uF
+Capacitor|C4, C9, C11|Cap|3|100nF
+Capacitor|C5, C6, C10, C12, C19|Cap|5|10nF
+Capacitor|C13|Cap|1|560pF
+Capacitor|C14|Cap|1|470nF
+Polarized Capacitor (Radial)|C15|Cap Pol1|1|100uF
+Capacitor|C16, C17, C18, C20|Cap|4|1nF
+2 Amp Single Phase Rectifier Bridge|CR1|2KBP005|1|
+RF Coaxial PCB Connector, MCX; Thru-Hole, Right-Angle Mount Socket, Blunt Post Terminal, 50 Ohm Impedance|J1|COAX-F|1|
+Header, 3-Pin|P1|Header 3|1|
+Header, 2-Pin|P2, P3, P4|Header 2|3|
+Resistor|R1, R2|Res1|2|44.2K
+Resistor|R3|Res1|1|26.7K
+Resistor|R4|Res1|1|330K
+Resistor|R5, R17|Res1|2|5.1K
+Resistor|R6|Res1|1|100K
+Resistor|R7|Res1|1|510K
+Resistor|R8, R12|Res1|2|3.09K
+Resistor|R9, R11, R15, R16|Res1|4|100
+Rectangular Trimmer Potentiometer|R10, R14|RTrimPot|2|1K
+Resistor|R13|Res1|1|20K
+Three-Terminal Low Current Positive Voltage Regulator|U1|MC78L12ACP|1|
+Three-Terminal Low Current Positive Voltage Regulator|U2|MC78L05ACP|1|
+Three-Terminal Low Current Negative Voltage Regulator|U3|MC79L12ACP|1|
+Frequency-To-Voltage Converters|U4|LM2907P|1|
+General-Purpose J-FET Quad Operational Amplifier|U5, U6|TL084CN|2|
