@@ -10,6 +10,10 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="camara.vi" Type="VI" URL="../camara.vi"/>
+		<Item Name="control.vi" Type="VI" URL="../../control.vi"/>
+		<Item Name="daq.vi" Type="VI" URL="../daq.vi"/>
+		<Item Name="sound.vi" Type="VI" URL="../sound.vi"/>
 		<Item Name="todos los modulos.vi" Type="VI" URL="../todos los modulos.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Property Name="NI.SortType" Type="Int">2</Property>
@@ -243,10 +247,19 @@
 			<Item Name="Camera-GetAndInitialize.vi" Type="VI" URL="../../lib/Camara/Camera-GetAndInitialize.vi"/>
 			<Item Name="Camera-GetImage.vi" Type="VI" URL="../../lib/Camara/Camera-GetImage.vi"/>
 			<Item Name="Camera-GetParams.vi" Type="VI" URL="../../lib/Camara/Camera-GetParams.vi"/>
-			<Item Name="Camera-SetParameters.vi" Type="VI" URL="../../lib/Camara/Camera-SetParameters.vi"/>
+			<Item Name="Camera-SetParams.vi" Type="VI" URL="../../lib/Camara/Camera-SetParams.vi"/>
 			<Item Name="Camera-StartStopStream.vi" Type="VI" URL="../../lib/Camara/Camera-StartStopStream.vi"/>
-			<Item Name="DAQ Calib.vi" Type="VI" URL="../../lib/DAQ/DAQ Calib.vi"/>
+			<Item Name="Control-Actuator.vi" Type="VI" URL="../../lib/control/Control-Actuator.vi"/>
+			<Item Name="Control-AverageContrast.vi" Type="VI" URL="../../lib/control/Control-AverageContrast.vi"/>
+			<Item Name="Control-CaseFlow.vi" Type="VI" URL="../../lib/control/Control-CaseFlow.vi"/>
+			<Item Name="Control-GenerateRandomSignal.vi" Type="VI" URL="../../lib/control/Control-GenerateRandomSignal.vi"/>
+			<Item Name="Control-GetContrast.vi" Type="VI" URL="../../lib/control/Control-GetContrast.vi"/>
+			<Item Name="Control-IncrementAmplitude.vi" Type="VI" URL="../../lib/control/Control-IncrementAmplitude.vi"/>
+			<Item Name="Control-IncrementSigma.vi" Type="VI" URL="../../lib/control/Control-IncrementSigma.vi"/>
+			<Item Name="Control-IncrementTime.vi" Type="VI" URL="../../lib/control/Control-IncrementTime.vi"/>
+			<Item Name="Control-SameSignal.vi" Type="VI" URL="../../lib/control/Control-SameSignal.vi"/>
 			<Item Name="DAQ-AmpAdjust.vi" Type="VI" URL="../../lib/DAQ/DAQ-AmpAdjust.vi"/>
+			<Item Name="DAQ-Calib.vi" Type="VI" URL="../../lib/DAQ/DAQ-Calib.vi"/>
 			<Item Name="DAQ-ClearDevice.vi" Type="VI" URL="../../lib/DAQ/DAQ-ClearDevice.vi"/>
 			<Item Name="DAQ-Events2Case.vi" Type="VI" URL="../../lib/DAQ/DAQ-Events2Case.vi"/>
 			<Item Name="DAQ-GetLimits.vi" Type="VI" URL="../../lib/DAQ/DAQ-GetLimits.vi"/>
@@ -254,8 +267,11 @@
 			<Item Name="DAQ-InitDevice.vi" Type="VI" URL="../../lib/DAQ/DAQ-InitDevice.vi"/>
 			<Item Name="DAQ-SetParameters.vi" Type="VI" URL="../../lib/DAQ/DAQ-SetParameters.vi"/>
 			<Item Name="DAQ-WriteArray.vi" Type="VI" URL="../../lib/DAQ/DAQ-WriteArray.vi"/>
+			<Item Name="General-GenerateRandomNumber.vi" Type="VI" URL="../../lib/Generales/General-GenerateRandomNumber.vi"/>
 			<Item Name="General-GenerateSineWaveForm.vi" Type="VI" URL="../../lib/Generales/General-GenerateSineWaveForm.vi"/>
 			<Item Name="General-GenerateWaveform.vi" Type="VI" URL="../../lib/Generales/General-GenerateWaveform.vi"/>
+			<Item Name="General-GetGaussianArray.vi" Type="VI" URL="../../lib/Generales/General-GetGaussianArray.vi"/>
+			<Item Name="General-GetGaussianValue.vi" Type="VI" URL="../../lib/Generales/General-GetGaussianValue.vi"/>
 			<Item Name="General-ShowErrorMessage.vi" Type="VI" URL="../../lib/Generales/General-ShowErrorMessage.vi"/>
 			<Item Name="General-Update_t0.vi" Type="VI" URL="../../lib/Generales/General-Update_t0.vi"/>
 			<Item Name="IMAQ-Cluster2Device.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-Cluster2Device.vi"/>
