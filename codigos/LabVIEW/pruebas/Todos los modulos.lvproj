@@ -16,6 +16,7 @@
 		<Item Name="daq.vi" Type="VI" URL="../daq.vi"/>
 		<Item Name="General-GetMultValue.vi" Type="VI" URL="../../lib/Generales/General-GetMultValue.vi"/>
 		<Item Name="General-PrintHistogram.vi" Type="VI" URL="../../lib/Generales/General-PrintHistogram.vi"/>
+		<Item Name="IMAQ-GetLineContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-GetLineContrast.vi"/>
 		<Item Name="IMAQ-GetMichelsonContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-GetMichelsonContrast.vi"/>
 		<Item Name="IMAQ-GetRMSContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-GetRMSContrast.vi"/>
 		<Item Name="IMAQ-RGBtoIntensity.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-RGBtoIntensity.vi"/>
