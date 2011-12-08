@@ -24,6 +24,7 @@
 		<Item Name="IMAQ-U32RGB.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-U32RGB.vi"/>
 		<Item Name="sound.vi" Type="VI" URL="../sound.vi"/>
 		<Item Name="todos los modulos.vi" Type="VI" URL="../todos los modulos.vi"/>
+		<Item Name="Untitled 1.vi" Type="VI" URL="../../../../../../Desktop/prueba/bandwidth/Untitled 1.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Property Name="NI.SortType" Type="Int">2</Property>
 			<Item Name="vi.lib" Type="Folder">
@@ -196,6 +197,9 @@
 				<Item Name="IMAQ AVI Close" Type="VI" URL="/&lt;vilib&gt;/vision/Avi1.llb/IMAQ AVI Close"/>
 				<Item Name="IMAQ AVI Create" Type="VI" URL="/&lt;vilib&gt;/vision/Avi1.llb/IMAQ AVI Create"/>
 				<Item Name="IMAQ AVI Get Filter Names" Type="VI" URL="/&lt;vilib&gt;/vision/Avi2.llb/IMAQ AVI Get Filter Names"/>
+				<Item Name="IMAQ AVI Get Info" Type="VI" URL="/&lt;vilib&gt;/vision/Avi2.llb/IMAQ AVI Get Info"/>
+				<Item Name="IMAQ AVI Open" Type="VI" URL="/&lt;vilib&gt;/vision/Avi2.llb/IMAQ AVI Open"/>
+				<Item Name="IMAQ AVI Read Frame" Type="VI" URL="/&lt;vilib&gt;/vision/Avi2.llb/IMAQ AVI Read Frame"/>
 				<Item Name="IMAQ AVI Write Frame" Type="VI" URL="/&lt;vilib&gt;/vision/Avi1.llb/IMAQ AVI Write Frame"/>
 				<Item Name="IMAQ ColorImageToArray" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ ColorImageToArray"/>
 				<Item Name="IMAQ ConstructROI" Type="VI" URL="/&lt;vilib&gt;/vision/ROI Display.llb/IMAQ ConstructROI"/>
