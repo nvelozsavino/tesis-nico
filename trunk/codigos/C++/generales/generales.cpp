@@ -62,10 +62,10 @@ void ajustaFFT(const Mat& src, Mat &dst){
 void copyPart(const Mat& src, Mat &dst, unsigned int Width,unsigned int Height, unsigned int Left,unsigned int Top){
     unsigned int realWidth,realHeight;
     unsigned int dstWidth,dstHeight;
-    int tipo;
+    //int tipo;
     dst.create(Height,Width,src.type());
     dst.setTo(Scalar::all(0));
-    tipo=dst.type();
+    //tipo=dst.type();
         if (Left>(unsigned int)src.cols || Top>(unsigned int)src.rows) {
             return;
         }
@@ -83,7 +83,7 @@ void copyPart(const Mat& src, Mat &dst, unsigned int Width,unsigned int Height, 
         }
         Mat roi(dst,Rect(0,0,dstWidth,dstHeight));
         src(Rect(Left,Top,dstWidth,dstHeight)).copyTo(roi);
-        tipo=dst.type();
+        //tipo=dst.type();
         return;
 }
 

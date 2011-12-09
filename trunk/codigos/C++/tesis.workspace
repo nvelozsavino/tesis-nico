@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="tesis/tesis.cbp" active="1">
-			<Depends filename="generales/generales.cbp" />
-			<Depends filename="ruido/ruido.cbp" />
+		<Project filename="tesis/tesis.cbp">
 			<Depends filename="simulador/simulador.cbp" />
+			<Depends filename="ruido/ruido.cbp" />
+			<Depends filename="generales/generales.cbp" />
 		</Project>
-		<Project filename="generales/generales.cbp" />
-		<Project filename="ruido/ruido.cbp" />
 		<Project filename="simulador/simulador.cbp">
 			<Depends filename="generales/generales.cbp" />
+		</Project>
+		<Project filename="ruido/ruido.cbp">
+			<Depends filename="generales/generales.cbp" />
+		</Project>
+		<Project filename="generales/generales.cbp" />
+		<Project filename="ag/ag.cbp" />
+		<Project filename="estimador/estimador.cbp" active="1">
+			<Depends filename="ag/ag.cbp" />
 		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -7,9 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\libsimulador" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/libsimulador" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Debug\" />
+				<Option object_output="obj/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -18,8 +18,8 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\simulador" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option output="bin/Release/simulador" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -33,7 +33,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="..\generales" />
+			<Add directory="../generales" />
 		</Compiler>
 		<Unit filename="camara.cpp" />
 		<Unit filename="camara.hpp" />
@@ -41,6 +41,7 @@
 		<Unit filename="interferometro.hpp" />
 		<Unit filename="muestra.cpp" />
 		<Unit filename="muestra.hpp" />
+		<Unit filename="simulador.hpp" />
 		<Unit filename="spectrum.cpp" />
 		<Unit filename="spectrum.hpp" />
 		<Extensions>
