@@ -9,12 +9,7 @@
 
 
 
-#include "spectrum.hpp"
-#include "generales.hpp"
-#include "muestra.hpp"
-//#include "perturbacion.h"
-#include "camara.hpp"
-#include "interferometro.hpp"
+#include "simulador.hpp"
 #include "ruido.hpp"
 #include <iostream>
 //#define TIMESTEP 1e-3
