@@ -7,25 +7,25 @@
 	<File name="camara.hpp" open="0" top="0" tabpos="3">
 		<Cursor position="1052" topLine="0" />
 	</File>
-	<File name="interferometro.cpp" open="1" top="0" tabpos="3">
+	<File name="interferometro.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="1876" topLine="65" />
 	</File>
 	<File name="interferometro.hpp" open="0" top="0" tabpos="4">
 		<Cursor position="1363" topLine="32" />
 	</File>
-	<File name="muestra.cpp" open="1" top="0" tabpos="4">
+	<File name="muestra.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="1690" topLine="57" />
 	</File>
 	<File name="muestra.hpp" open="0" top="0" tabpos="1">
 		<Cursor position="716" topLine="27" />
 	</File>
-	<File name="simulador.hpp" open="1" top="0" tabpos="5">
+	<File name="simulador.hpp" open="0" top="0" tabpos="5">
 		<Cursor position="49" topLine="0" />
 	</File>
-	<File name="spectrum.cpp" open="1" top="0" tabpos="1">
+	<File name="spectrum.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="25" topLine="392" />
 	</File>
-	<File name="spectrum.hpp" open="1" top="0" tabpos="2">
-		<Cursor position="2112" topLine="54" />
+	<File name="spectrum.hpp" open="0" top="0" tabpos="2">
+		<Cursor position="303" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

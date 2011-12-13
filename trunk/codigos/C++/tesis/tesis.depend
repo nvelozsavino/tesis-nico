@@ -462,9 +462,10 @@
 	<stdlib.h>
 	<iostream>
 
-1323456716 /home/nico/Documents/tesis/codigos/C++/simulador/simulador.hpp
+1323798446 /home/nico/Documents/tesis/codigos/C++/simulador/simulador.hpp
 	"camara.hpp"
 	"interferometro.hpp"
 	"muestra.hpp"
 	"spectrum.hpp"
+	"generales.hpp"
 

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="clase_ag.cpp" open="1" top="0" tabpos="2">
+	<File name="clase_ag.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="9161" topLine="197" />
 	</File>
-	<File name="clase_ag.hpp" open="1" top="0" tabpos="1">
+	<File name="clase_ag.hpp" open="0" top="0" tabpos="1">
 		<Cursor position="5285" topLine="101" />
 	</File>
-	<File name="extra_ag.cpp" open="1" top="0" tabpos="3">
+	<File name="extra_ag.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="244" topLine="0" />
 	</File>
-	<File name="extra_ag.hpp" open="1" top="0" tabpos="4">
+	<File name="extra_ag.hpp" open="0" top="0" tabpos="4">
 		<Cursor position="1490" topLine="8" />
 	</File>
 </CodeBlocks_layout_file>

@@ -10,8 +10,8 @@ void Muestra::initMuestra(float rWidth,float rHeight, float resolucion){
 	resolucion=width/realWidth;
 	depth.create(height,width,CV_32FC1);
 	visibilidad.create(height,width,CV_32FC1);
-	int tipo;
-	tipo=depth.type();
+//	int tipo;
+//	tipo=depth.type();
 	//depth=new float[width*height];
 	//visibilidad= new float[width*height];
 
@@ -19,7 +19,7 @@ void Muestra::initMuestra(float rWidth,float rHeight, float resolucion){
 	//muestra->visibilidad = (double*) calloc (muestra->width*muestra->height,sizeof(double));
 
 	//muestra->resolucion=resolucion;
-	tipo=0;
+//	tipo=0;
 
 }
 
@@ -93,13 +93,13 @@ void Muestra::setMuestraFromFile(string filename, float resolucion, lugarMuestra
         x0=0;
     }
 
-    if (imagen.cols>depth.cols){
-        endX=depth.cols;
+    if (imagen.cols>(*array).cols){
+        endX=(*array).cols;
     } else {
         endX=imagen.cols;
     }
-    if (imagen.rows>depth.rows){
-        endY=depth.rows;
+    if (imagen.rows>(*array).rows){
+        endY=(*array).rows;
     } else {
         endY=imagen.rows;
     }
@@ -107,12 +107,12 @@ void Muestra::setMuestraFromFile(string filename, float resolucion, lugarMuestra
         for(int y=startY;y<endY;y++){
             float valor;
             valor=get2D32F(imagen,x,y,0);
-            set2D32F(depth,x+x0,y+y0,0,valor);
+            set2D32F((*array),x+x0,y+y0,0,valor);
         }
     }
     //imshow("muestra",imagen);
     //imagen/=normMax;
-    depth*=resolucion;
+    (*array)*=resolucion;
 
 }
 
