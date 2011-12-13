@@ -35,8 +35,8 @@
 #define MAXTIME_TOTAL   (MAXTIME_CONTROL+10)
 
 //#define RUIDO 1
-#define ARCHIVO_VIDEO "../archivos/resultados/video2.avi"
-#define ARCHIVO_DATA "../archivos/resultados/dataplana2.xls"
+#define ARCHIVO_VIDEO "../archivos/resultados/video222.avi"
+#define ARCHIVO_DATA "../archivos/resultados/dataplana2222.xls"
 #define EXPOSURE_STEP   20
 using namespace std;
 using namespace cv;
@@ -105,7 +105,7 @@ int main(){
 
     VideoWriter writer;
 
-    if (!writer.open(ARCHIVO_VIDEO,CV_FOURCC('D', 'I', 'V', '3'),fps,size)){
+    if (!writer.open(ARCHIVO_VIDEO,CV_FOURCC('M','J','P','G'),fps,size)){
         return -1;
     }
 
