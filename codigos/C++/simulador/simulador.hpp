@@ -6,5 +6,4 @@
 #include "interferometro.hpp"
 #include "muestra.hpp"
 #include "spectrum.hpp"
-
 #endif

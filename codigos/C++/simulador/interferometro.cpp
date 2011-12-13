@@ -157,10 +157,10 @@ void Interferometro::integra(float opticalPath){
 	} else {
 		dim=1;
 	}
-    int w, h,type;
+    int w, h;//,type;
     w=interferograma[0].cols;
     h=interferograma[0].rows;
-    type=interferograma[0].type();
+    //type=interferograma[0].type();
 	for (int d=0;d<dim;d++){
 	    float v=opticalPath*interferograma[d].cols/Xmax[d];//2*fabs(depth)+Xmax[i])/(2*Xmax[i])
 	    desp=(int)v;

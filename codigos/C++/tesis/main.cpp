@@ -88,7 +88,7 @@ int main(){
         return -1;
 	};
     Ruido ruido;
-    ruido.initRuido("../archivos/ruido2.txt",10e-9,30);
+    ruido.initRuido("../archivos/ruido2.txt",100e-9,30);
 
     float fps=camara.fps();
     float exposureTime=camara.exposureTime();
@@ -111,7 +111,7 @@ int main(){
 
 
     interf.inclinacionX=5e-6;
-    interf.inclinacionY=0e-6;
+    interf.inclinacionY=5e-6;
 
     float tiempo=notExposureTime;
     float t=0;

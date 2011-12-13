@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1323734722 source:/home/nico/Documents/tesis/codigos/C++/estimador/main.cpp
+1323803638 source:/home/nico/Documents/tesis/codigos/C++/estimador/main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
@@ -7,7 +7,9 @@
 	<time.h>
 	"clase_ag.hpp"
 	"extra_ag.hpp"
+	"simulador.hpp"
 	<opencv2/opencv.hpp>
+	<math.h>
 
 1323463934 /home/nico/Documents/tesis/codigos/C++/ag/clase_ag.hpp
 	<stdio.h>
@@ -18,4 +20,52 @@
 1323462915 /home/nico/Documents/tesis/codigos/C++/ag/extra_ag.hpp
 	<stdio.h>
 	<stdlib.h>
+
+1303771808 /home/nico/Documents/tesis/codigos/C++/generales/generales.hpp
+	<math.h>
+	<cstdlib>
+	<iostream>
+	<opencv2/opencv.hpp>
+	<time.h>
+
+1323798522 /home/nico/Documents/tesis/codigos/C++/simulador/simulador.hpp
+	"camara.hpp"
+	"interferometro.hpp"
+	"muestra.hpp"
+	"spectrum.hpp"
+
+1303771807 /home/nico/Documents/tesis/codigos/C++/simulador/camara.hpp
+	"spectrum.hpp"
+	<cstdlib>
+	<iostream>
+
+1303771807 /home/nico/Documents/tesis/codigos/C++/simulador/spectrum.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<string.h>
+	<fstream>
+	<cstdlib>
+	<cstdio>
+	<sstream>
+	<opencv2/opencv.hpp>
+
+1303771807 /home/nico/Documents/tesis/codigos/C++/simulador/interferometro.hpp
+	"generales.hpp"
+	"camara.hpp"
+	"spectrum.hpp"
+	"muestra.hpp"
+	<opencv2/opencv.hpp>
+
+1303771807 /home/nico/Documents/tesis/codigos/C++/simulador/muestra.hpp
+	"generales.hpp"
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<opencv2/opencv.hpp>
+	<iostream>
+	<string>
 
