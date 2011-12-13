@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1323734722 source:/home/nico/Documents/tesis/codigos/C++/estimador/main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<time.h>
+	"clase_ag.hpp"
+	"extra_ag.hpp"
+	<opencv2/opencv.hpp>
+
+1323463934 /home/nico/Documents/tesis/codigos/C++/ag/clase_ag.hpp
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+
+1323462915 /home/nico/Documents/tesis/codigos/C++/ag/extra_ag.hpp
+	<stdio.h>
+	<stdlib.h>
+

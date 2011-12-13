@@ -404,18 +404,14 @@
 	<stdlib.h>
 	<iostream>
 
-1323455794 source:/home/nico/Documents/tesis/codigos/C++/tesis/main.cpp
+1323729747 source:/home/nico/Documents/tesis/codigos/C++/tesis/main.cpp
 	<iostream>
 	<opencv2/opencv.hpp>
 	<stdio.h>
 	<math.h>
 	<time.h>
-	<spectrum.hpp>
-	<generales.hpp>
-	<muestra.hpp>
-	<camara.hpp>
-	<interferometro.hpp>
-	<ruido.hpp>
+	"simulador.hpp"
+	"ruido.hpp"
 	<iostream>
 
 1303771807 /home/nico/Documents/tesis/codigos/C++/simulador/spectrum.hpp
@@ -465,4 +461,10 @@
 	<math.h>
 	<stdlib.h>
 	<iostream>
+
+1323456716 /home/nico/Documents/tesis/codigos/C++/simulador/simulador.hpp
+	"camara.hpp"
+	"interferometro.hpp"
+	"muestra.hpp"
+	"spectrum.hpp"
 
