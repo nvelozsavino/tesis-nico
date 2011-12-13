@@ -12,7 +12,7 @@
 #include <math.h>
 #define STEP 0.1
 
-#define ORDEN 5
+#define ORDEN 3
 #define nBytes 2*ORDEN //longitud maxima del string (cromosoma) en bytes
 
 
@@ -38,7 +38,7 @@ int width,height;
 Mat frame;
 int main()
 {
-
+    Mat imagen;
     Mat result;
 
     VideoCapture video("/home/nico/Documents/tesis/video.avi");
@@ -49,13 +49,13 @@ int main()
     if (!video.grab()){
         return -2;
     }
-    video>>frame;
+    video>>imagen;
 
     width=frame.cols;
     height=frame.rows;
 
-
-
+    cvtColor(imagen,frame,CV_RGB2GRAY);
+    //frame.convertTo(frame,CV_16SC1);
 
 
 
@@ -65,7 +65,9 @@ int main()
     srand ( time(NULL) );
 	ag.PoblacionAleatoria(10,nBytes); //creo una poblacion de 200 individuos, de longitud 'nBytes' cada string
 	ag.FuncionEvaluacion(eval); //defino cual es la funcion que evalua cada cromosoma y devuelve el fitnes entre 0 y 1 (Es llamada automaticamante por al AG
-    ag.dTasaMutacion = 0.05; //tasa de mutacion de 0 a 1
+    ag.dTasaMutacion = 0.1; //tasa de mutacion de 0 a 1
+    ag.usarElitismo=true;
+    ag.usarHarem=true;
     CLASECromosoma *ap,alfa,beta;
 //    float f;
 
@@ -75,7 +77,7 @@ int main()
    {
  		ag.Generacion(); //creo una nueva generacion de individuos
     	ap = ag.SeleccionarMejor();
-    	if (!(ag.Edad()%1)){
+    	if (!(ag.Edad()%10)){
             getResult(&result,ap->Cromosoma);
             imshow("result",result);
             imshow("frame",frame);
@@ -88,8 +90,13 @@ int main()
    }
    while (ap->Fitness()<0.9 && (ag.Edad()<10000)); //condicion de parada el fitness de la mejor solucion
     printf("Fitness=%f\tEdad=%d\n",ap->Fitness(),ag.Edad());
-   for(;;){
             getResult(&result,ap->Cromosoma);
+            float alpha=crDecodificar16(ap->Cromosoma+2*0,0,180)/M_PI;
+    float franjas=crDecodificar16(ap->Cromosoma+2*1,0,10);
+    float gris=crDecodificar16(ap->Cromosoma+2*2,0,1);
+    printf("alpha=%f\tfranjas=%f\tgris=%f\n",alpha,franjas,gris);
+   for(;;){
+
             imshow("result",result);
             imshow("frame",frame);
 
@@ -102,55 +109,41 @@ int main()
 }
 
 int getResult(Mat *dst, unsigned char *string){
-    float lamda=crDecodificar16(string+2*0,LAMDA_MIN,LAMDA_MAX);
-    float sigma=crDecodificar16(string+2*1,SIGMA_MIN,SIGMA_MAX);
-    float incX=crDecodificar16(string+2*2,INCLINACION_MIN,INCLINACION_MAX);
-    float incY=crDecodificar16(string+2*3,INCLINACION_MIN,INCLINACION_MAX);
-    float visibilidad=crDecodificar16(string+2*4,0,1);
+    float alpha=crDecodificar16(string+2*0,0,180)/M_PI;
+    float franjas=crDecodificar16(string+2*1,0,10);
+    float gris=crDecodificar16(string+2*2,0,1);
 
+    float f=franjas/(float)frame.cols;
+    float value;
+    Mat prueba(frame.size(),CV_8UC1);
+    for (unsigned int x=0;x<frame.cols;x++){
+        for (unsigned int y=0;y<frame.rows;y++){
+            value=255*(gris*0.5*(1+sin(2*M_PI*f*(x*cos(alpha)+y*sin(alpha)))));
+            set2D8U(prueba,x,y,0,(unsigned int)value);
+        }
 
+    }
 
-    Spectrum fuente;
-    fuente.initSpectrum(DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,1000);
-    //fuente.setPlain(0.5e-9,1000e-9,1);
-	fuente.setGausian(1,lamda,sigma);
-	Camara camara;
-	Muestra muestra;
-	//camara.initCamara(30,1/30,COLOR);
-
-	muestra.initMuestra(1000e-3,1000e-3,1e3);
-	//muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
-	muestra.setMuestraPlain(0,IN_DEPTH);
-	muestra.setMuestraPlain(visibilidad,IN_VISIBILITY);
-	camara.initFPS(width,height,30,COLOR);
-	if (camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue")){
-        return -1;
-	};
-
-    float exposureTime=camara.exposureTime();
-
-	Interferometro interf;
-	interf.initInterferometro(&muestra,&fuente,&camara,exposureTime);
-
-    interf.inclinacionX=incX;
-    interf.inclinacionY=incY;
-    interf.getInterferograma(0);
-    interf.valores.copyTo(*dst);
+    prueba.copyTo(*dst);
     return 0;
 }
 
 float eval(unsigned char *string)
 {
     Scalar suma;
-    Mat result,error;
-    Mat f;
+    Mat original,result,error;
+
     getResult(&result, string);
-    frame.convertTo(f,result.type());
-    f/=255;
-
-    error=result-f;
+    result.convertTo(result,CV_32FC1);
+    result/=255;
+    frame.convertTo(original,CV_32FC1);
+    original/=255;
+    error=result-original;
     error=error.mul(error);
+     //       imshow("result",result);
+     //       imshow("error",error);
 
+       //cvWaitKey(30);
     suma=sum(error);
     float e=0;
     for (int i=0; i< result.channels();i++){
