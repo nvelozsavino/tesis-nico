@@ -404,7 +404,7 @@
 	<stdlib.h>
 	<iostream>
 
-1323729747 source:/home/nico/Documents/tesis/codigos/C++/tesis/main.cpp
+1323804170 source:/home/nico/Documents/tesis/codigos/C++/tesis/main.cpp
 	<iostream>
 	<opencv2/opencv.hpp>
 	<stdio.h>
@@ -462,10 +462,9 @@
 	<stdlib.h>
 	<iostream>
 
-1323798446 /home/nico/Documents/tesis/codigos/C++/simulador/simulador.hpp
+1323798522 /home/nico/Documents/tesis/codigos/C++/simulador/simulador.hpp
 	"camara.hpp"
 	"interferometro.hpp"
 	"muestra.hpp"
 	"spectrum.hpp"
-	"generales.hpp"
 
