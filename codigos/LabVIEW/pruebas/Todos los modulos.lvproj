@@ -10,9 +10,12 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="camara y daq.vi" Type="VI" URL="../camara y daq.vi"/>
 		<Item Name="camara.vi" Type="VI" URL="../camara.vi"/>
 		<Item Name="Control-StatusText.vi" Type="VI" URL="../../lib/control/Control-StatusText.vi"/>
 		<Item Name="control.vi" Type="VI" URL="../../control.vi"/>
+		<Item Name="DAQ-AmpAdjustValue.vi" Type="VI" URL="../../lib/DAQ/DAQ-AmpAdjustValue.vi"/>
+		<Item Name="DAQ-WriteValue.vi" Type="VI" URL="../../lib/DAQ/DAQ-WriteValue.vi"/>
 		<Item Name="daq.vi" Type="VI" URL="../daq.vi"/>
 		<Item Name="General-GetMultValue.vi" Type="VI" URL="../../lib/Generales/General-GetMultValue.vi"/>
 		<Item Name="General-PrintHistogram.vi" Type="VI" URL="../../lib/Generales/General-PrintHistogram.vi"/>
@@ -22,8 +25,8 @@
 		<Item Name="IMAQ-RGBtoIntensity.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-RGBtoIntensity.vi"/>
 		<Item Name="IMAQ-RGBtoLuma.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-RGBtoLuma.vi"/>
 		<Item Name="IMAQ-U32RGB.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-U32RGB.vi"/>
+		<Item Name="sitios.vi" Type="VI" URL="../../lib/sitios.vi"/>
 		<Item Name="sound.vi" Type="VI" URL="../sound.vi"/>
-		<Item Name="todos los modulos.vi" Type="VI" URL="../todos los modulos.vi"/>
 		<Item Name="Untitled 1.vi" Type="VI" URL="../../../../../../Desktop/prueba/bandwidth/Untitled 1.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Property Name="NI.SortType" Type="Int">2</Property>
@@ -206,13 +209,15 @@
 				<Item Name="IMAQ Convert Line to ROI" Type="VI" URL="/&lt;vilib&gt;/vision/ROI Conversion.llb/IMAQ Convert Line to ROI"/>
 				<Item Name="IMAQ Convert ROI to Line" Type="VI" URL="/&lt;vilib&gt;/vision/ROI Conversion.llb/IMAQ Convert ROI to Line"/>
 				<Item Name="IMAQ Coordinate System" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/IMAQ Coordinate System"/>
+				<Item Name="IMAQ Copy" Type="VI" URL="/&lt;vilib&gt;/Vision/Management.llb/IMAQ Copy"/>
 				<Item Name="IMAQ Create" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ Create"/>
 				<Item Name="IMAQ Dispose" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ Dispose"/>
-				<Item Name="IMAQ GetImageInfo" Type="VI" URL="/&lt;vilib&gt;/vision/Basics.llb/IMAQ GetImageInfo"/>
+				<Item Name="IMAQ GetImageInfo" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ GetImageInfo"/>
 				<Item Name="IMAQ GetImagePixelPtr" Type="VI" URL="/&lt;vilib&gt;/vision/Basics.llb/IMAQ GetImagePixelPtr"/>
 				<Item Name="IMAQ Image.ctl" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/IMAQ Image.ctl"/>
 				<Item Name="IMAQ Line" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/IMAQ Line"/>
 				<Item Name="IMAQ Overlay ROI" Type="VI" URL="/&lt;vilib&gt;/vision/Overlay.llb/IMAQ Overlay ROI"/>
+				<Item Name="IMAQ Rounding Mode.ctl" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/IMAQ Rounding Mode.ctl"/>
 				<Item Name="IMAQ Select Line" Type="VI" URL="/&lt;vilib&gt;/Vision/ROI Construct.llb/IMAQ Select Line"/>
 				<Item Name="IMAQ SetImageSize" Type="VI" URL="/&lt;vilib&gt;/vision/Basics.llb/IMAQ SetImageSize"/>
 				<Item Name="IMAQ WindEraseROI" Type="VI" URL="/&lt;vilib&gt;/vision/ROI Display.llb/IMAQ WindEraseROI"/>
