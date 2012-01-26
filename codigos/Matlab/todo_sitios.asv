@@ -1,0 +1,18 @@
+clear all;
+close all;
+clc;
+numImag=5;
+veces=10;
+pasos=0.25:0.25:4;
+a=[];
+m=[];
+s=[];
+
+for v=1:(length(pasos))
+    nombre=strcat('paso',num2str(pasos(v),'%.2f'));
+    [at,mt,st]=sitios(nombre,numImag,veces);
+    a=[a at'];
+    m=[m mt'];
+    s=[s st'];
+end
+    
