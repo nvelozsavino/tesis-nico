@@ -1,0 +1,9 @@
+inicio=3;
+fin=9;
+x=pasos(inicio:fin);
+mj=m(inicio:fin);
+sj=s(inicio:fin);
+p=polyfit(x,mj,1);
+y=polyval(p,x);
+figure;
+plot(y,x,'k',mj,x,'x');
