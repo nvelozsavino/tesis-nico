@@ -30,7 +30,14 @@ float Interferometro::timeStep(){
     return _timeStep;
 }
 
-void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente, Camara *myCamara, float timestep, float inclX, float inclY){
+void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente, Camara *myCamara, float timestep, float inclX, float inclY, TipoInterferometro t,float RRM, BeamSplitter bs){
+	tipo=t;
+	if (RRM>1 || RRM<0){
+        rRM=DEFAULT_REFLEXION_RM;
+	} else {
+        rRM=RRM;
+	}
+	beamSplitter=bs;
 	muestra=myMuestra;
 	camara=myCamara;
 	fuente=myFuente;
@@ -72,7 +79,7 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
     Io=new float[dim];
 
 
-
+        int N;
 
 
 
@@ -88,11 +95,18 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
         } else {
             maxLamda=camara->sensor(i).endLamda;
         }
+        float minLamda;
+        if (fuente->startLamda<camara->sensor(i).startLamda){
+            minLamda=fuente->startLamda;
+        } else {
+            minLamda=camara->sensor(i).startLamda;
+        }
         //mult(*fuente,camara->sensor[i],multip[i],1);
-
-        Xmin[i]=2*(LIGHT_SPEED/endFreqMultip);
-        idft(multip,interferograma[i]);
-        Xmax[i]=ALPHA*maxLamda/2;
+        N=multip.rows;
+        Xmin[i]=(N-1)*minLamda/N;
+        //Xmin[i]=2*(LIGHT_SPEED/endFreqMultip);
+        idft(multip,interferograma[i], DFT_REAL_OUTPUT); //no se pone DFT_SCALE porque luego hay que multiplicarla por N
+        Xmax[i]=(ALPHA*maxLamda)/2;
         io=sum(multip);
         Io[i]=io[0];
         minMaxLoc(interferograma[i],&normMin,&normMax);
@@ -118,7 +132,8 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 
     }
     for (int i=0;i<dim;i++){
-        interferograma[i]/=norm;
+        //interferograma[i]/=norm;
+        //interferograma[i]*=endFreqMultip*N/(N-1);
         Io[i]/=Iomax;
         Io[i]*=0.5;
         //Io[i]=1;
@@ -138,7 +153,17 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
         break;
     }
 */
-
+    switch (tipo){
+        case MICHELSON:
+        default:
+            iRc=beamSplitter.getR()*beamSplitter.getT()*rRM;
+            iSc=beamSplitter.getR()*beamSplitter.getT();
+            break;
+        case MIRAU:
+            iRc=beamSplitter.getR()*beamSplitter.getR()*rRM;
+            iSc=beamSplitter.getT()*beamSplitter.getT();
+            break;
+    }
 }
 
 Interferometro::~Interferometro(){
@@ -226,7 +251,7 @@ void Interferometro::getInterferograma(float opticalPath){
                     yvd=get2D32F(interf[i],(int)v,0,0);
                     yvd1=get2D32F(interf[i],(int)v+1,0,0);
                     val=((yvd1-yvd)*(v-(int)v)+yvd);
-                    valor=Io[i]*(0.5+vis+(2*sqrt(0.5*vis)*val));
+                    valor=Io[i]*(iRc+(vis*iSc))+(sqrt(iRc*iSc*vis)*val);
                     //cout <<"valor = "<<valor<<endl;
 
                     set2D32F(valores,x,y,i,valor);
@@ -244,5 +269,46 @@ void Interferometro::getInterferograma(float opticalPath){
 }
 
 
+        TipoInterferometro Interferometro::getTipo(){
+            return tipo;
+        }
+        //float setMirrorRefferenceR(float r);
+        float Interferometro::getMirrorRefferenceR(){
+            return rRM;
+        }
+
+
+
+BeamSplitter::BeamSplitter(){
+    tBS=DEFAULT_TRANSMITION_BS;
+    rBS=1-tBS;
+}
+
+void BeamSplitter::initBeamSplitterR(float r){
+    if (r>1 || r<0){
+        rBS=DEFAULT_REFLEXION_BS;
+
+	} else {
+        rBS=r;
+	}
+	tBS=1-rBS;
+}
+
+void BeamSplitter::initBeamSplitterT(float t){
+    if (t>1 || t<0){
+        tBS=DEFAULT_TRANSMITION_BS;
+	} else {
+        tBS=t;
+	}
+	rBS=1-tBS;
+}
+
+float BeamSplitter::getT(){
+    return tBS;
+}
+
+float BeamSplitter::getR(){
+    return rBS;
+}
 
 
