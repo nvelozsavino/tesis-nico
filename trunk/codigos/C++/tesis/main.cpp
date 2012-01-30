@@ -80,15 +80,15 @@ int main(){
 	//camara.initCamara(30,1/30,COLOR);
 
 	muestra.initMuestra(1000e-3,1000e-3,1e3);
-	//muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
-	muestra.setMuestraPlain(0,IN_DEPTH);
+	muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
+	//muestra.setMuestraPlain(0,IN_DEPTH);
 	muestra.setMuestraPlain(1,IN_VISIBILITY);
 	camara.initFPS(320,240,30,COLOR);
-	if (camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue")){
+	if (camara.setSpectrumsFiles("../archivos/red2.txt","../archivos/green2.txt","../archivos/blue2.txt")){
         return -1;
 	};
-    Ruido ruido;
-    ruido.initRuido("../archivos/ruido2.txt",100e-9,30);
+    //Ruido ruido;
+    //ruido.initRuido("../archivos/ruido2.txt",100e-9,30);
 
     float fps=camara.fps();
     float exposureTime=camara.exposureTime();
@@ -102,13 +102,13 @@ int main(){
 
     CvSize size = cvSize(camara.roi().width,camara.roi().height);
     //IplImage *img8=cvCreateImage(size,IPL_DEPTH_8U,3);
-
+/*
     VideoWriter writer;
 
     if (!writer.open(ARCHIVO_VIDEO,CV_FOURCC('M','J','P','G'),fps,size)){
         return -1;
     }
-
+*/
 
     interf.inclinacionX=5e-6;
     interf.inclinacionY=5e-6;
@@ -120,8 +120,8 @@ int main(){
         if (t>=exposureTime) {
             interf.getInterferograma(0);
             imshow( "simulador", interf.valores);
-            interf.valores.convertTo(img,CV_8UC3,255);
-            writer<<img;
+            //interf.valores.convertTo(img,CV_8UC3,255);
+            //writer<<img;
 
             t=t-exposureTime;
             if(t<notExposureTime){
@@ -134,7 +134,8 @@ int main(){
             cout<<"tiempo = "<< tiempo <<endl;
         } else {
             //cout<<"integra, i="<<i<<endl;
-            interf.integra(ruido.getRuido(tiempo));
+            //interf.integra(ruido.getRuido(tiempo));
+            interf.integra(0);
             t+=tstep;
             tiempo+=tstep;
         }

@@ -304,7 +304,7 @@ int Camara::setSpectrumsFiles(string RedFile, string GreenFile, string BlueFile)
     _sensor=new Spectrum[3];//(200e-9,1000e-9,SPECTRUM_SIZE);
     int r,g,b;
     r=_sensor[2].initSpectrumFromFile(param._redFile,1e-9,1,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
-    g=_sensor[1].initSpectrumFromFile(param._greenFile,1e-9,1.5,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
+    g=_sensor[1].initSpectrumFromFile(param._greenFile,1e-9,1,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
     b=_sensor[0].initSpectrumFromFile(param._blueFile,1e-9,1,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
     return (calcTimes() || (r||g||b));
 }

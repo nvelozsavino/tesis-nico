@@ -102,7 +102,7 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
             minLamda=camara->sensor(i).startLamda;
         }
         //mult(*fuente,camara->sensor[i],multip[i],1);
-        N=multip.rows;
+        N=multip.cols;
         Xmin[i]=(N-1)*minLamda/N;
         //Xmin[i]=2*(LIGHT_SPEED/endFreqMultip);
         idft(multip,interferograma[i], DFT_REAL_OUTPUT); //no se pone DFT_SCALE porque luego hay que multiplicarla por N
