@@ -41,7 +41,7 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 	muestra=myMuestra;
 	camara=myCamara;
 	fuente=myFuente;
-	Scalar io;
+	Scalar io,ifu;
     double normMax;
     double normMin;
     double norm=0;
@@ -81,8 +81,8 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 
         int N;
 
-
-
+    ifu=sum(fuente->valores);
+    //Iomax=ifu[0];
     for (int i=0;i<dim;i++){
         //fuente->lamda2freq();
         endFreqSensor=LIGHT_SPEED/camara->sensor(i).startLamda;
@@ -105,13 +105,14 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
         N=multip.cols;
         Xmin[i]=(N-1)*minLamda/N;
         //Xmin[i]=2*(LIGHT_SPEED/endFreqMultip);
-        idft(multip,interferograma[i], DFT_REAL_OUTPUT); //no se pone DFT_SCALE porque luego hay que multiplicarla por N
+        idft(multip,interferograma[i],DFT_SCALE |DFT_REAL_OUTPUT );//, DFT_REAL_OUTPUT); //no se pone DFT_SCALE porque luego hay que multiplicarla por N
         Xmax[i]=(ALPHA*maxLamda)/2;
         io=sum(multip);
-        Io[i]=io[0];
+        Io[i]=io[0];///Iomax;
+        Iomax+=Io[i];
         minMaxLoc(interferograma[i],&normMin,&normMax);
         if (Io[i]>Iomax){
-            Iomax=Io[i];
+            //Iomax=Io[i];
         }
 
         if (fabs(normMin)>fabs(normMax)){
@@ -131,11 +132,12 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 
 
     }
+    //Iomax=Iomax/dim;
     for (int i=0;i<dim;i++){
-        //interferograma[i]/=norm;
+      // interferograma[i]/=norm;
         //interferograma[i]*=endFreqMultip*N/(N-1);
         Io[i]/=Iomax;
-        Io[i]*=0.5;
+       // Io[i]*=0.5;
         //Io[i]=1;
         ajustaFFT(interferograma[i],interferograma[i]);
         interferograma[i].copyTo(interf[i]);
@@ -143,11 +145,11 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
         //cout<<"interferograma=" <<interferograma[i].cols<<"  interf="<<interf[i].cols<<endl;
 
     }
-
+/*
     //integra(Xmax[0]/3,1);
-    //dibujaPatron(interferograma, dim);
-    //dibujaPatron(interferograma, dim,1000,500, "patron Inicial");
-    /*for (;;){
+   // dibujaPatron(interferograma, dim);
+    dibujaPatron(interferograma, dim,1000,1000, "patron Inicial");
+    for (;;){
         int c = cvWaitKey(1000);
         if( (char) c == 27)
         break;
@@ -237,16 +239,16 @@ void Interferometro::getInterferograma(float opticalPath){
     //int c = cvWaitKey(500);
     for (x=0;x<width;x++){
         for (y=0;y<height;y++){
-            inclinacion=x*inclinacionX/muestra->width + y*inclinacionY/muestra->height;
+            inclinacion=((float)x-((float)width/2))*inclinacionX/muestra->width + ((float)y-((float)height/2))*inclinacionY/muestra->height;
             depth=get2D32F(roiDepth,x,y,0)+opticalPath+inclinacion;
             //depth*=2;
-            vis=get2D32F(roiVisibility,x,y,0)/2;
+            vis=get2D32F(roiVisibility,x,y,0);
             //cout <<"depth = "<<depth<<endl;
             //int c = cvWaitKey(25);
 
             for (int i=0;i<dim;i++){
                 if (fabs(depth)<=Xmax[i]/2){
-                    v=(interf[i].cols-1)*(2*depth+Xmax[i])/(2*Xmax[i]);
+                    v=(interf[i].cols-1)*(2*depth+Xmax[i]/2)/(Xmax[i]);
                     //vd=(int)v;
                     yvd=get2D32F(interf[i],(int)v,0,0);
                     yvd1=get2D32F(interf[i],(int)v+1,0,0);

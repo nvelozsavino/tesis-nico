@@ -16,7 +16,7 @@
 #include <opencv2/opencv.hpp>
 //#include "highgui.h"
 #define DEFAULT_SPECTRUM_SIZE 1000
-#define DEFAULT_START_LAMDA 10e-9
+#define DEFAULT_START_LAMDA 100e-9
 #define DEFAULT_END_LAMDA 1001e-9
 #define RAIZ_2PI 2.506628274631000502415765284811
 #define ALPHA 100
