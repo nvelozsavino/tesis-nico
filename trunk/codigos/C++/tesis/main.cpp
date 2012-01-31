@@ -74,19 +74,34 @@ int main(){
     Spectrum fuente;
     fuente.initSpectrum(DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,1000);
     //fuente.setPlain(0.5e-9,1000e-9,1);
-	fuente.setGausian(1,LAMDA_0,10e-9);
+	fuente.setGausian(1,LAMDA_0,1000e-9);
+	//fuente.setPlain(10e-9,1000e-9,1);
 	Camara camara;
 	Muestra muestra;
 	//camara.initCamara(30,1/30,COLOR);
 
 	muestra.initMuestra(1000e-3,1000e-3,1e3);
-	muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
+	//muestra.setMuestraFromFile("../archivos/pozo.png",20*LAMDA_0,IN_DEPTH,0,0);
 	//muestra.setMuestraPlain(0,IN_DEPTH);
 	muestra.setMuestraPlain(0.5,IN_VISIBILITY);
-	camara.initFPS(1024,1024,30,COLOR);
-	if (camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue")){
+	camara.initFPS(1000,1000,30,COLOR);
+	if (camara.setSpectrumsFiles("../archivos/r1.dat","../archivos/g1.dat","../archivos/b1.dat")){
         return -1;
 	};
+	//camara.setSpectrumCoef(0.5,0.5,0.5);
+	camara.setSpectrumCoef(1.2755,0.2358,0.3255);
+    camara.setSpectrumCoef(0.5,0.5,0.5);
+	//camara.setSpectrumCoef(0,1,0);
+
+	/*
+	Mat tempm[3];
+	//tempm=new Mat[3];
+	tempm[0]=camara.sensor(0).valores;
+	tempm[1]=camara.sensor(1).valores;
+	tempm[2]=camara.sensor(2).valores;
+
+	dibujaPatron(tempm,3,800,300,"rojo");
+	*/
     //Ruido ruido;
     //ruido.initRuido("../archivos/ruido2.txt",100e-9,30);
 
@@ -100,7 +115,7 @@ int main(){
 
     float tstep=interf.timeStep();
 
-    CvSize size = cvSize(camara.roi().width,camara.roi().height);
+//    CvSize size = cvSize(camara.roi().width,camara.roi().height);
     //IplImage *img8=cvCreateImage(size,IPL_DEPTH_8U,3);
 /*
     VideoWriter writer;
@@ -110,15 +125,16 @@ int main(){
     }
 */
 
-    interf.inclinacionX=7e-6;
-    interf.inclinacionY=5e-6;
+    interf.inclinacionX=20e-6;
+    interf.inclinacionY=0e-6;
 
     float tiempo=notExposureTime;
     float t=0;
     int i=0;
+    float copt=0e-6;
     while(1){
         if (t>=exposureTime) {
-            interf.getInterferograma(0);
+            interf.getInterferograma(copt);
             imshow( "simulador", interf.valores);
             //interf.valores.convertTo(img,CV_8UC3,255);
             //writer<<img;
@@ -135,7 +151,7 @@ int main(){
         } else {
             //cout<<"integra, i="<<i<<endl;
             //interf.integra(ruido.getRuido(tiempo));
-            interf.integra(0);
+            interf.integra(copt);
             t+=tstep;
             tiempo+=tstep;
         }
@@ -145,6 +161,7 @@ int main(){
             break;
         }
     }
+    //delete[] tempm;
     return 0;
 }
 /*

@@ -12,7 +12,7 @@
 #include <math.h>
 #define STEP 0.1
 
-#define ORDEN 3
+#define ORDEN 4
 #define nBytes 2*ORDEN //longitud maxima del string (cromosoma) en bytes
 
 
@@ -199,13 +199,14 @@ int getResult(Mat *dst, unsigned char *string){
     float alpha=crDecodificar16(string+2*0,0,180)/M_PI;
     float franjas=crDecodificar16(string+2*1,0,10);
     float gris=crDecodificar16(string+2*2,0,1);
+    float desp=crDecodificar16(string+2*3,0,M_PI);
 
     float f=franjas/(float)frame.cols;
     float value;
     Mat prueba(frame.size(),CV_8UC1);
     for (unsigned int x=0;x<frame.cols;x++){
         for (unsigned int y=0;y<frame.rows;y++){
-            value=255*(gris*0.5*(1+sin(2*M_PI*f*(x*cos(alpha)+y*sin(alpha)))));
+            value=255*(gris*0.5*(1+sin(desp+2*M_PI*f*(x*cos(alpha)+y*sin(alpha)))));
             set2D8U(prueba,x,y,0,(unsigned int)value);
         }
 

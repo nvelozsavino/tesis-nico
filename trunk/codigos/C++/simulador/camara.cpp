@@ -320,6 +320,25 @@ int Camara::setSpectrumsFiles(string WhiteFile){
     w=_sensor[0].initSpectrumFromFile(param._whiteFile,1e-9,1,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
     return (calcTimes() || w);
 }
+
+void Camara::setSpectrumCoef(float Ar, float Ag, float Ab){
+    sensor(2).valores*=sqrt(Ar);
+    sensor(1).valores*=sqrt(Ag);
+    sensor(0).valores*=sqrt(Ab);
+    sensor(2).lamda2freq();
+    sensor(1).lamda2freq();
+    sensor(0).lamda2freq();
+    //sensor(2).valoresFreq*=Ar;
+    //sensor(1).valoresFreq*=Ag;
+    //sensor(0).valoresFreq*=Ab;
+}
+void Camara::setSpectrumCoef(float Aw){
+    sensor(0).valores*=Aw;
+    sensor(0).lamda2freq();
+    //sensor(0).valoresFreq*=Aw;
+}
+
+
 int Camara::setSpectrumsDefaults(){
     param._fromFiles=false;
     if (_sensor!=NULL){

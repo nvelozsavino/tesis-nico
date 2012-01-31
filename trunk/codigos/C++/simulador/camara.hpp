@@ -149,7 +149,8 @@ class Camara {
         int setSpectrumsDefaults();
         int autoConfig(autoSettings AutoConfig);
 
-
+void setSpectrumCoef(float Ar, float Ag, float Ab);
+void setSpectrumCoef(float Aw);
 
 
 };
