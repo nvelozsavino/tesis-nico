@@ -6,7 +6,7 @@
 #include "clase_ag.hpp"
 #include "extra_ag.hpp"
 
-#include "simulador.hpp"
+#include "generales.hpp"
 #include <opencv2/opencv.hpp>
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -24,7 +24,8 @@
 #define INCLINACION_MIN 0
 #define INCLINACION_MAX 10e-6
 
-
+#include <VideoProcessor.h>
+#include <FeatureTracker.h>
 
 CLASECromosoma a,b,c,d;
 CLASEAGenetico ag;
@@ -36,12 +37,44 @@ int getResult(Mat *dst, unsigned char *string);
 
 int width,height;
 Mat frame;
+
+
+
+int main() {
+    // Create video procesor instance
+    VideoProcessor processor;
+    // Create feature tracker instance
+    FeatureTracker tracker;
+    // Open video file
+    processor.setInput("/home/nico/Documents/tesis-nico/video.avi");
+    // set frame processor
+    processor.setFrameProcessor(&tracker);
+    // Declare a window to display the video
+    processor.displayOutput("Tracked Features");
+    // Play the video at the original frame rate
+    double rate=processor.getFrameRate();
+    processor.setDelay(100);
+    // Start the process
+    processor.run();
+}
+
+
+
+/*
+
+
+
 int main()
 {
+
+
+
+
+
     Mat imagen;
     Mat result;
 
-    VideoCapture video("/home/nico/Documents/tesis/video.avi");
+    VideoCapture video("/home/nico/Documents/tesis-nico/video.avi");
     if(!video.isOpened()) { // check if we succeeded
         return -1;
     }
@@ -50,17 +83,71 @@ int main()
         return -2;
     }
     video>>imagen;
+    imshow ("cuadro",imagen);
 
-    width=frame.cols;
-    height=frame.rows;
+    for (;;){
 
-    cvtColor(imagen,frame,CV_RGB2GRAY);
+        c=cvWaitKey(20);
+        //printf("Tecla presionada = %d",(int)c);
+        if (c!=-1){
+            printf("Tecla presionada = %d\n",(int)c);
+            if (c==83){
+                video.grab();
+                video>>imagen;
+                imshow ("cuadro",imagen);
+            }
+            if (c==32){
+                break;
+            }
+        }
+
+    }
+
+    //width=frame.cols;
+    //height=frame.rows;
+    cvtColor(imagen,imagen,CV_BGR2GRAY);
+
     //frame.convertTo(frame,CV_16SC1);
+    //imshow("rgb",frame);
+   //Mat trhes;
+
+    threshold(imagen,frame,30,255,cv::THRESH_BINARY);
+    imshow("treshold",frame);
+// becomes this
+// values below this
 
 
 
+*/
+/*
+
+Mat contours;
+Canny(trhes,contours,40,10);
+imshow("contours",contours);
+// Create LineFinder instance
+LineFinder finder;
+// Set probabilistic Hough parameters
+finder.setLineLengthAndGap(100,20);
+finder.setMinVote(80);
+// Detect lines and draw them
+vector<Vec4i> lines= finder.findLines(contours);
+finder.drawDetectedLines(imagen);
+namedWindow("Detected Lines with HoughP");
+imshow("Detected Lines with HoughP",imagen);
 
 
+
+    for (;;){
+        c=cvWaitKey(20);
+        if (c!=-1){
+            break;
+
+        }
+    }
+    return 0;
+*/
+
+/*
 //    float best_fit=0;
     srand ( time(NULL) );
 	ag.PoblacionAleatoria(10,nBytes); //creo una poblacion de 200 individuos, de longitud 'nBytes' cada string
@@ -123,8 +210,9 @@ int getResult(Mat *dst, unsigned char *string){
         }
 
     }
-
-    prueba.copyTo(*dst);
+    Mat trhes;
+    threshold(prueba,trhes,30,255,cv::THRESH_BINARY);
+    trhes.copyTo(*dst);
     return 0;
 }
 
@@ -152,3 +240,4 @@ float eval(unsigned char *string)
 	return (1/(1+sqrt(e))); //ajusto fitness entre 0 y 1 segun el error
 }
 
+*/

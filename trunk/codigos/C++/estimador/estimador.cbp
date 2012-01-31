@@ -32,11 +32,22 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add directory="../ag" />
+			<Add directory="../generales" />
+			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add library="../ag/bin/Debug/libag.a" />
+			<Add library="../generales/bin/Debug/libgenerales.a" />
 		</Linker>
+		<Unit filename="include/FeatureTracker.h" />
+		<Unit filename="include/FrameProcessor.h" />
+		<Unit filename="include/VideoProcessor.h" />
+		<Unit filename="linefinder.cpp" />
+		<Unit filename="linefinder.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/FeatureTracker.cpp" />
+		<Unit filename="src/FrameProcessor.cpp" />
+		<Unit filename="src/VideoProcessor.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
