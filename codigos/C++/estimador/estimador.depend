@@ -69,3 +69,66 @@
 	<iostream>
 	<string>
 
+1324838375 source:/home/nico/Documents/tesis-nico/codigos/C++/estimador/main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<time.h>
+	"clase_ag.hpp"
+	"extra_ag.hpp"
+	"generales.hpp"
+	<opencv2/opencv.hpp>
+	<math.h>
+	<VideoProcessor.h>
+	<FeatureTracker.h>
+
+1323927270 /home/nico/Documents/tesis-nico/codigos/C++/ag/clase_ag.hpp
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+
+1323927270 /home/nico/Documents/tesis-nico/codigos/C++/ag/extra_ag.hpp
+	<stdio.h>
+	<stdlib.h>
+
+1323499337 /home/nico/Documents/tesis-nico/codigos/C++/generales/generales.hpp
+	<math.h>
+	<cstdlib>
+	<iostream>
+	<opencv2/opencv.hpp>
+	<time.h>
+
+1324829527 source:/home/nico/Documents/tesis-nico/codigos/C++/estimador/linefinder.cpp
+	"linefinder.h"
+
+1324829520 /home/nico/Documents/tesis-nico/codigos/C++/estimador/linefinder.h
+	<opencv2/opencv.hpp>
+	<stdlib.h>
+	<math.h>
+
+1324836999 source:/home/nico/Documents/tesis-nico/codigos/C++/estimador/src/FeatureTracker.cpp
+	<FeatureTracker.h>
+
+1324836952 /home/nico/Documents/tesis-nico/codigos/C++/estimador/include/FeatureTracker.h
+	<stdlib.h>
+	<opencv2/opencv.hpp>
+	<FrameProcessor.h>
+
+1324835696 /home/nico/Documents/tesis-nico/codigos/C++/estimador/include/FrameProcessor.h
+	<stdlib.h>
+	<opencv2/opencv.hpp>
+
+1324836804 source:/home/nico/Documents/tesis-nico/codigos/C++/estimador/src/FrameProcessor.cpp
+	"FrameProcessor.h"
+
+1324838752 source:/home/nico/Documents/tesis-nico/codigos/C++/estimador/src/VideoProcessor.cpp
+	"VideoProcessor.h"
+
+1324838752 /home/nico/Documents/tesis-nico/codigos/C++/estimador/include/VideoProcessor.h
+	<iomanip>
+	<stdlib.h>
+	<opencv2/opencv.hpp>
+	<FrameProcessor.h>
+

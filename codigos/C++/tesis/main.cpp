@@ -82,9 +82,9 @@ int main(){
 	muestra.initMuestra(1000e-3,1000e-3,1e3);
 	muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
 	//muestra.setMuestraPlain(0,IN_DEPTH);
-	muestra.setMuestraPlain(1,IN_VISIBILITY);
-	camara.initFPS(320,240,30,COLOR);
-	if (camara.setSpectrumsFiles("../archivos/red2.txt","../archivos/green2.txt","../archivos/blue2.txt")){
+	muestra.setMuestraPlain(0.5,IN_VISIBILITY);
+	camara.initFPS(1024,1024,30,COLOR);
+	if (camara.setSpectrumsFiles("../archivos/red","../archivos/green","../archivos/blue")){
         return -1;
 	};
     //Ruido ruido;
@@ -110,7 +110,7 @@ int main(){
     }
 */
 
-    interf.inclinacionX=5e-6;
+    interf.inclinacionX=7e-6;
     interf.inclinacionY=5e-6;
 
     float tiempo=notExposureTime;
