@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="camara.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="0" topLine="57" />
+	<File name="camara.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="9585" topLine="323" />
 	</File>
-	<File name="camara.hpp" open="1" top="0" tabpos="8">
-		<Cursor position="4544" topLine="0" />
+	<File name="camara.hpp" open="1" top="0" tabpos="7">
+		<Cursor position="1370" topLine="34" />
 	</File>
-	<File name="interferometro.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="3708" topLine="119" />
+	<File name="interferometro.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="52" topLine="0" />
 	</File>
 	<File name="interferometro.hpp" open="1" top="0" tabpos="3">
 		<Cursor position="1938" topLine="42" />
@@ -16,16 +16,16 @@
 	<File name="muestra.cpp" open="1" top="0" tabpos="4">
 		<Cursor position="772" topLine="81" />
 	</File>
-	<File name="muestra.hpp" open="1" top="0" tabpos="6">
-		<Cursor position="716" topLine="15" />
+	<File name="muestra.hpp" open="1" top="0" tabpos="5">
+		<Cursor position="716" topLine="9" />
 	</File>
 	<File name="simulador.hpp" open="0" top="0" tabpos="5">
 		<Cursor position="49" topLine="0" />
 	</File>
-	<File name="spectrum.cpp" open="1" top="0" tabpos="7">
-		<Cursor position="10324" topLine="390" />
+	<File name="spectrum.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="25" topLine="0" />
 	</File>
-	<File name="spectrum.hpp" open="1" top="0" tabpos="9">
+	<File name="spectrum.hpp" open="1" top="0" tabpos="8">
 		<Cursor position="421" topLine="9" />
 	</File>
 </CodeBlocks_layout_file>
