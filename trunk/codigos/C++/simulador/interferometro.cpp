@@ -121,13 +121,13 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
         idft(multip,interferograma[i],DFT_REAL_OUTPUT );//, DFT_REAL_OUTPUT); //no se pone DFT_SCALE porque luego hay que multiplicarla por N
         Xmax[i]=(ALPHA*maxLamda)/2;
         io=sum(multip);
-        Io[i]=camara->gain*camara->channelGain[i]*(io[0]*endFreqMultip/(multip.cols-1))/Iomax[i];///Iomax;
-         cout<<"Io["<<i<<"] = "<< Io[i]<<endl;
+        Io[i]=(io[0]*endFreqMultip/(multip.cols-1))/Iomax[i];///Iomax;
+        //cout<<"Io["<<i<<"] = "<< Io[i]<<endl;
         //Iomax+=Io[i];
         minMaxLoc(interferograma[i],&normMin,&normMax);
 
-        cout<<"Interferograma Max ["<<i<<"] = "<< normMax<<endl;
-        cout<<"Interferograma Min ["<<i<<"] = "<< normMin<<endl;
+        //cout<<"Interferograma Max ["<<i<<"] = "<< normMax<<endl;
+        //cout<<"Interferograma Min ["<<i<<"] = "<< normMin<<endl;
         //if (Io[i]>Iomax){
             //Iomax=Io[i];
         //}
@@ -161,15 +161,15 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 //       interferograma[i]*=Io[i];
         minMaxLoc(interferograma[i],&normMin,&normMax);
 
-        cout<<"Interferograma Max ["<<i<<"] = "<< normMax<<endl;
-        cout<<"Interferograma Min ["<<i<<"] = "<< normMin<<endl;
+        //cout<<"Interferograma Max ["<<i<<"] = "<< normMax<<endl;
+        //cout<<"Interferograma Min ["<<i<<"] = "<< normMin<<endl;
         //interferograma[i]*=endFreqMultip*N/(N-1);
         //Io[i]/=Iomax;
        // Io[i]*=0.5;
         //Io[i]=1;
         ajustaFFT(interferograma[i],interferograma[i]);
         interferograma[i].copyTo(interf[i]);
-        interf[i]*=scale;
+        interf[i]*=0;
         //cout<<"interferograma=" <<interferograma[i].cols<<"  interf="<<interf[i].cols<<endl;
 
     }
@@ -194,8 +194,15 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
             iSc=beamSplitter.getT()*beamSplitter.getT();
             break;
     }
-    cout<<"iRc = "<< iRc<<endl;
-    cout<<"iSc = "<< iSc<<endl;
+//    cout<<"iRc = "<< iRc<<endl;
+//    cout<<"iSc = "<< iSc<<endl;
+	if (camara->tipo()==COLOR){
+		dim=3;
+		valores.create(height,width,CV_32FC3);
+	} else {
+		dim=1;
+		valores.create(height,width,CV_32FC1);
+	}
 }
 
 Interferometro::~Interferometro(){
@@ -219,6 +226,7 @@ void Interferometro::integra(float opticalPath){
     h=interferograma[0].rows;
     //type=interferograma[0].type();
 	for (int d=0;d<dim;d++){
+	    //v=(interf[i].cols-1)*(2*depth+Xmax[i]/2)/(Xmax[i]);
 	    float v=opticalPath*interferograma[d].cols/Xmax[d];//2*fabs(depth)+Xmax[i])/(2*Xmax[i])
 	    desp=(int)v;
 // Esto mejora en 25% la velocidad de procesamiento
@@ -243,6 +251,11 @@ void Interferometro::integra(float opticalPath){
 
 void Interferometro::getInterferograma(float opticalPath){
 	int dim;
+    if (camara->tipo()==COLOR){
+		dim=3;
+	} else {
+		dim=1;
+	}
 //	float coseno;
 //	float lamda;
 //	float valor;
@@ -254,13 +267,7 @@ void Interferometro::getInterferograma(float opticalPath){
 //	width=muestra->width;
 //	height=muestra->height;
     setMats();
-	if (camara->tipo()==COLOR){
-		dim=3;
-		valores.create(height,width,CV_32FC3);
-	} else {
-		dim=1;
-		valores.create(height,width,CV_32FC1);
-	}
+
     float v,yvd,yvd1,valor,val;
     //int vd;
     float depth,inclinacion;
@@ -270,9 +277,9 @@ void Interferometro::getInterferograma(float opticalPath){
     for (x=0;x<width;x++){
         for (y=0;y<height;y++){
             inclinacion=((float)x-((float)width/2))*inclinacionX/muestra->width + ((float)y-((float)height/2))*inclinacionY/muestra->height;
-            depth=get2D32F(roiDepth,x,y,0)+opticalPath+inclinacion;
+            depth=(muestra->resDepth*get2D32F(roiDepth,x,y,0))+opticalPath+inclinacion;
             //depth*=2;
-            vis=get2D32F(roiVisibility,x,y,0);
+            vis=(muestra->resVisibility)*get2D32F(roiVisibility,x,y,0);
             //cout <<"depth = "<<depth<<endl;
 
 
@@ -283,7 +290,7 @@ void Interferometro::getInterferograma(float opticalPath){
                     yvd=get2D32F(interf[i],(int)v,0,0);
                     yvd1=get2D32F(interf[i],(((int)v)+1),0,0);
                     val=((yvd1-yvd)*(v-(int)v)+yvd);
-                    valor=Io[i]*(iRc+(vis*iSc))+(2*sqrt(iRc*iSc*vis)*val);
+                    valor=camara->gain*camara->channelGain[i]*(Io[i]*(iRc+(vis*iSc))+(2*sqrt(iRc*iSc*vis)*val));
 /*                    cout <<"val["<<i<<"] = "<<val<<endl;
                     cout <<"valor["<<i<<"] = "<<valor<<endl;
                     cout <<"v["<<i<<"] = "<<v<<endl;
@@ -299,8 +306,8 @@ void Interferometro::getInterferograma(float opticalPath){
         }
     }
     for (int i=0;i<dim;i++){
-        interferograma[i].copyTo(interf[i]);
-        interf[i]*=scale;
+    //    interferograma[i].copyTo(interf[i]);
+        interf[i]*=0;
     }
     //dibujaPatron(interf, dim,1000,500, "patron Integra2");
 }

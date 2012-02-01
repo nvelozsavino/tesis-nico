@@ -35,6 +35,9 @@
 			<Add option="-fexceptions" />
 			<Add directory="../generales" />
 		</Compiler>
+		<Linker>
+			<Add library="../generales/bin/Debug/libgenerales.a" />
+		</Linker>
 		<Unit filename="camara.cpp" />
 		<Unit filename="camara.hpp" />
 		<Unit filename="interferometro.cpp" />

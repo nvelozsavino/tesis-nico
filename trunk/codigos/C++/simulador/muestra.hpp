@@ -30,6 +30,7 @@ class Muestra {
     unsigned int width;
     unsigned int height;
     float resolucion;
+    float resDepth,resVisibility;
 	//Constructores
 	Muestra(){};
 	void initMuestra(float realWidth,float realHeight, float resolucion);
