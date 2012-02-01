@@ -41,31 +41,6 @@
 using namespace std;
 using namespace cv;
 
-/*
-void gauss(double* arreglo, float dt, int size,float amp, float to, float s);
-void clear(double* arreglo, int size);
-void add(double* src, double *dst, int size);
-
-void gauss(double* arreglo, float dt, int size,float amp, float to, float s){
-    float t;
-    for (int i=0;i<size;i++){
-        t=i*dt;
-        arreglo[i]=amp*exp(-(t-to)*(t-to)/(2*s*s));
-    }
-}
-void clear(double* arreglo, int size){
-    for (int i=0;i<size;i++){
-        arreglo[i]=0;
-    }
-}
-
-void add(double* src, double *dst, int size){
-    for (int i=0;i<size;i++){
-        dst[i]+=src[i];
-    }
-}
-
-*/
 int main(){
     srand(time(NULL));
     //clock_t begin,end;
@@ -74,36 +49,51 @@ int main(){
     Spectrum fuente;
     fuente.initSpectrum(DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,1000);
     //fuente.setPlain(0.5e-9,1000e-9,1);
-	fuente.setGausian(1,LAMDA_0,1000e-9);
+	fuente.setGausian(1,LAMDA_0,10e-9);
 	//fuente.setPlain(10e-9,1000e-9,1);
 	Camara camara;
 	Muestra muestra;
 	//camara.initCamara(30,1/30,COLOR);
 
 	muestra.initMuestra(1000e-3,1000e-3,1e3);
-	//muestra.setMuestraFromFile("../archivos/pozo.png",20*LAMDA_0,IN_DEPTH,0,0);
+	muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
 	//muestra.setMuestraPlain(0,IN_DEPTH);
-	muestra.setMuestraPlain(0.5,IN_VISIBILITY);
+	muestra.setMuestraPlain(1,IN_VISIBILITY);
 	camara.initFPS(1000,1000,30,COLOR);
 	if (camara.setSpectrumsFiles("../archivos/r1.dat","../archivos/g1.dat","../archivos/b1.dat")){
         return -1;
 	};
-	//camara.setSpectrumCoef(0.5,0.5,0.5);
-	camara.setSpectrumCoef(1.2755,0.2358,0.3255);
-    camara.setSpectrumCoef(0.5,0.5,0.5);
-	//camara.setSpectrumCoef(0,1,0);
+    //camara.gain=2;
+    //camara.setChannelGain(1,1,1);
 
-	/*
-	Mat tempm[3];
-	//tempm=new Mat[3];
-	tempm[0]=camara.sensor(0).valores;
-	tempm[1]=camara.sensor(1).valores;
-	tempm[2]=camara.sensor(2).valores;
 
-	dibujaPatron(tempm,3,800,300,"rojo");
-	*/
-    //Ruido ruido;
-    //ruido.initRuido("../archivos/ruido2.txt",100e-9,30);
+/*----------------------INICIO SOLO IMAGEN------------------------------*/
+
+    float exposureTime=camara.exposureTime();
+	float timeStep=exposureTime;
+
+	Interferometro interf;
+	interf.initInterferometro(&muestra,&fuente,&camara,timeStep);
+
+    float copt=0;
+
+    interf.getInterferograma(copt);
+    while(1){
+        imshow( "simulador", interf.valores);
+        c = cvWaitKey(2);
+        if ((char)c==27){
+            break;
+        }
+    }
+    return 0;
+}
+
+/*----------------------FIN SOLO IMAGEN------------------------------*/
+
+/*----------------------INICIO VIDEO RUIDO SIN CONTROL------------------------------*/
+/*
+    Ruido ruido;
+    ruido.initRuido("../archivos/ruido2.txt",10e-9,30);
 
     float fps=camara.fps();
     float exposureTime=camara.exposureTime();
@@ -115,29 +105,30 @@ int main(){
 
     float tstep=interf.timeStep();
 
-//    CvSize size = cvSize(camara.roi().width,camara.roi().height);
+    CvSize size = cvSize(camara.roi().width,camara.roi().height);
     //IplImage *img8=cvCreateImage(size,IPL_DEPTH_8U,3);
-/*
+
     VideoWriter writer;
 
     if (!writer.open(ARCHIVO_VIDEO,CV_FOURCC('M','J','P','G'),fps,size)){
         return -1;
     }
-*/
 
-    interf.inclinacionX=20e-6;
+
+    interf.inclinacionX=0e-6;
     interf.inclinacionY=0e-6;
 
     float tiempo=notExposureTime;
     float t=0;
     int i=0;
-    float copt=0e-6;
+    //float copt=0e-6;
     while(1){
         if (t>=exposureTime) {
-            interf.getInterferograma(copt);
+            interf.getInterferograma(ruido.getRuido(tiempo));
+            //interf.getInterferograma(copt);
             imshow( "simulador", interf.valores);
-            //interf.valores.convertTo(img,CV_8UC3,255);
-            //writer<<img;
+            interf.valores.convertTo(img,CV_8UC3,255);
+            writer<<img;
 
             t=t-exposureTime;
             if(t<notExposureTime){
@@ -150,8 +141,8 @@ int main(){
             cout<<"tiempo = "<< tiempo <<endl;
         } else {
             //cout<<"integra, i="<<i<<endl;
-            //interf.integra(ruido.getRuido(tiempo));
-            interf.integra(copt);
+            interf.integra(ruido.getRuido(tiempo));
+            //interf.integra(copt);
             t+=tstep;
             tiempo+=tstep;
         }
@@ -161,9 +152,13 @@ int main(){
             break;
         }
     }
-    //delete[] tempm;
     return 0;
 }
+
+
+/*----------------------FIN VIDEO RUIDO SIN CONTROL------------------------------*/
+
+/*----------------------INICIO VIDEO RUIDO CON CONTROL------------------------------*/
 /*
 
 
@@ -466,4 +461,5 @@ int main(){
 //    delete[] dst;
 	return 0;
 }
-*/
+
+/*----------------------FIN VIDEO RUIDO CON CONTROL------------------------------*/

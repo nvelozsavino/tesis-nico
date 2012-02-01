@@ -47,6 +47,18 @@ typedef enum {FIXED_FPS_FIXED_EXPOSE,FIXED_FPS_AUTO_EXPOSE,AUTO_FPS_FIXED_EXPOSE
 #define DEFAULT_FPS     60
 #define DEFAULT_EXPOSURE_TIME  1/DEFAULT_FPS
 #define DEFAULT_FRAME_TYPE  INTERLINE
+//#define DEFAULT_RED_GAIN 1.2755
+//#define DEFAULT_GREEN_GAIN 0.2358
+//#define DEFAULT_BLUE_GAIN 0.3255
+//#define DEFAULT_WHITE_GAIN 0.3255
+#define DEFAULT_RED_GAIN 1
+#define DEFAULT_GREEN_GAIN 1
+#define DEFAULT_BLUE_GAIN 1
+#define DEFAULT_WHITE_GAIN 1
+
+#define DEFAULT_GAIN 1
+
+
 
 class ROI {
     public:
@@ -77,6 +89,7 @@ class ParametrosCamara {
     string _greenFile;
     string _blueFile;
     string _whiteFile;
+
     int _fromFiles;
     ParametrosCamara();
     ~ParametrosCamara();
@@ -90,12 +103,14 @@ class Camara {
         //Variables Privadas
         Spectrum *_sensor;
         ParametrosCamara param;
+
         //Funciones Privadas
         int calcTimes();
 
 
     public:
-
+        float *channelGain;
+        float gain;
         //Constructor
         Camara();
 
@@ -149,9 +164,9 @@ class Camara {
         int setSpectrumsDefaults();
         int autoConfig(autoSettings AutoConfig);
 
-void setSpectrumCoef(float Ar, float Ag, float Ab);
-void setSpectrumCoef(float Aw);
-
+void setChannelGain(float Ar, float Ag, float Ab);
+void setChannelGain(float Aw);
+void setDefaultChannelGain();
 
 };
 
