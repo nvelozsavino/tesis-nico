@@ -17,5 +17,10 @@
 		<Project filename="estimador/estimador.cbp">
 			<Depends filename="ag/ag.cbp" />
 		</Project>
+		<Project filename="recreateag/recreateag.cbp">
+			<Depends filename="simulador/simulador.cbp" />
+			<Depends filename="generales/generales.cbp" />
+			<Depends filename="ag/ag.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

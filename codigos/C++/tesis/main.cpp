@@ -42,7 +42,7 @@ using namespace std;
 using namespace cv;
 
 int main(){
-    srand(time(NULL));
+
     //clock_t begin,end;
 	Mat img ;
 	int c;
@@ -55,11 +55,11 @@ int main(){
 	Muestra muestra;
 	//camara.initCamara(30,1/30,COLOR);
 
-	muestra.initMuestra(1000e-3,1000e-3,1e3);
-	muestra.setMuestraFromFile("../archivos/pozo.png",7*LAMDA_0,IN_DEPTH,0,0);
+	muestra.initMuestra(163e-6,163e-6,7.030674847e6);
+	muestra.setMuestraFromFile("../archivos/pozo.png",2.75e-6,IN_DEPTH,0,0);
 	//muestra.setMuestraPlain(0,IN_DEPTH);
 	muestra.setMuestraPlain(1,IN_VISIBILITY);
-	camara.initFPS(1000,1000,30,COLOR);
+	camara.initFPS(1146,1146,30,COLOR);
 	if (camara.setSpectrumsFiles("../archivos/r1.dat","../archivos/g1.dat","../archivos/b1.dat")){
         return -1;
 	};
@@ -68,22 +68,190 @@ int main(){
 
 
 /*----------------------INICIO SOLO IMAGEN------------------------------*/
-
+    float fps=camara.fps();
     float exposureTime=camara.exposureTime();
-	float timeStep=exposureTime;
+	float timeStep=exposureTime/EXPOSURE_STEP;
+    float notExposureTime=camara.getNotIntegrationTime();
+
 
 	Interferometro interf;
 	interf.initInterferometro(&muestra,&fuente,&camara,timeStep);
-
+    interf.inclinacionX=0e-6;
+    interf.inclinacionY=0e-6;
+    float step=10e-9;
     float copt=0;
+    namedWindow("simulador",CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO |CV_GUI_EXPANDED);
+    bool dibuja=true;
+    //interf.getInterferograma(copt);
+    //imshow( "simulador", interf.valores);
+    Mat imgw;
+    string filename;
+    int i=0;
+    Ruido ruido;
+    ruido.initRuido("../archivos/ruido2.txt",25e-9,30);
+    float tiempo=notExposureTime;
+    float tstep=interf.timeStep();
 
-    interf.getInterferograma(copt);
+    float rAmp=0;
+
     while(1){
-        imshow( "simulador", interf.valores);
+
+
+
+
         c = cvWaitKey(2);
-        if ((char)c==27){
-            break;
+        if (c!=-1){
+
+            cout << "c = "<<(int)((char)c)<<endl;
+            switch ((char)c){
+                case 81: //Izquierda
+                    interf.inclinacionX-=step;
+                    dibuja=true;
+                  //  cout <<"incl(X,Y) = ("<<interf.inclinacionX << " , "<< interf.inclinacionY <<")"<<endl;
+                    break;
+                case 82: //Arriba
+                    interf.inclinacionY+=step;
+                    dibuja=true;
+                    //cout <<"incl(X,Y) = ("<<interf.inclinacionX << " , "<< interf.inclinacionY <<")"<<endl;
+                    break;
+                case 83: //derecha
+                    interf.inclinacionX+=step;
+                    dibuja=true;
+                    //cout <<"incl(X,Y) = ("<<interf.inclinacionX << " , "<< interf.inclinacionY <<")"<<endl;
+                    break;
+                case 84: //abajo
+                    interf.inclinacionY-=step;
+                    dibuja=true;
+                    //cout <<"incl(X,Y) = ("<<interf.inclinacionX << " , "<< interf.inclinacionY <<")"<<endl;
+                    break;
+                case -85: //+
+                    step+=1e-9;
+                    cout<<"Step = "<<step<<endl;
+                    break;
+                case -83: //-
+                    step-=1e-9;
+                    cout<<"Step = "<<step<<endl;
+                    break;
+                case 114:   //R
+                    step=10e-9;
+                    dibuja=true;
+                    interf.inclinacionX=6e-7;
+                    interf.inclinacionY=-1.795e-6;
+                    muestra.resDepth=3.375e-6;
+                    camara.gain=3;
+                    copt=-2.95e-7;
+                    rAmp=50e-9;
+                    //cout<<"Step = "<<step<<endl;
+                    break;
+        //Depth
+                case 103:   //G
+                    muestra.resDepth+=step;
+                    dibuja=true;
+                    break;
+                case 98:    //B
+                    muestra.resDepth-=step;
+                    dibuja=true;
+                    break;
+        //Ganancia
+                case 102:   //F
+                    camara.gain+=0.1;
+                    dibuja=true;
+                    break;
+                case 118:    //V
+                    camara.gain-=0.1;
+                    dibuja=true;
+                    break;
+
+        //Camino Optico
+                case 97:   //A
+                    copt+=step;
+                    dibuja=true;
+                    break;
+                case 122:    //Z
+                    copt-=step;
+                    dibuja=true;
+                    break;
+
+        //Amp Ruido
+                case 109:   //M
+                    rAmp+=step;
+                    dibuja=true;
+                    break;
+                case 110:    //N
+                    rAmp-=step;
+                    dibuja=true;
+                    break;
+
+                case 115:
+
+                    cout<<endl<<"Ingrese el nombre del archivo"<<endl;
+                    cin>>filename;
+                    interf.valores.convertTo(imgw,CV_16UC3,65535);
+
+                    if(imwrite(filename,imgw)){
+                        cout <<"Guardado satisfactorio"<<endl;
+                    } else {
+                        cout <<"Ha ocurrido un error al guardar"<<endl;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+            if ((char)c==27 || (char)c==113){
+                break;
+            }
+
         }
+        if (dibuja){
+            dibuja=false;
+            int j=0;
+            float t=0;
+            float r;
+            while (1){
+                r=rAmp*sin(2*M_PI*tiempo*30);
+                if (t>=exposureTime) {
+                    //j++;
+
+                    interf.getInterferograma(copt);
+                    //interf.getInterferograma(copt);
+                    imshow( "simulador", interf.valores);
+                    interf.integra(r);//ruido.getRuido(tiempo));
+                    //interf.valores.convertTo(img,CV_8UC3,255);
+
+                    t=t-exposureTime;
+                    if(t<notExposureTime){
+                        t=0;
+                    } else {
+                        t=t-notExposureTime;
+                    }
+                    i++;
+                    tiempo=i/fps;
+                    //cout<<"tiempo = "<< tiempo <<endl;
+                    break;
+                } else {
+                    //cout<<"integra, i="<<i<<endl;
+                    j++;
+                    interf.integra(r);//uido.getRuido(tiempo));
+                    //interf.integra(copt);
+                    t+=tstep;
+                    tiempo+=tstep;
+                }
+                //cout<<"t = "<< t <<endl;
+            }
+            cout<<"j = "<< j <<endl;
+           // interf.getInterferograma(copt);
+           // imshow( "simulador", interf.valores);
+            cout<<endl<<"Listo"<<endl;
+            cout<<"Gain: "<<camara.gain<<endl;
+            cout<<"Incl X: "<<interf.inclinacionX<<endl;
+            cout<<"Incl Y: "<<interf.inclinacionY<<endl;
+            cout<<"Res Depth: "<<muestra.resDepth<<endl;
+            cout<<"Camino Óptico: "<<copt<<endl;
+            cout<<"Amplitud Ruido: "<<rAmp<<endl;
+            cout<<endl;
+        }
+
     }
     return 0;
 }
@@ -92,6 +260,7 @@ int main(){
 
 /*----------------------INICIO VIDEO RUIDO SIN CONTROL------------------------------*/
 /*
+    srand(time(NULL));
     Ruido ruido;
     ruido.initRuido("../archivos/ruido2.txt",10e-9,30);
 

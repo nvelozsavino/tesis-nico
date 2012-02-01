@@ -10,6 +10,8 @@ void Muestra::initMuestra(float rWidth,float rHeight, float resolucion){
 	resolucion=width/realWidth;
 	depth.create(height,width,CV_32FC1);
 	visibilidad.create(height,width,CV_32FC1);
+	resDepth=1;
+	resVisibility=1;
 //	int tipo;
 //	tipo=depth.type();
 	//depth=new float[width*height];
@@ -67,8 +69,10 @@ void Muestra::setMuestraFromFile(string filename, float resolucion, lugarMuestra
     int x0,y0;
     if (lugar==IN_DEPTH){
         array=&depth;
+        resDepth=resolucion;
     } else {
         array=&visibilidad;
+        resVisibility=resolucion;
     }
     imagen=imread(filename,CV_16UC1);
     if (imagen.data==NULL){
@@ -112,7 +116,7 @@ void Muestra::setMuestraFromFile(string filename, float resolucion, lugarMuestra
     }
     //imshow("muestra",imagen);
     //imagen/=normMax;
-    (*array)*=resolucion;
+    //(*array)*=resolucion;
 
 }
 

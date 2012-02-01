@@ -598,7 +598,7 @@
 	<stdlib.h>
 	<iostream>
 
-1328040345 source:/home/nico/Documents/tesis/codigos/C++/tesis/main.cpp
+1328134374 source:/home/nico/Documents/tesis/codigos/C++/tesis/main.cpp
 	<iostream>
 	<opencv2/opencv.hpp>
 	<stdio.h>
@@ -614,12 +614,12 @@
 	"muestra.hpp"
 	"spectrum.hpp"
 
-1328034238 /home/nico/Documents/tesis/codigos/C++/simulador/camara.hpp
+1328113158 /home/nico/Documents/tesis/codigos/C++/simulador/camara.hpp
 	"spectrum.hpp"
 	<cstdlib>
 	<iostream>
 
-1328038555 /home/nico/Documents/tesis/codigos/C++/simulador/spectrum.hpp
+1328126668 /home/nico/Documents/tesis/codigos/C++/simulador/spectrum.hpp
 	"generales.hpp"
 	<stdio.h>
 	<math.h>
@@ -647,7 +647,7 @@
 	"muestra.hpp"
 	<opencv2/opencv.hpp>
 
-1303771807 /home/nico/Documents/tesis/codigos/C++/simulador/muestra.hpp
+1328117150 /home/nico/Documents/tesis/codigos/C++/simulador/muestra.hpp
 	"generales.hpp"
 	<stdio.h>
 	<math.h>

@@ -19,7 +19,7 @@
 #define DEFAULT_START_LAMDA 100e-9
 #define DEFAULT_END_LAMDA 1001e-9
 #define RAIZ_2PI 2.506628274631000502415765284811
-#define ALPHA 100
+#define ALPHA 50
 #define LIGHT_SPEED		3e8
 
 using namespace std;
