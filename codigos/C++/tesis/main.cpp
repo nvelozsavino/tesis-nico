@@ -91,7 +91,6 @@ int main(){
     ruido.initRuido("../archivos/ruido2.txt",25e-9,30);
     float tiempo=notExposureTime;
     float tstep=interf.timeStep();
-
     float rAmp=0;
 
     while(1){
@@ -135,12 +134,13 @@ int main(){
                 case 114:   //R
                     step=10e-9;
                     dibuja=true;
-                    interf.inclinacionX=6e-7;
-                    interf.inclinacionY=-1.795e-6;
+                    interf.inclinacionX=6.1e-7;
+                    interf.inclinacionY=-1.775e-6;
                     muestra.resDepth=3.375e-6;
-                    camara.gain=3;
-                    copt=-2.95e-7;
-                    rAmp=50e-9;
+                    camara.gain=4;
+                    camara.offset=-0.1;
+                    copt=-2.75e-7;
+                    rAmp=9e-8;
                     //cout<<"Step = "<<step<<endl;
                     break;
         //Depth
@@ -179,6 +179,15 @@ int main(){
                     break;
                 case 110:    //N
                     rAmp-=step;
+                    dibuja=true;
+                    break;
+        //Camara Offset
+                case 46: //.
+                    camara.offset+=0.05;
+                    dibuja=true;
+                    break;
+                case 44: //,
+                    camara.offset-=0.05;
                     dibuja=true;
                     break;
 
@@ -244,6 +253,7 @@ int main(){
            // imshow( "simulador", interf.valores);
             cout<<endl<<"Listo"<<endl;
             cout<<"Gain: "<<camara.gain<<endl;
+            cout<<"Offset: "<<camara.offset<<endl;
             cout<<"Incl X: "<<interf.inclinacionX<<endl;
             cout<<"Incl Y: "<<interf.inclinacionY<<endl;
             cout<<"Res Depth: "<<muestra.resDepth<<endl;
@@ -324,7 +334,7 @@ int main(){
     return 0;
 }
 
-
+*/
 /*----------------------FIN VIDEO RUIDO SIN CONTROL------------------------------*/
 
 /*----------------------INICIO VIDEO RUIDO CON CONTROL------------------------------*/
@@ -630,5 +640,5 @@ int main(){
 //    delete[] dst;
 	return 0;
 }
-
+*/
 /*----------------------FIN VIDEO RUIDO CON CONTROL------------------------------*/

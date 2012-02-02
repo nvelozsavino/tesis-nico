@@ -82,7 +82,10 @@ int ParametrosCamara::operator!= (ParametrosCamara src){
 //Constructor
 Camara::Camara(){
     channelGain=NULL;
+    channelOffset=NULL;
     _sensor=NULL;
+    gain=DEFAULT_GAIN;
+    offset=DEFAULT_OFFSET;
     param._redFile="";
     param._greenFile="";
     param._blueFile="";
@@ -108,6 +111,7 @@ int Camara::init(unsigned int Width, unsigned int Height,float Fps, float Exposu
     param._roi.width=param._width;
     param._roi.height=param._height;
     setDefaultChannelGain();
+    setDefaultChannelOffset();
     return calcTimes();
 }
 void Camara::setDefaultChannelGain(){
@@ -125,6 +129,23 @@ void Camara::setDefaultChannelGain(){
     }
 
 }
+
+void Camara::setDefaultChannelOffset(){
+    offset=DEFAULT_OFFSET;
+    if (channelOffset!=NULL){
+        delete[] channelOffset;
+    }
+
+    if (param._tipo==COLOR){
+        channelOffset = new float[3];
+        setChannelOffset(DEFAULT_RED_OFFSET,DEFAULT_GREEN_OFFSET,DEFAULT_BLUE_OFFSET);
+    } else {
+        channelOffset = new float[1];
+        setChannelOffset(DEFAULT_WHITE_OFFSET);
+    }
+
+}
+
 int Camara::initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamara Tipo, tipoFrame FrameType, float TransportTime,float ShutterTime){
     param._width=Width;
     param._height=Height;
@@ -140,6 +161,7 @@ int Camara::initFPS(unsigned int Width, unsigned int Height,float Fps, tipoCamar
     param._roi.width=param._width;
     param._roi.height=param._height;
     setDefaultChannelGain();
+    setDefaultChannelOffset();
     return calcTimes();
 
 }
@@ -159,6 +181,7 @@ int Camara::initExposureTime(unsigned int Width, unsigned int Height, float Expo
     param._roi.width=param._width;
     param._roi.height=param._height;
     setDefaultChannelGain();
+    setDefaultChannelOffset();
     return calcTimes();
 
 
@@ -329,6 +352,7 @@ int Camara::setSpectrumsFiles(string RedFile, string GreenFile, string BlueFile)
     g=_sensor[1].initSpectrumFromFile(param._greenFile,1e-9,1,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
     b=_sensor[0].initSpectrumFromFile(param._blueFile,1e-9,1,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
     setDefaultChannelGain();
+    setDefaultChannelOffset();
     return (calcTimes() || (r||g||b));
 }
 int Camara::setSpectrumsFiles(string WhiteFile){
@@ -342,6 +366,7 @@ int Camara::setSpectrumsFiles(string WhiteFile){
     int w;
     w=_sensor[0].initSpectrumFromFile(param._whiteFile,1e-9,1,DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,DEFAULT_SPECTRUM_SIZE);
     setDefaultChannelGain();
+    setDefaultChannelOffset();
     return (calcTimes() || w);
 }
 
@@ -352,6 +377,15 @@ void Camara::setChannelGain(float Ar, float Ag, float Ab){
 }
 void Camara::setChannelGain(float Aw){
     channelGain[0]=Aw;
+}
+
+void Camara::setChannelOffset(float Or, float Og, float Ob){
+    channelOffset[2]=Or;
+    channelOffset[1]=Og;
+    channelOffset[0]=Ob;
+}
+void Camara::setChannelOffset(float Ow){
+    channelOffset[0]=Ow;
 }
 
 

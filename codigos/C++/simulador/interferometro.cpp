@@ -290,7 +290,7 @@ void Interferometro::getInterferograma(float opticalPath){
                     yvd=get2D32F(interf[i],(int)v,0,0);
                     yvd1=get2D32F(interf[i],(((int)v)+1),0,0);
                     val=((yvd1-yvd)*(v-(int)v)+yvd);
-                    valor=camara->gain*camara->channelGain[i]*(Io[i]*(iRc+(vis*iSc))+(2*sqrt(iRc*iSc*vis)*val));
+                    valor=(camara->offset+camara->channelOffset[i])+(camara->gain*camara->channelGain[i])*(Io[i]*(iRc+(vis*iSc))+(2*sqrt(iRc*iSc*vis)*val));
 /*                    cout <<"val["<<i<<"] = "<<val<<endl;
                     cout <<"valor["<<i<<"] = "<<valor<<endl;
                     cout <<"v["<<i<<"] = "<<v<<endl;

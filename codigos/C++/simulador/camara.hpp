@@ -55,9 +55,13 @@ typedef enum {FIXED_FPS_FIXED_EXPOSE,FIXED_FPS_AUTO_EXPOSE,AUTO_FPS_FIXED_EXPOSE
 #define DEFAULT_GREEN_GAIN 1
 #define DEFAULT_BLUE_GAIN 1
 #define DEFAULT_WHITE_GAIN 1
-
 #define DEFAULT_GAIN 1
 
+#define DEFAULT_RED_OFFSET 0
+#define DEFAULT_GREEN_OFFSET 0
+#define DEFAULT_BLUE_OFFSET 0
+#define DEFAULT_WHITE_OFFSET 0
+#define DEFAULT_OFFSET 0
 
 
 class ROI {
@@ -111,6 +115,8 @@ class Camara {
     public:
         float *channelGain;
         float gain;
+        float *channelOffset;
+        float offset;
         //Constructor
         Camara();
 
@@ -167,6 +173,10 @@ class Camara {
 void setChannelGain(float Ar, float Ag, float Ab);
 void setChannelGain(float Aw);
 void setDefaultChannelGain();
+
+void setChannelOffset(float Or, float Og, float Ob);
+void setChannelOffset(float Ow);
+void setDefaultChannelOffset();
 
 };
 
