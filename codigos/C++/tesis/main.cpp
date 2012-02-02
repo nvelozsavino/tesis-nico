@@ -49,17 +49,29 @@ int main(){
     Spectrum fuente;
     fuente.initSpectrum(DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,1000);
     //fuente.setPlain(0.5e-9,1000e-9,1);
-	fuente.setGausian(1,LAMDA_0,10e-9);
+	//fuente.setGausian(1,LAMDA_0,10e-9); //Fuente Lab con Filtro Expectral
+	//fuente.setGausian(1,632.8e-9,0.1e-9);
+	fuente.setDelta(10,632.8e-9,0);//Laser He-Ne
 	//fuente.setPlain(10e-9,1000e-9,1);
 	Camara camara;
 	Muestra muestra;
 	//camara.initCamara(30,1/30,COLOR);
 
+	//Pozo
+/*
 	muestra.initMuestra(163e-6,163e-6,7.030674847e6);
 	muestra.setMuestraFromFile("../archivos/pozo.png",2.75e-6,IN_DEPTH,0,0);
-	//muestra.setMuestraPlain(0,IN_DEPTH);
 	muestra.setMuestraPlain(1,IN_VISIBILITY);
-	camara.initFPS(1146,1146,30,COLOR);
+
+*/
+//Plano
+	muestra.initMuestra(3e-3,3.e-3,100e3);
+	muestra.setMuestraPlain(0,IN_DEPTH);
+	muestra.setMuestraPlain(1,IN_VISIBILITY);
+
+
+//	camara.initFPS(1146,1146,30,COLOR); //Pozo
+	camara.initFPS(300,300,30,COLOR); //Plano
 	if (camara.setSpectrumsFiles("../archivos/r1.dat","../archivos/g1.dat","../archivos/b1.dat")){
         return -1;
 	};
@@ -76,7 +88,7 @@ int main(){
 
 	Interferometro interf;
 	interf.initInterferometro(&muestra,&fuente,&camara,timeStep);
-    interf.inclinacionX=0e-6;
+    interf.inclinacionX=2*632.8e-9;
     interf.inclinacionY=0e-6;
     float step=10e-9;
     float copt=0;
