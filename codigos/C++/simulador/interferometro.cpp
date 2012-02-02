@@ -88,11 +88,11 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
    // cout<<"Iomax = "<< Iomax<<endl;
     for (int i=0;i<dim;i++){
 
-        Mat aux,maux;
+        //Mat aux,maux;
         endFreqSensor=LIGHT_SPEED/camara->sensor(i).startLamda;
-        aux=camara->sensor(i).valoresFreq;//*camara->channelGain[i];
-        multiply(aux,aux,maux);
-        ifu=sum(maux);
+        //aux=camara->sensor(i).valoresFreq;//*camara->channelGain[i];
+        //multiply(aux,aux,maux);
+        ifu=sum(camara->sensor(i).valoresFreq);
         Iomax[i]=ifu[0]*endFreqSensor/(maux.cols-1);
 
         //fuente->lamda2freq();
@@ -100,7 +100,7 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
 
 
         multFreq(fuente->valoresFreq,endFreqFuente,aux,endFreqSensor,&multip,&endFreqMultip);
-        multiply(multip,multip,multip);
+        //multiply(multip,multip,multip);
 
         float maxLamda;
         if (fuente->endLamda>camara->sensor(i).endLamda){
@@ -276,7 +276,7 @@ void Interferometro::getInterferograma(float opticalPath){
     //int c = cvWaitKey(500);
     for (x=0;x<width;x++){
         for (y=0;y<height;y++){
-            inclinacion=((float)x-((float)width/2))*inclinacionX/muestra->width + ((float)y-((float)height/2))*inclinacionY/muestra->height;
+            inclinacion=((float)x-((float)(width-1)/2))*inclinacionX/(muestra->width-1) + ((float)y-((float)(height-1)/2))*inclinacionY/(muestra->height-1);
             depth=(muestra->resDepth*get2D32F(roiDepth,x,y,0))+opticalPath+inclinacion;
             //depth*=2;
             vis=(muestra->resVisibility)*get2D32F(roiVisibility,x,y,0);
