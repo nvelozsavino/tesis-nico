@@ -92,7 +92,7 @@ int main(){
 	interf.initInterferometro(&muestra,&fuente,&camara,timeStep);
     interf.inclinacionX=10e-6;
     interf.inclinacionY=0e-6;
-    float step=10e-9;
+    float step=1e-6;
     float copt=0;
     namedWindow("simulador",CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO |CV_GUI_EXPANDED);
     bool dibuja=true;
