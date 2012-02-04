@@ -1,0 +1,10 @@
+Output: Protel
+Type  : ProtelNetlist
+From  : Project [acondicionamiento.PrjPCB]
+   Generated File[acondicionamiento.NET]
+
+
+Files Generated   : 1
+Documents Printed : 0
+
+Finished Output Generation At 03:08:07 p.m. On 17/08/2011
