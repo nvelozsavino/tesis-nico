@@ -8,7 +8,7 @@
 //#include "highgui.h"
 //#include "perturbacion.hpp"
 using namespace cv;
-#define LIGHT_SPEED		3e8
+//#define LIGHT_SPEED		3e8
 #define DEFAULT_REFLEXION_RM 1
 #define DEFAULT_REFLEXION_BS 0.5
 #define DEFAULT_TRANSMITION_BS (1-DEFAULT_REFLEXION_BS)

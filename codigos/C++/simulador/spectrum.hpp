@@ -20,7 +20,10 @@
 #define DEFAULT_END_LAMDA 1001e-9
 #define RAIZ_2PI 2.506628274631000502415765284811
 #define ALPHA 50
-#define LIGHT_SPEED		3e8
+#define LIGHT_SPEED	2.99792458e8
+
+#define PLANCK_H    6.62606957e-34
+#define BOLTZMAN_K  1.3806488e-23
 
 using namespace std;
 using namespace cv;
@@ -59,8 +62,8 @@ class Spectrum {
     void setGausian(float amplitud, float mean, float sigma, float add=0);
     //void setGausian(float amplitud, float mean, float sigma);
     void setPlain(float lamdastart, float lamdaend,float amplitud);
-    void setDelta(float amplitud, float lamda_central, float add);
-
+    void setDelta(float amplitud, float lamda_central, float add=0);
+    void setBlackbody(float T,float amp=1, float add=0);
 
     //Funciones Get
 //    float getResolucion(void);
