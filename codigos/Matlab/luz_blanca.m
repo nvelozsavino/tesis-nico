@@ -4,8 +4,8 @@ clc;
 blue=load('../C++/archivos/canon_b.dat');
 red=load('../C++/archivos/canon_r.dat');
 green=load('../C++/archivos/canon_g.dat');
-lmin=380e-9;
-lmax=700e-9;
+lmin=100e-9;
+lmax=1000e-9;
 N=1000;
 
 dl=(lmax-lmin)/N;
@@ -14,7 +14,7 @@ k=1.3806488e-23;
 h=6.62606957e-34;
 c=2.99998e8;
 
-T=3000;
+T=2855.54;
 
 
 
@@ -43,8 +43,17 @@ for i=1:N
       blackbody(i)=(560/l)^5*(exp(1.435e7/(2848*560))-1)/(exp(1.435e7/(2848*l))-1);
 end
 mblackbody=max(blackbody)
-r=blackbody/mblackbody;
+r=blackbody;%/mblackbody;
+
 lnm=x*1e9;
+plot(lnm,blackbody,'k-','LineWidth',2); hold on;
+xlabel('Longitud de onda \lambda (nm)');
+ylabel('Intensidad');
+title('Emisión de cuerpo negro a T=2855,54K');
+grid on;
+axis([lnm(1) lnm(N) blackbody(1) blackbody(N)]);
+figure;
+
 plot(lnm,yri,'r-.','LineWidth',2); hold on;
 plot(lnm,ygi,'g--','LineWidth',2); hold on;
 plot(lnm,ybi,'b-','LineWidth',2); hold on;
@@ -60,7 +69,11 @@ plot(lnm,rg,'g--','LineWidth',2); hold on;
 plot(lnm,rb,'b-','LineWidth',2); hold on;
 % plot(lnm,r,'k-','LineWidth',2); hold on;
 grid on;
-
+axis([300 800 0 0.9]);
+xlabel('Longitud de onda \lambda (nm)');
+ylabel('Intensidad');
+title('Espectro absorbido por sensores RGB de una fuente con emisión de cuerpo negro a T=2855,54K');
+legend('Rojo','Verde','Azul');
 sr=sum(yri);
 sg=sum(ygi);
 sb=sum(ybi);
