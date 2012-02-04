@@ -16,6 +16,31 @@ void Spectrum::initSpectrum(float lamdaStart, float lamdaEnd,unsigned int arrayS
 	*/
 }
 
+void Spectrum::setBlackbody(float T, float amp, float add){
+    float l;
+    //float u;
+    double v;
+    float sum;
+    float c=LIGHT_SPEED;
+    float k=BOLTZMAN_K;
+    float h=PLANCK_H;
+    float l1=560e-9;
+    float v1=(2*h*c*c/(l1*l1*l1*l1*l1))*(1/(exp(h*c/(l1*k*T))-1));
+    for (unsigned int i=0;i<size;i++){
+        l=i2lamda(i);
+        v=(2*h*c*c/(l*l*l*l*l))*(1/(exp(h*c/(l*k*T))-1));
+
+
+//        u=PLANCK_H*f/(BOLTZMAN_K*T);
+
+//        v=((8*M_PI*(BOLTZMAN_K*T)*(BOLTZMAN_K*T)*(BOLTZMAN_K*T)*(BOLTZMAN_K*T))/((PLANCK_H*LIGHT_SPEED)*(PLANCK_H*LIGHT_SPEED)*(PLANCK_H*LIGHT_SPEED)))*((u*u*u)/(exp(u)-1));
+        sum=add*get2D32F(valores,i,0,0);
+        set2D32F(valores,i,0,0,amp*(sum+v/v1));
+    }
+    lamda2freq();
+
+}
+
 void Spectrum::initGausian(float amplitud, float mean, float sigma, unsigned int arraySize){
 //	float li=mean-3*sigma;
 	float lf=mean+3*sigma;
