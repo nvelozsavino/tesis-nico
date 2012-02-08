@@ -40,7 +40,7 @@ maxplot=max([abs(max(y)) abs(min(y))]);
 grid on;
 xlabel('Tiempo (s)');
 ylabel('Amplitud relativa');
-title('Ruido simulado');
+title('Ruido simulado','FontWeight','bold');
 axis([0  t(length(t)) -maxplot maxplot]);
 f2=figure;
 
@@ -48,22 +48,25 @@ tc=(0:M-1)*T;
 plot(tc,ctrl,'k','LineWidth',2); grid on;
 xlabel ('Tiempo (s)');
 ylabel ('Amplitud relativa');
-title ('Señal de control durante el tiempo de adquisición cámara');
+title ('Señal de control durante el tiempo de adquisición cámara','FontWeight','bold');
 % axis([0  tc(length(tc)) -maxplot maxplot]);
 f3=figure;
 % subplot(2,1,1);
 control=[];
 ctrl(length(ctrl))=ctrl(1);
+plot (t,y2,'kx-'); hold on;
 for i=1:N
     control=[control ctrl];
     ci=control(1+jm*(i-1):jm*i);
     ti=t(1+jm*(i-1):jm*i);
     plot(ti,ci,colores(i),'LineWidth',2); hold on;
 end
+
 grid on; xlabel('Tiempo (s)');
 ylabel ('Amplitud relativa');
-title ('Señal de control');
+title ('Señal de control','FontWeight','bold');
 axis([0  t(length(t)) -maxplot maxplot]);
+legend('Envolvente Original', 'Señal en Imagen 1', 'Señal en Imagen 2', 'Señal en Imagen 3', 'Señal en Imagen 4');
 
 
 f4=figure;
@@ -74,7 +77,7 @@ axis([0  t(length(t)) -maxplot maxplot]);
 grid on;
 xlabel('Tiempo (s)');
 ylabel('Amplitud relativa');
-title('Ruido Obtenido');
+title('Ruido Obtenido','FontWeight','bold');
 meany=mean(y)
 meany2=mean(y-control)
 std_y=std(y)
@@ -85,5 +88,6 @@ sumy2=sum((y-control).^2)
 set(f1,'Position', [100 100 800 400])
 
 set(f2,'Position', [100 100 400 400])
-set(f3,'Position', [100 100 800 400])
+set(f3,'Position', [100 100 800 600])
 set(f4,'Position', [100 100 800 400])
+figure(f3)
