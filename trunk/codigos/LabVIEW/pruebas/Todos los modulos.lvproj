@@ -215,6 +215,7 @@
 				<Item Name="IMAQ GetImageInfo" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ GetImageInfo"/>
 				<Item Name="IMAQ GetImagePixelPtr" Type="VI" URL="/&lt;vilib&gt;/vision/Basics.llb/IMAQ GetImagePixelPtr"/>
 				<Item Name="IMAQ Image.ctl" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/IMAQ Image.ctl"/>
+				<Item Name="IMAQ ImageToArray" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ ImageToArray"/>
 				<Item Name="IMAQ Line" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/IMAQ Line"/>
 				<Item Name="IMAQ Overlay ROI" Type="VI" URL="/&lt;vilib&gt;/vision/Overlay.llb/IMAQ Overlay ROI"/>
 				<Item Name="IMAQ Rounding Mode.ctl" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/IMAQ Rounding Mode.ctl"/>
@@ -274,6 +275,11 @@
 				<Item Name="Three Button Dialog.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Three Button Dialog.vi"/>
 				<Item Name="Trim Whitespace.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Trim Whitespace.vi"/>
 				<Item Name="whitespace.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/whitespace.ctl"/>
+				<Item Name="Write Spreadsheet String.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write Spreadsheet String.vi"/>
+				<Item Name="Write To Spreadsheet File (DBL).vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write To Spreadsheet File (DBL).vi"/>
+				<Item Name="Write To Spreadsheet File (I64).vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write To Spreadsheet File (I64).vi"/>
+				<Item Name="Write To Spreadsheet File (string).vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write To Spreadsheet File (string).vi"/>
+				<Item Name="Write To Spreadsheet File.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write To Spreadsheet File.vi"/>
 			</Item>
 			<Item Name="Camara-PixeLINK-GetBufferSize.vi" Type="VI" URL="../../lib/Camara/Camara-PixeLINK-GetBufferSize.vi"/>
 			<Item Name="Camera-Cluster2Device.vi" Type="VI" URL="../../lib/Camara/Camera-Cluster2Device.vi"/>
@@ -303,6 +309,7 @@
 			<Item Name="DAQ-InitDevice.vi" Type="VI" URL="../../lib/DAQ/DAQ-InitDevice.vi"/>
 			<Item Name="DAQ-SetParameters.vi" Type="VI" URL="../../lib/DAQ/DAQ-SetParameters.vi"/>
 			<Item Name="DAQ-WriteArray.vi" Type="VI" URL="../../lib/DAQ/DAQ-WriteArray.vi"/>
+			<Item Name="General-ConvertArray2OneDimension.vi" Type="VI" URL="../../lib/Generales/General-ConvertArray2OneDimension.vi"/>
 			<Item Name="General-GenerateRandomNumber.vi" Type="VI" URL="../../lib/Generales/General-GenerateRandomNumber.vi"/>
 			<Item Name="General-GenerateSineWaveForm.vi" Type="VI" URL="../../lib/Generales/General-GenerateSineWaveForm.vi"/>
 			<Item Name="General-GenerateWaveform.vi" Type="VI" URL="../../lib/Generales/General-GenerateWaveform.vi"/>

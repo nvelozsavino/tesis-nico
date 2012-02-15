@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?validation-md5-digest 826b6734e1a37e0b1475b3efd38ea022?>
+<?validation-md5-digest feeb413c417c5e5872576726f3d2fafe?>
 <worksheet version="3.0.3" xmlns="http://schemas.mathsoft.com/worksheet30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ws="http://schemas.mathsoft.com/worksheet30" xmlns:ml="http://schemas.mathsoft.com/math30" xmlns:u="http://schemas.mathsoft.com/units10" xmlns:p="http://schemas.mathsoft.com/provenance10" xmlns:prd="http://schemas.mathsoft.com/point-release-data">
 	<pointReleaseData/>
 	<metadata>
@@ -13,9 +13,9 @@
 			<revisedBy>MATHCAD</revisedBy>
 		</userData>
 		<identityInfo>
-			<revision>1</revision>
+			<revision>2</revision>
 			<documentID>A18C23F6-72E3-406E-8B7D-108180A144CC</documentID>
-			<versionID>82DB6680-9DA0-4F4F-8F44-E7DDE9CA38F7</versionID>
+			<versionID>8C5F1617-98BC-48E5-A5CE-AADAB12BFC1A</versionID>
 			<parentVersionID>00000000-0000-0000-0000-000000000000</parentVersionID>
 			<branchID>00000000-0000-0000-0000-000000000000</branchID>
 		</identityInfo>
@@ -442,6 +442,26 @@
 			</math>
 			<rendering item-idref="17"/>
 		</region>
+		<region region-id="22" left="318" top="446.25" width="108" height="27.75" align-x="352.5" align-y="462" show-border="false" show-highlight="false" is-protected="true" z-order="0" background-color="inherit" tag="">
+			<math optimize="false" disable-calc="false">
+				<ml:eval placeholderMultiplicationStyle="default" xmlns:ml="http://schemas.mathsoft.com/math30">
+					<ml:apply>
+						<ml:div/>
+						<ml:id xml:space="preserve">Vomax</ml:id>
+						<ml:id xml:space="preserve">fmax</ml:id>
+					</ml:apply>
+					<result xmlns="http://schemas.mathsoft.com/math30">
+						<unitedValue>
+							<ml:real>0.0012000000000000001</ml:real>
+							<unitMonomial xmlns="http://schemas.mathsoft.com/units10">
+								<unitReference unit="weber"/>
+							</unitMonomial>
+						</unitedValue>
+					</result>
+				</ml:eval>
+			</math>
+			<rendering item-idref="18"/>
+		</region>
 	</regions>
 	<binaryContent>
 		<item item-id="1">iVBORw0KGgoAAAANSUhEUgAAAFUAAAARCAYAAACsPOAgAAAAAXNSR0IArs4c6QAAAARnQU1B
@@ -724,5 +744,26 @@ dhDHot7h9eCfmB4kTvmWzQT8PWpVlpnjXEpX+MREs4fNp7QV8JM1nd+0IndNGlLv8OoCkVj9
 UTE3+wn4myIyDVj/gRXxDi8rTSKfT2om4CdoGyy1r4KquB9fMid0LzZp3eGdQXN0rnftJ+Bv
 aDa+Z3v9Kh4mV7vDO5PmXYE8wpeAf0Rq0ucWEhDw30KNwsSIBAT8I1KTPreQgID/FmoUJkYk
 8AeZPj3S5w0jbgAAAABJRU5ErkJggg==</item>
+		<item item-id="18">iVBORw0KGgoAAAANSUhEUgAAAJAAAAAlCAYAAACtQWB+AAAAAXNSR0IArs4c6QAAAARnQU1B
+AACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAPPSURBVHhe7ZsNkrMgDIY9lwfiPJ6G
+y3gYl0DAEKMGadc65pvZ+batFHh5yB/ssNg/U6BDgaGjrTU1BRYDyCDoUsAA6pLPGjOA5mUa
+h2UY4GdcphkF8i69N05LfsukMwVAAcEC+cUFWJyvBfLOLewtU/BGBeZp3G70G8YjujAY3FjM
+D4wqWKbJ8LlhfeQu52lxuD4RJL7b/3GgcgwUBjgOxOKE1zU/yUqJri64OY+7AyDMO4UC6V1u
+G/6Pk19dp/Ppu2uA/1GRp3UVwos7tdoJotOCZrD9RGMf9lmEAWBboYoTihAiCBRI+D3HUhWo
+0B7iLrN2eobv12o/C4PAORLkg/sioXNcdBJg09cclGzFuEUDhXJgzixd9d16Jd/3JG5Q8AI/
+aIHiCieLEKxPFQ7Fhe8BCC0VwukoQB6s072C3EcizYCJi4dQ4SDGiSHCjdnxYR0oxiqbwVEA
+0JJILmnHGtVBH3wXxlrwfImHCKD3rehDeg4a/ipAEMeIyRcxnyn+wUwNa0jO06AYwiFMOQGQ
+qi3utNEFEXCnlc+tbKAi+DeDaNXQH/fQccq7U0T9wCzFfstGabe2aw1Icm+1K6SZcMqatxs+
+ehke2yrn/ZqjjMoKCuLMkyuxnuy6lYqyx+R+c8YJFQxWMrnWDe81nSiQ2CmNg1v1AJuDDDtn
+0O0wvwag6GS1RbcPL+qm35Lhrq7/47XAmOxQYIQTBlKQTCAbQIf7twkgMTAlQX/uida1dnrn
+/fLXYPE+n4pzYNC1kXnNIcMu5wsZIMiEsUisGdMDLdC1dLfJAh0GpixzVGRAEkC8Mq9ZrFbv
+VqX4YU4uALNaGVaEzDFZlVFvz0T5GCqAUpD1Oz+tgp09r7NAmrQYYwYFPBK4/KzxOxYox1fJ
+LaXThLT5IqwAFD3eFFyYZlxmgRh1ulsHfQDFKnxZvfpo6GwTtH2egQnlmFwNxtgIrFF1Nec9
+ALVJSJ8+s0Dw+bqu64l33WO/CytVflhBRQx1fcahJT85wIxr4zLFI6rzWtwDLdBFOcvZG0lv
+0e8DNNUNAX6hrnR5IYiW+k1+DYPV9synTYEwZpbi0ZLF+l08tjyHB9q+B6A21e1ppQIGkFIo
+e0xWoAEgcons41UvW56nKqAECPwj+uqLFcunCmTjPlZAB5BBYxztKHAOEL9+kVKWeE/I7j4b
+V+cAlZQzp5t299mwWRW4AFCuYZCbhHb3+bVMfREgu/v8Bqq+BpDdfX4DPqpKNP0jQjjep/ed
+7e7zOzDZn6XOAr1dJZv/rgIGkMHRpYAB1CWfNTaAjIEuBf4A4ozE+PemTwcAAAAASUVORK5C
+YII=</item>
 	</binaryContent>
 </worksheet>
