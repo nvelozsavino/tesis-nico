@@ -3,16 +3,20 @@ close all;
 clc;
 numImag=5;
 veces=10;
-pasos=0.25:0.25:4;
+pasos=50:50:500;
 a=[];
 m=[];
 s=[];
 
 for v=1:(length(pasos))
-    nombre=strcat('paso',num2str(pasos(v),'%.2f'));
+    nombre=strcat('archivos/sound-',num2str(pasos(v),'%.2f'));
     [at,mt,st]=sitios(nombre,numImag,veces);
-    a=[a at'];
-    m=[m mt'];
-    s=[s st'];
+    a{v}=at';
+    m(v)=mt;
+    s(v)=st;
 end
-    
+
+errorbar(pasos,m*180/pi,s*180/pi,'kx'); hold on;
+p=polyfit(pasos,m*180/pi,1);
+y=polyval(p,pasos);
+plot(pasos,y);
