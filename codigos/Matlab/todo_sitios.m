@@ -3,16 +3,17 @@ close all;
 clc;
 numImag=5;
 veces=10;
-pasos=0.05:0.1:0.95;
+ps=50:25:300;
 a=[];
 m=[];
 s=[];
-
-for v=1:(length(pasos))
-    nombre=strcat('archivos/small',num2str(pasos(v),'%.2f'));
+for v=1:(length(ps))
+    nombre=strcat('archivos/sound2-',num2str(ps(v),'%.2f'));
     [at,mt,st]=sitios(nombre,numImag,veces);
-    a=[a at'];
-    m=[m mt'];
-    s=[s st'];
+
+    a{v}=at';
+    m(v)=mt;
+    s(v)=st;
 end
-    
+
+
