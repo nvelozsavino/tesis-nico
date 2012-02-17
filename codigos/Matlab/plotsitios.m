@@ -1,6 +1,6 @@
 close all
 clc
-min=2;
+min=1;
 max=length(ps);
 figure
 errorbar(ps(min:max),m(min:max)*180/pi,s(min:max)*180/pi,'kx'); hold on;
