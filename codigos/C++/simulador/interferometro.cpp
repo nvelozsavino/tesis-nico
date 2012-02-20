@@ -102,12 +102,12 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
         multFreq(fuente->valoresFreq,endFreqFuente,camara->sensor(i).valoresFreq,endFreqSensor,&multip,&endFreqMultip);
         //multiply(multip,multip,multip);
 
-        float maxLamda;
-        if (fuente->endLamda>camara->sensor(i).endLamda){
-            maxLamda=fuente->endLamda;
-        } else {
-            maxLamda=camara->sensor(i).endLamda;
-        }
+        //float maxLamda;
+        //if (fuente->endLamda>camara->sensor(i).endLamda){
+        //    maxLamda=fuente->endLamda;
+        //} else {
+        //    maxLamda=camara->sensor(i).endLamda;
+        //}
         float minLamda;
         if (fuente->startLamda<camara->sensor(i).startLamda){
             minLamda=fuente->startLamda;
@@ -119,7 +119,7 @@ void Interferometro::initInterferometro (Muestra *myMuestra, Spectrum *myFuente,
         Xmin[i]=(multip.cols-1)*minLamda/multip.cols;   //(N-1)*minLamda/N
         //Xmin[i]=2*(LIGHT_SPEED/endFreqMultip);
         idft(multip,interferograma[i],DFT_REAL_OUTPUT );//, DFT_REAL_OUTPUT); //no se pone DFT_SCALE porque luego hay que multiplicarla por N
-        Xmax[i]=(ALPHA*maxLamda)/2;
+        Xmax[i]=Xmin[i]*(multip.cols-1)/2;//(ALPHA*maxLamda)/2;
         io=sum(multip);
         Io[i]=(io[0]*endFreqMultip/(multip.cols-1))/Iomax[i];///Iomax;
         //cout<<"Io["<<i<<"] = "<< Io[i]<<endl;
@@ -213,7 +213,7 @@ Interferometro::~Interferometro(){
     delete[] Io;
 }
 
-void Interferometro::integra(float opticalPath){
+void Interferometro::integra(float opticalPath,float scale2){
     int desp;
     int dim;
     if (camara->tipo()==COLOR){
@@ -227,14 +227,14 @@ void Interferometro::integra(float opticalPath){
     //type=interferograma[0].type();
 	for (int d=0;d<dim;d++){
 	    //v=(interf[i].cols-1)*(2*depth+Xmax[i]/2)/(Xmax[i]);
-	    float v=opticalPath*interferograma[d].cols/Xmax[d];//2*fabs(depth)+Xmax[i])/(2*Xmax[i])
-	    desp=(int)v;
+	    float v=2*opticalPath*(interferograma[d].cols)/(2*Xmax[d]-Xmin[d]);//2*fabs(depth)+Xmax[i])/(2*Xmax[i])
+	    desp=int(v);
 // Esto mejora en 25% la velocidad de procesamiento
-	    if ((unsigned int)desp<(unsigned int)w){
+	    if (abs(desp)<w){
             if (desp>0) {
-                interf[d](Rect(desp,0,w-desp,h))+=interferograma[d](Rect(0,0,w-desp,h))*scale;
+                interf[d](Rect(desp,0,w-desp,h))+=interferograma[d](Rect(0,0,w-desp,h))*scale*scale2;
             } else {
-                interf[d](Rect(0,0,w+desp,h))+=interferograma[d](Rect(-desp,0,w+desp,h))*scale;
+                interf[d](Rect(0,0,w+desp,h))+=interferograma[d](Rect(-desp,0,w+desp,h))*scale*scale2;
             }
 	    }
 

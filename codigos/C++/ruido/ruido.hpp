@@ -13,8 +13,8 @@
 using namespace std;
 
 typedef struct {
-    float value;
-    float freq;
+    double value;
+    double freq;
 } PuntoEspectro;
 
 class Ruido {
@@ -30,19 +30,19 @@ class Ruido {
     //Variables Publicas
     //Constructores
         Ruido();
-        int initRuido(string FileSpectrum, float Amplitud=1,unsigned int MaxPoints=N_DEFAULT);
+        int initRuido(string FileSpectrum, double Amplitud=1,unsigned int MaxPoints=N_DEFAULT);
 
         //Destructores
         ~Ruido();
 
         //Funciones Get
-        float getRuido(float time);
+        double getRuido(double time);
         string fileSpectrum();
         unsigned int maxSize();
         unsigned int realSize();
 
         //Funciones Set
-        int fileSpectrum(string FileSpectrum,float Amplitud=1, unsigned int MaxPoints=N_DEFAULT);
+        int fileSpectrum(string FileSpectrum,double Amplitud=1, unsigned int MaxPoints=N_DEFAULT);
 
 
 };

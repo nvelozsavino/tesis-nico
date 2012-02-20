@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="include\FeatureTracker.h" open="0" top="0" tabpos="8">
+	<File name="include/FeatureTracker.h" open="0" top="0" tabpos="8">
 		<Cursor position="174" topLine="0" />
 	</File>
-	<File name="include\FrameProcessor.h" open="0" top="0" tabpos="4">
+	<File name="include/FrameProcessor.h" open="0" top="0" tabpos="4">
 		<Cursor position="187" topLine="0" />
 	</File>
-	<File name="include\VideoProcessor.h" open="0" top="0" tabpos="6">
+	<File name="include/VideoProcessor.h" open="0" top="0" tabpos="6">
 		<Cursor position="2467" topLine="39" />
 	</File>
 	<File name="linefinder.cpp" open="0" top="0" tabpos="3">
@@ -19,13 +19,13 @@
 	<File name="main.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="1285" topLine="36" />
 	</File>
-	<File name="src\FeatureTracker.cpp" open="0" top="0" tabpos="9">
+	<File name="src/FeatureTracker.cpp" open="0" top="0" tabpos="9">
 		<Cursor position="1618" topLine="21" />
 	</File>
-	<File name="src\FrameProcessor.cpp" open="0" top="0" tabpos="5">
+	<File name="src/FrameProcessor.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="136" topLine="0" />
 	</File>
-	<File name="src\VideoProcessor.cpp" open="0" top="0" tabpos="7">
+	<File name="src/VideoProcessor.cpp" open="0" top="0" tabpos="7">
 		<Cursor position="3188" topLine="192" />
 	</File>
 </CodeBlocks_layout_file>
