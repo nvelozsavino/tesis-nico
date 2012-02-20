@@ -24,6 +24,9 @@ int myRound(float valor, roundType tipo=ROUND_APROX){
 			break;
 	}
 }
+int roundn(double d) {
+  return floor(d + 0.5);
+}
 
 bool setPoint(float *arreglo, unsigned int x, unsigned int y, unsigned int w, unsigned int h, float valor){
 	if ((y*w+x)>=(w*h) || (y*w+x)<0 || x>=w || x<0 || y>=h || y<0 ){

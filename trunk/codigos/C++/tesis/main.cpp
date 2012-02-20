@@ -12,6 +12,8 @@
 #include "simulador.hpp"
 #include "ruido.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 //#define TIMESTEP 1e-3
 #define MAXTIME 10
 //#define FREQ 100
@@ -37,9 +39,13 @@
 //#define RUIDO 1
 #define ARCHIVO_VIDEO "../archivos/resultados/video222.avi"
 #define ARCHIVO_DATA "../archivos/resultados/dataplana2222.xls"
-#define EXPOSURE_STEP   20
+#define EXPOSURE_STEP   100
 using namespace std;
 using namespace cv;
+
+double getRuido(double tiempo, double Amp, double Freq){
+    return Amp*cos(2*M_PI*(tiempo)*Freq);
+}
 
 int main(){
 
@@ -47,12 +53,14 @@ int main(){
 	Mat img ;
 	int c;
     Spectrum fuente;
-    fuente.initSpectrum(DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,1000);
+    fuente.initSpectrum(1e-9,1001e-9,1001);
+    //fuente.initSpectrum(DEFAULT_START_LAMDA,DEFAULT_END_LAMDA,10000);
     //fuente.setPlain(0.5e-9,1000e-9,2);        //Fuente plana todo el espectro
-
-	//fuente.setGausian(1,LAMDA_0,10e-9);       //Fuente Lab con Filtro Expectral
-	fuente.setDelta(10,632.8e-9,0);           //Laser He-Ne
-	fuente.setBlackbody(3000,1.18);
+    double lamda=546e-9;
+	fuente.setGausian(20,lamda,1e-9);       //Fuente Lab con Filtro Expectral
+	//fuente.setDelta(200,lamda,0);       //Fuente Lab con Filtro Expectral
+	//fuente.setDelta(10,632.8e-9,0);           //Laser He-Ne
+	//fuente.setBlackbody(3000,1.18);
 
 
 	Camara camara;
@@ -73,16 +81,16 @@ int main(){
 
 
 //	camara.initFPS(1146,1146,30,COLOR); //Pozo
-	camara.initFPS(500,500,30,COLOR); //Plano
+	camara.initFPS(300,300,60,COLOR); //Plano
 	if (camara.setSpectrumsFiles("../archivos/r1.dat","../archivos/g1.dat","../archivos/b1.dat")){
         return -1;
 	};
     //camara.gain=2;
-    camara.setChannelGain(1,1,1.392);
+    camara.setChannelGain(1.5,1,1.392);
 
 
 /*----------------------INICIO SOLO IMAGEN------------------------------*/
-    float fps=camara.fps();
+    //float fps=camara.fps();
     float exposureTime=camara.exposureTime();
 	float timeStep=exposureTime/EXPOSURE_STEP;
     float notExposureTime=camara.getNotIntegrationTime();
@@ -90,9 +98,9 @@ int main(){
 
 	Interferometro interf;
 	interf.initInterferometro(&muestra,&fuente,&camara,timeStep);
-    interf.inclinacionX=10e-6;
+    interf.inclinacionX=1e-6;
     interf.inclinacionY=0e-6;
-    float step=1e-6;
+    float step=(lamda/2);
     float copt=0;
     namedWindow("simulador",CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO |CV_GUI_EXPANDED);
     bool dibuja=true;
@@ -100,17 +108,38 @@ int main(){
     //imshow( "simulador", interf.valores);
     Mat imgw;
     string filename;
-    int i=0;
     Ruido ruido;
-    ruido.initRuido("../archivos/ruido2.txt",25e-9,30);
-    float tiempo=notExposureTime;
-    float tstep=interf.timeStep();
-    float rAmp=0;
 
+
+    float rAmp=(45.0*M_PI/180.0)*(lamda/2.0)/(M_PI*2.0);
+    ruido.initRuido("../archivos/ruido2.txt",rAmp,50);
+//    float rFreq=1;
+    Mat im[5];
+    Mat num,den,cosa;
+    int imagen=0;
+    float alpha;
+    float fase;
+    bool toma=false;
+    int pasos=18;
+    int veces=5;
+    int p,v;
+    float pi,dp;
+    dp=10;
+    pi=10;
+    p=0;
+    v=0;
+    bool corre=false;
+    bool video=false;
+    char filename2[50];
+
+    double tstep=interf.timeStep();
+    double t=tstep;
+    double tiempo=tstep;
+    double ta=0;
+    double r;
+    int j=0;
+   // bool exporta=false;
     while(1){
-
-
-
 
         c = cvWaitKey(2);
         if (c!=-1){
@@ -217,7 +246,15 @@ int main(){
                         cout <<"Ha ocurrido un error al guardar"<<endl;
                     }
                     break;
+                case 32: //espacio
+                    corre=true;
+                    cout<<endl<<"Ingrese el nombre del archivo de texto"<<endl;
+                    cin>>filename;
+                    break;
 
+                case 10: //ENTER
+                    video=!video;
+                    break;
                 default:
                     break;
             }
@@ -226,41 +263,102 @@ int main(){
             }
 
         }
-        if (dibuja){
+        if (corre){
+            if (v<veces){
+
+                alpha=p*dp+pi;
+                fase=(alpha*M_PI/180)*(lamda/2)/(M_PI*2);
+                copt=(imagen-2)*fase;
+                toma=true;
+                dibuja=true;
+                sprintf(filename2,"%s%.2f-%d-%d.txt",filename.c_str(),alpha,v,0);
+            } else {
+                p++;
+                v=0;
+            }
+            if (p>=pasos){
+                corre=false;
+            }
+
+
+
+
+
+
+        }
+
+        if (dibuja || video){
             dibuja=false;
-            int j=0;
-            float t=0;
-            float r;
+
+
+
             while (1){
-                r=rAmp*sin(2*M_PI*tiempo*30);
-                if (t>=exposureTime) {
-                    //j++;
 
-                    interf.getInterferograma(copt);
-                    //interf.getInterferograma(copt);
-                    imshow( "simulador", interf.valores);
-                    interf.integra(r);//ruido.getRuido(tiempo));
-                    //interf.valores.convertTo(img,CV_8UC3,255);
-
-                    t=t-exposureTime;
-                    if(t<notExposureTime){
-                        t=0;
-                    } else {
-                        t=t-notExposureTime;
-                    }
-                    i++;
-                    tiempo=i/fps;
-                    //cout<<"tiempo = "<< tiempo <<endl;
-                    break;
-                } else {
-                    //cout<<"integra, i="<<i<<endl;
-                    j++;
-                    interf.integra(r);//uido.getRuido(tiempo));
-                    //interf.integra(copt);
-                    t+=tstep;
+                if (t<exposureTime){
+                    r=ruido.getRuido(tiempo);//,rAmp,rFreq);
+                    interf.integra(r,(t-ta)/tstep);
+                    ta=t;
                     tiempo+=tstep;
+                    t+=tstep;
+                } else if(t>=exposureTime) {
+                    r=ruido.getRuido(tiempo-(t-exposureTime));//,rAmp,rFreq);
+                    interf.integra(r,(exposureTime-ta)/tstep);
+                    interf.getInterferograma(copt);
+                    imshow( "simulador", interf.valores);
+
+                    if (t>=(exposureTime+notExposureTime)){
+                        tiempo=tiempo;
+                        t=t-(exposureTime+notExposureTime);
+                        ta=0;
+
+                    } else {
+                        float tnof=notExposureTime-(t-exposureTime);
+                        int skipsteps=1+(int)(tnof/tstep);
+                        tiempo+=tstep*skipsteps;
+                        t=tstep*skipsteps-tnof;
+                        ta=0;
+                    }
+
+                    j++;
+
+
+                    if (toma){
+                        if (imagen>=5){
+                            num=im[4]-im[0];
+                            den=2*(im[3]-im[1]);
+                            cosa=num/den;
+                            imagen=0;
+                            FILE * pFile;
+                            pFile = fopen (filename2,"w");
+                            if (pFile!=NULL) {
+                                float val[3];
+                                for (int w=0;w<num.cols;w++){
+                                    for (int h=0;h<num.rows;h++){
+                                        val[0]=get2D32F(num,w,h,1);
+                                        val[1]=get2D32F(den,w,h,1);
+                                        val[2]=get2D32F(cosa,w,h,1);
+                                        fprintf(pFile,"%.3f\t%.3f\t%.3f\n",val[0],val[1],val[2]);
+                                    }
+                                }
+                                fclose (pFile);
+
+                            } else {
+                                cout << "Unable to open file";
+                            }
+                            v++;
+
+                        } else {
+                            interf.valores.copyTo(im[imagen]);
+                            //interf.valores.convertTo(im[imagen],CV_8UC3,255);
+                            imagen++;
+                        }
+                        toma=false;
+                    }
+                    break;
+
                 }
-                //cout<<"t = "<< t <<endl;
+
+
             }
             cout<<"j = "<< j <<endl;
            // interf.getInterferograma(copt);
@@ -272,7 +370,7 @@ int main(){
             cout<<"Incl Y: "<<interf.inclinacionY<<endl;
             cout<<"Res Depth: "<<muestra.resDepth<<endl;
             cout<<"Camino Óptico: "<<copt<<endl;
-            cout<<"Amplitud Ruido: "<<rAmp<<endl;
+            cout<<"Amplitud Ruido: "<<r<<endl;
             cout<<endl;
         }
 

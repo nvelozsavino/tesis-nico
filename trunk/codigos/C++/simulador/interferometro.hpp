@@ -69,7 +69,7 @@ class Interferometro {
 
         void initInterferometro(Muestra *muestra, Spectrum *fuente, Camara *camara,float timestep, float inclX=0, float inclY=0, TipoInterferometro t=DEFAULT_TIPO_INTERF, float RRM=DEFAULT_REFLEXION_RM, BeamSplitter bs=BeamSplitter());
 
-        void integra(float opticalPath);
+        void integra(float opticalPath,float scale2=1);
 
         //Destructor
         ~Interferometro();

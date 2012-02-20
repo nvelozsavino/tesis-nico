@@ -232,10 +232,10 @@ unsigned int Camara::height(){
 ROI Camara::roi (){
     return param._roi;
 }
-float Camara::fps(){
+double Camara::fps(){
     return param._fps;
 }
-float Camara::exposureTime() {
+double Camara::exposureTime() {
     return param._exposureTime;
 }
 tipoCamara Camara::tipo(){
@@ -244,10 +244,10 @@ tipoCamara Camara::tipo(){
 tipoFrame Camara::frameType() {
     return param._frameType;
 }
-float Camara::transportTime(){
+double Camara::transportTime(){
     return param._transportTime;
 }
-float Camara::shutterTime(){
+double Camara::shutterTime(){
     return param._shutterTime;
 }
 int Camara::fromFiles(){

@@ -40,7 +40,7 @@ typedef enum {FIXED_FPS_FIXED_EXPOSE,FIXED_FPS_AUTO_EXPOSE,AUTO_FPS_FIXED_EXPOSE
 #define SPECTRUM_RESOLUTION
 
 #define DEFAULT_TIPO    COLOR
-#define DEFAULT_TRANSPORT_TIME  0.5e-8
+#define DEFAULT_TRANSPORT_TIME  0
 #define DEFAULT_SHUTTER_TIME    0
 #define DEFAULT_WIDTH   800
 #define DEFAULT_HEIGHT  600
@@ -78,11 +78,11 @@ class ROI {
 };
 class ParametrosCamara {
     public:
-    float _exposureTime;
-    float _fps;
-    float _transportTime;
+    double _exposureTime;
+    double _fps;
+    double _transportTime;
 //        float _adcTime;
-    float _shutterTime;
+    double _shutterTime;
     unsigned int _width;
     unsigned int _height;
     ROI _roi;
@@ -137,12 +137,12 @@ class Camara {
         unsigned int width();
         unsigned int height();
         ROI roi ();
-        float fps();
-        float exposureTime();
+        double fps();
+        double exposureTime();
         tipoCamara tipo();
         tipoFrame frameType();
-        float transportTime();
-        float shutterTime();
+        double transportTime();
+        double shutterTime();
         int fromFiles();
         string redFile();
         string greenFile();
