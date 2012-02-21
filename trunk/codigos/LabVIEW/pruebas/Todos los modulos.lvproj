@@ -12,19 +12,8 @@
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="camara y daq.vi" Type="VI" URL="../camara y daq.vi"/>
 		<Item Name="camara.vi" Type="VI" URL="../camara.vi"/>
-		<Item Name="Control-StatusText.vi" Type="VI" URL="../../lib/control/Control-StatusText.vi"/>
 		<Item Name="control.vi" Type="VI" URL="../../control.vi"/>
-		<Item Name="DAQ-AmpAdjustValue.vi" Type="VI" URL="../../lib/DAQ/DAQ-AmpAdjustValue.vi"/>
-		<Item Name="DAQ-WriteValue.vi" Type="VI" URL="../../lib/DAQ/DAQ-WriteValue.vi"/>
 		<Item Name="daq.vi" Type="VI" URL="../daq.vi"/>
-		<Item Name="General-GetMultValue.vi" Type="VI" URL="../../lib/Generales/General-GetMultValue.vi"/>
-		<Item Name="General-PrintHistogram.vi" Type="VI" URL="../../lib/Generales/General-PrintHistogram.vi"/>
-		<Item Name="IMAQ-GetLineContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-GetLineContrast.vi"/>
-		<Item Name="IMAQ-GetMichelsonContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-GetMichelsonContrast.vi"/>
-		<Item Name="IMAQ-GetRMSContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-GetRMSContrast.vi"/>
-		<Item Name="IMAQ-RGBtoIntensity.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-RGBtoIntensity.vi"/>
-		<Item Name="IMAQ-RGBtoLuma.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-RGBtoLuma.vi"/>
-		<Item Name="IMAQ-U32RGB.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-U32RGB.vi"/>
 		<Item Name="sitios.vi" Type="VI" URL="../../lib/sitios.vi"/>
 		<Item Name="sound.vi" Type="VI" URL="../sound.vi"/>
 		<Item Name="Untitled 1.vi" Type="VI" URL="../../../../../../Desktop/prueba/bandwidth/Untitled 1.vi"/>
@@ -200,9 +189,6 @@
 				<Item Name="IMAQ AVI Close" Type="VI" URL="/&lt;vilib&gt;/vision/Avi1.llb/IMAQ AVI Close"/>
 				<Item Name="IMAQ AVI Create" Type="VI" URL="/&lt;vilib&gt;/vision/Avi1.llb/IMAQ AVI Create"/>
 				<Item Name="IMAQ AVI Get Filter Names" Type="VI" URL="/&lt;vilib&gt;/vision/Avi2.llb/IMAQ AVI Get Filter Names"/>
-				<Item Name="IMAQ AVI Get Info" Type="VI" URL="/&lt;vilib&gt;/vision/Avi2.llb/IMAQ AVI Get Info"/>
-				<Item Name="IMAQ AVI Open" Type="VI" URL="/&lt;vilib&gt;/vision/Avi2.llb/IMAQ AVI Open"/>
-				<Item Name="IMAQ AVI Read Frame" Type="VI" URL="/&lt;vilib&gt;/vision/Avi2.llb/IMAQ AVI Read Frame"/>
 				<Item Name="IMAQ AVI Write Frame" Type="VI" URL="/&lt;vilib&gt;/vision/Avi1.llb/IMAQ AVI Write Frame"/>
 				<Item Name="IMAQ ColorImageToArray" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ ColorImageToArray"/>
 				<Item Name="IMAQ ConstructROI" Type="VI" URL="/&lt;vilib&gt;/vision/ROI Display.llb/IMAQ ConstructROI"/>
@@ -300,7 +286,9 @@
 			<Item Name="Control-IncrementSigma.vi" Type="VI" URL="../../lib/control/Control-IncrementSigma.vi"/>
 			<Item Name="Control-IncrementTime.vi" Type="VI" URL="../../lib/control/Control-IncrementTime.vi"/>
 			<Item Name="Control-SameSignal.vi" Type="VI" URL="../../lib/control/Control-SameSignal.vi"/>
+			<Item Name="Control-StatusText.vi" Type="VI" URL="../../lib/control/Control-StatusText.vi"/>
 			<Item Name="DAQ-AmpAdjust.vi" Type="VI" URL="../../lib/DAQ/DAQ-AmpAdjust.vi"/>
+			<Item Name="DAQ-AmpAdjustValue.vi" Type="VI" URL="../../lib/DAQ/DAQ-AmpAdjustValue.vi"/>
 			<Item Name="DAQ-Calib.vi" Type="VI" URL="../../lib/DAQ/DAQ-Calib.vi"/>
 			<Item Name="DAQ-ClearDevice.vi" Type="VI" URL="../../lib/DAQ/DAQ-ClearDevice.vi"/>
 			<Item Name="DAQ-Events2Case.vi" Type="VI" URL="../../lib/DAQ/DAQ-Events2Case.vi"/>
@@ -309,12 +297,14 @@
 			<Item Name="DAQ-InitDevice.vi" Type="VI" URL="../../lib/DAQ/DAQ-InitDevice.vi"/>
 			<Item Name="DAQ-SetParameters.vi" Type="VI" URL="../../lib/DAQ/DAQ-SetParameters.vi"/>
 			<Item Name="DAQ-WriteArray.vi" Type="VI" URL="../../lib/DAQ/DAQ-WriteArray.vi"/>
+			<Item Name="DAQ-WriteValue.vi" Type="VI" URL="../../lib/DAQ/DAQ-WriteValue.vi"/>
 			<Item Name="General-ConvertArray2OneDimension.vi" Type="VI" URL="../../lib/Generales/General-ConvertArray2OneDimension.vi"/>
 			<Item Name="General-GenerateRandomNumber.vi" Type="VI" URL="../../lib/Generales/General-GenerateRandomNumber.vi"/>
 			<Item Name="General-GenerateSineWaveForm.vi" Type="VI" URL="../../lib/Generales/General-GenerateSineWaveForm.vi"/>
 			<Item Name="General-GenerateWaveform.vi" Type="VI" URL="../../lib/Generales/General-GenerateWaveform.vi"/>
 			<Item Name="General-GetGaussianArray.vi" Type="VI" URL="../../lib/Generales/General-GetGaussianArray.vi"/>
 			<Item Name="General-GetGaussianValue.vi" Type="VI" URL="../../lib/Generales/General-GetGaussianValue.vi"/>
+			<Item Name="General-GetMultValue.vi" Type="VI" URL="../../lib/Generales/General-GetMultValue.vi"/>
 			<Item Name="General-InsertContrastInFile.vi" Type="VI" URL="../../lib/Generales/General-InsertContrastInFile.vi"/>
 			<Item Name="General-ShowErrorMessage.vi" Type="VI" URL="../../lib/Generales/General-ShowErrorMessage.vi"/>
 			<Item Name="General-Update_t0.vi" Type="VI" URL="../../lib/Generales/General-Update_t0.vi"/>
@@ -322,9 +312,13 @@
 			<Item Name="IMAQ-Device2Cluster.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-Device2Cluster.vi"/>
 			<Item Name="IMAQ-Dispose.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-Dispose.vi"/>
 			<Item Name="IMAQ-GetContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-GetContrast.vi"/>
+			<Item Name="IMAQ-GetLineContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-GetLineContrast.vi"/>
+			<Item Name="IMAQ-GetRMSContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-GetRMSContrast.vi"/>
 			<Item Name="IMAQ-Init.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-Init.vi"/>
+			<Item Name="IMAQ-RGBtoLuma.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-RGBtoLuma.vi"/>
 			<Item Name="IMAQ-SaveContrast.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-SaveContrast.vi"/>
 			<Item Name="IMAQ-SaveVideo.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-SaveVideo.vi"/>
+			<Item Name="IMAQ-U32RGB.vi" Type="VI" URL="../../lib/IMAQ/IMAQ-U32RGB.vi"/>
 			<Item Name="lvanlys.dll" Type="Document" URL="../../../../../../../../Program Files (x86)/National Instruments/LabVIEW 2010/resource/lvanlys.dll"/>
 			<Item Name="lvsound2.dll" Type="Document" URL="../../../../../../../../Program Files (x86)/National Instruments/LabVIEW 2010/resource/lvsound2.dll"/>
 			<Item Name="nilvaiu.dll" Type="Document" URL="nilvaiu.dll">

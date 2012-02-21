@@ -91,3 +91,13 @@ set(f2,'Position', [100 100 400 400])
 set(f3,'Position', [100 100 800 600])
 set(f4,'Position', [100 100 800 400])
 figure(f3)
+
+fmaxf=5000;
+[bf,af]=butter(1,2*fmaxf/Fs,'low');
+controlf=filtfilt(bf,af,control);
+fmaxf=120;
+[bf,af]=butter(1,2*fmaxf/Fs,'low');
+controlf=filtfilt(bf,af,control);
+f5=figure;
+plot(t,control,'k',t,controlf,'b');
+grid on;
