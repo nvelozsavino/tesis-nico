@@ -1,0 +1,15 @@
+clc;
+close all;
+clear all;
+l=load ('../../archivos/tablas/linealidadSound.txt');
+x=l(:,1);
+y=l(:,2)*1000;
+e=(l(:,3))*1000;
+p=polyfit(x,y,1);
+yp=polyval(p,x);
+errorbar(x,y,e); grid on;
+xlabel('Voltaje de entrada (V)');
+ylabel('Voltaje de salida (mV)');
+title('Gráfica de linealidad Vin vs Vout (Etapa DC)');
+hold on;
+plot(x,yp, 'k');
