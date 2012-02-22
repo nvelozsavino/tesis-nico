@@ -1,0 +1,15 @@
+clc;
+close all;
+clear all;
+l=load ('linealidadDAC');
+x=l(:,1);
+y=l(:,2)*1000;
+e=l(:,3);
+p=polyfit(x,y,1);
+yp=polyval(p,x);
+errorbar(x,y,e); grid on;
+xlabel('Voltaje de entrada (V)');
+ylabel('Voltaje de salida (mV)');
+title('Gráfica de linealidad Vin vs Vout (Señal DC)');
+hold on;
+plot(x,yp, 'k');

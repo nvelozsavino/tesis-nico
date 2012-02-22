@@ -1,0 +1,15 @@
+clc;
+close all;
+clear all;
+l=load ('linealidadDAC2');
+x=l(:,1);
+y=l(:,2)*1000;
+e=(l(:,3)+1/2^16)*1000;
+p=polyfit(x,y,1);
+yp=polyval(p,x);
+errorbar(x,y,e); grid on;
+xlabel('Voltaje de entrada (V)');
+ylabel('Voltaje de salida (mV)');
+title('Gráfica de linealidad Vin vs Vout (Etapa AC)');
+hold on;
+plot(x,yp, 'k');
