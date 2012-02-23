@@ -7,7 +7,8 @@
 #include <stdlib.h>
 #include <iostream>
 
-
+#include "frannor.hpp"
+#include "generales.hpp"
 #define N_DEFAULT   (100)
 #define TWO_PI (6.2831853071795864769252867665590057683943L)
 using namespace std;
@@ -43,7 +44,8 @@ class Ruido {
 
         //Funciones Set
         int fileSpectrum(string FileSpectrum,double Amplitud=1, unsigned int MaxPoints=N_DEFAULT);
-
+        double getNor(double Amp);
+        double getUnif(double Amp);
 
 };
 

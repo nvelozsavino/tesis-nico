@@ -39,7 +39,7 @@
 //#define RUIDO 1
 #define ARCHIVO_VIDEO "../archivos/resultados/video222.avi"
 #define ARCHIVO_DATA "../archivos/resultados/dataplana2222.xls"
-#define EXPOSURE_STEP   100
+#define EXPOSURE_STEP   20
 using namespace std;
 using namespace cv;
 
@@ -111,8 +111,8 @@ int main(){
     Ruido ruido;
 
 
-    float rAmp=(45.0*M_PI/180.0)*(lamda/2.0)/(M_PI*2.0);
-    ruido.initRuido("../archivos/ruido2.txt",rAmp,50);
+    float rAmp=(00.0*M_PI/180.0)*(lamda/2.0)/(M_PI*2.0);
+    //ruido.initRuido("../archivos/ruido2.txt",rAmp,1);
 //    float rFreq=1;
     Mat im[5];
     Mat num,den,cosa;
@@ -120,8 +120,8 @@ int main(){
     float alpha;
     float fase;
     bool toma=false;
-    int pasos=18;
-    int veces=5;
+    int pasos=36;
+    int veces=2;
     int p,v;
     float pi,dp;
     dp=10;
@@ -293,15 +293,16 @@ int main(){
 
 
             while (1){
-
+                r=ruido.getUnif(rAmp);
                 if (t<exposureTime){
-                    r=ruido.getRuido(tiempo);//,rAmp,rFreq);
+                    //r=ruido.getRuido(tiempo);//,rAmp,rFreq);
+
                     interf.integra(r,(t-ta)/tstep);
                     ta=t;
                     tiempo+=tstep;
                     t+=tstep;
                 } else if(t>=exposureTime) {
-                    r=ruido.getRuido(tiempo-(t-exposureTime));//,rAmp,rFreq);
+                    //r=ruido.getRuido(tiempo-(t-exposureTime));//,rAmp,rFreq);
                     interf.integra(r,(exposureTime-ta)/tstep);
                     interf.getInterferograma(copt);
                     imshow( "simulador", interf.valores);

@@ -1,10 +1,18 @@
 close all
-clc
+clc;
 min=1;
-max=length(ps);
-figure
-errorbar(ps(min:max),m(min:max)*180/pi,s(min:max)*180/pi,'kx'); hold on;
-p=polyfit(ps(min:max),m(min:max)*180/pi,1);
-y=polyval(p,ps(min:max));
-plot(ps(min:max),y); hold off;
+max=length(pasos);
+fig=figure;
+errorbar(pasos(min:max),alpha_mean(min:max)*180/pi,alpha_std(min:max)*180/pi,'kx'); hold on;
+polinomio_alpha_vs_in=polyfit(pasos(min:max),alpha_mean(min:max)*180/pi,1);
+alpha_vs_in=polyval(polinomio_alpha_vs_in,pasos(min:max));
+% plot(pasos(min:max),alpha_vs_in); hold off;
 grid on;
+
+title('Simulación Fase vs. Entrada sin ruido');
+xlabel('Entrada \alpha (grados)');
+ylabel('Fase \alpha (grados)');
+
+
+save('../../archivos/tablas/alpha/simnoruido2.mat','veces','numImagenes', 'pasos','alphas','alpha_mean','alpha_std','numeradores','denominadores','cosine_alphas','polinomios','polinomio_alpha_vs_in','alpha_vs_in');
+hgsave('../../archivos/tablas/alpha/simnoruido2.fig')
