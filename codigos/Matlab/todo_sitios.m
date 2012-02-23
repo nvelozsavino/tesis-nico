@@ -2,8 +2,8 @@ clear all;
 close all;
 clc;
 numImagenes=5;
-veces=2;
-pasos=10:10:360;
+veces=10;
+pasos=0:1:5;
 alphas=[];
 alpha_mean=[];
 alpha_std=[];
@@ -12,7 +12,7 @@ denominadores={};
 cosine_alphas={};
 polinomios={};
 for v=1:(length(pasos))
-    nombre=strcat('archivos/simnoruido2-',num2str(pasos(v),'%.2f'));
+    nombre=strcat('archivos/señalDC1-',num2str(pasos(v),'%.2f'));
     [at,mt,st,num,den,cosa,p]=sitios(nombre,numImagenes,veces);
 
     alphas{v}=at';
