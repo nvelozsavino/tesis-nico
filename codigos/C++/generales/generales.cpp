@@ -187,6 +187,13 @@ void dibujaPatron(Mat *interferograma, int dim,int width, int height, string nom
     }
     imshow( nombre, imagen);
 }
+
+
+double uniform(double a, double b)
+{
+    return rand() / (RAND_MAX + 1.0) * (b - a) + a;
+}
+
 /*
 // FFT
 void fft(int N, double **x, double **X){
@@ -331,3 +338,4 @@ void getRuido(int N, double* dst, float ti,float amp,float ampRuido, float fharm
     delete[] fdst;
 }
 */
+

@@ -6,6 +6,8 @@ Ruido::Ruido(){
     _maxSize=0;
     _realSize=0;
     _espectro=NULL;
+    unsigned int seed = (unsigned int) time((time_t *) NULL);
+    srannor(seed);  //seed random number generator
 }
 int Ruido::initRuido(string FileSpectrum,double Amplitud, unsigned int MaxPoints){
     return fileSpectrum(FileSpectrum,Amplitud,MaxPoints);
@@ -65,6 +67,14 @@ int Ruido::fileSpectrum(string FileSpectrum,double Amplitud, unsigned int MaxPoi
     return 0;
 }
 
+double Ruido::getNor(double Amp){
+
+    return (Amp*((double) frannor()));
+}
+
+double Ruido::getUnif(double Amp){
+    return uniform(-Amp,Amp);
+}
 
 
 

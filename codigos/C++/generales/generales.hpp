@@ -97,6 +97,8 @@ void getHist(const Mat& src, Mat &dst, int width, int height, float rangos[]);
 double getContraste(const Mat& src);
 void dibujaPatron(Mat *interferograma, int dim,int width, int height, string nombre);
 int roundn(double d);
+
+double uniform(double a, double b);
 /*
 #define TWO_PI (6.2831853071795864769252867665590057683943L)
 
