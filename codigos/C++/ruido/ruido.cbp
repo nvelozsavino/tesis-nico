@@ -36,7 +36,15 @@
 			<Add option="-O1" />
 			<Add option="-O" />
 			<Add option="-Wall" />
+			<Add directory="../generales" />
 		</Compiler>
+		<Linker>
+			<Add library="../generales/bin/Debug/libgenerales.a" />
+		</Linker>
+		<Unit filename="frannor.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="frannor.hpp" />
 		<Unit filename="ruido.cpp" />
 		<Unit filename="ruido.hpp" />
 		<Extensions>

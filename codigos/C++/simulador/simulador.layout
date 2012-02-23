@@ -7,7 +7,7 @@
 	<File name="camara.hpp" open="0" top="0" tabpos="7">
 		<Cursor position="3780" topLine="57" />
 	</File>
-	<File name="interferometro.cpp" open="1" top="1" tabpos="1">
+	<File name="interferometro.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="6609" topLine="200" />
 	</File>
 	<File name="interferometro.hpp" open="0" top="0" tabpos="5">
@@ -25,7 +25,7 @@
 	<File name="spectrum.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="550" topLine="23" />
 	</File>
-	<File name="spectrum.hpp" open="1" top="0" tabpos="2">
+	<File name="spectrum.hpp" open="0" top="0" tabpos="2">
 		<Cursor position="526" topLine="10" />
 	</File>
 </CodeBlocks_layout_file>
