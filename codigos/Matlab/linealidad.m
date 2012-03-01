@@ -4,18 +4,20 @@ clear all;
 l=load ('../../archivos/tablas/linealidadSound.txt');
 x=l(:,1);
 y=l(:,2)*1000;
-e=((l(:,3))-1/(2^15)+1/(2^11))*1000;
+e=((l(:,3)))*1000;
 p=polyfit(x,y,1);
 yp=polyval(p,x);
 errorbar(x,y,e); grid on;
-xlabel('Frequencia del Tono de entrada (Hz)');
+xlabel('Frecuencia del tono de entrada (Hz)');
 ylabel('Voltaje de salida (mV)');
-title('Gráfica de linealidad V_o_u_t vs F_i_n (Convertidor Frequencia-Voltaje)');
+title('Gráfica de linealidad V_o_u_t vs F_i_n (Convertidor Frecuencia-Voltaje)','FontWeight','bold');
 hold on;
 plot(x,yp, 'k');
 it=floor(length(x)/2);
 xt=1000;%x(it);
 yt=50;%y(it)-20;
-txt=text(xt,yt,['V_o_u_t = ',num2str(p(1)),'mV/Hz\cdotF_i_n + ',num2str(p(2)),'mV'],...
+txt=text(xt,yt,['V_o_u_t = ',num2str(p(1)),'mV/Hz\cdotF_i_n - ',num2str((p(2))),'mV'],...
     'BackgroundColor',[0.9 0.9 0.9]);
 axis([-100 4000 -10 300]);
+hgsave('../../archivos/tablas/linealidadSound.fig');
+hgsave('../../documentos/tesis/imagenes/linealidadSound.png');
