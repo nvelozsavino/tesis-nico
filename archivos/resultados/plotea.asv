@@ -1,0 +1,28 @@
+clear all;
+close all;
+clc;
+data=load('control2.mat');
+x=data.data(:,1);
+y=data.data(:,2);
+xs=166;
+xf=5140;
+ymax=40;
+ymin=5;
+ts=xs/10;
+tf=xf/10;
+ci=mean(y(1:xs));
+cf=mean(y(xf:length(y)));
+stdi=std(y(1:xs));
+stdf=std(y(xf:length(y)));
+
+t=x/10;
+plot(t,y,'k'); grid on;
+axis([0 522 0 50]);
+% axis([0 522 0 50]);
+xlabel ('Tiempo (s)');
+ylabel ('Contraste');
+title('Evolución del contraste en el tiempo','FontWeight', 'bold');
+line([ts ts tf tf ts],[ymin ymax ymax ymin ymin],'Color','r','LineWidth',2);
+txt1=text(25,45,['Contraste Inicial: ', num2str(ci), ' \pm ',num2str(stdi)], 'BackgroundColor',[1 1 1]);
+txt2=text(25,42,['Contraste Final:   ', num2str(cf), ' \pm ',num2str(stdf)], 'BackgroundColor',[1 1 1]);
+txt3=text(25,42,'Proceso de ajuste, 'BackgroundColor',[1 1 1]);
