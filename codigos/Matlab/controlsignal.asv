@@ -21,10 +21,10 @@ for i=1:length(t)
         mult(i)=0;
     end
 end
-mult=mult/2;
+mult=mult/1;
 p=[ 0   11  0;
     258 29  30;
-    238 7   65];
+    109 7   65];
 CLmin=-546.1;
 CLmax=546.1;
 DLmax=10;
@@ -39,11 +39,20 @@ for j=1:length(p)
     y=A*exp(-(((X-M).^2)/(2*(S^2))));
 %     y=a(j)*exp(-((t-t0(j)).^2/(2*(s(j)^2))));
      
-    figure;
-    plot (t,x); grid on;
+%     figure;
+%     plot (t,y); grid on;
     c=c+(y.*mult);
 end
-x=DLmin+((y-CLmin)*((DLmax-DLmin)/(CLmax-CLmin)));
-plot(t,control); grid on;
+x=DLmin+((c-CLmin)*((DLmax-DLmin)/(CLmax-CLmin)));
+a=(31.6837*x+1.1014);
+b=180-abs(-a+180);
+plot(t,a,'b','LineWidth',2);
+hold on;
+plot(t,b,'r--','LineWidth',2);
+hold on;
+plot([0 tf],[180 180],'k:','LineWidth',2);
+grid on;
+legend('Fas original', 'Se
+axis([0 0.1 0 360]);
 
 
