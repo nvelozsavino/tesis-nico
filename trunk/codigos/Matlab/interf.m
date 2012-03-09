@@ -1,6 +1,6 @@
 clc
 clear all
-% close all
+close all
 l=546.1e-9;
 xi=-4*l;
 xf=4*l;
