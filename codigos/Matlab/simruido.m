@@ -18,6 +18,22 @@ end
 % x=2*sin(2*pi*30*t+pi/6)+1*sin(2*pi*60*t+pi/5)+sin(2*pi*90*t);
 y=x+0.5*randn(size(t));
 
+
+
+L=length(y);
+NFFT = L;%2^nextpow2(L); % Next power of 2 from length of y
+Y = fft(y,NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2);
+figure
+% Plot single-sided amplitude spectrum.
+semilogx(f,2*abs(Y(1:NFFT/2)),'k','LineWidth',1);grid on; 
+title('Espectro de la señal simulada','FontWeight','bold');
+xlabel('Frecuencia (Hz)')
+ylabel('|Y(f)|')
+axis([20 3e3 0 1]);
+
+
+
 jm=length(t)/N;
 % plot(t,y,'k');
 % hold on;
