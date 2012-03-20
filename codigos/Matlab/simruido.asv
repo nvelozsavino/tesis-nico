@@ -24,13 +24,13 @@ L=length(y);
 NFFT = L;%2^nextpow2(L); % Next power of 2 from length of y
 Y = fft(y,NFFT)/L;
 f = Fs/2*linspace(0,1,NFFT/2);
-figure
+ft=figure;
 % Plot single-sided amplitude spectrum.
 semilogx(f,2*abs(Y(1:NFFT/2)),'k','LineWidth',1);grid on; 
 title('Espectro de la señal simulada','FontWeight','bold');
 xlabel('Frecuencia (Hz)')
 ylabel('|Y(f)|')
-axis([20 20e3 0 1]);
+axis([20 3e3 0 1]);
 
 
 
@@ -100,6 +100,23 @@ std_y=std(y)
 std_y2=std(y-control)
 sumy=sum(y.^2)
 sumy2=sum((y-control).^2)
+
+
+Lc=length(y-control);
+NFFTc = Lc;%2^nextpow2(L); % Next power of 2 from length of y
+Yc = fft(y-control,NFFTc)/Lc;
+fc = Fs/2*linspace(0,1,NFFTc/2);
+figure
+% Plot single-sided amplitude spectrum.
+semilogx(fc,2*abs(Y(1:NFFT/2)),'r-o','LineWidth',1);
+hold on;
+semilogx(fc,2*abs(Yc(1:NFFTc/2)),'b-x','LineWidth',1);grid on; 
+title('Espectro del ruido obtenido','FontWeight','bold');
+xlabel('Frecuencia (Hz)')
+ylabel('|Y(f)|')
+axis([20 3e3 0 1]);
+
+
 
 set(f1,'Position', [100 100 800 400])
 

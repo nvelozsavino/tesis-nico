@@ -55,7 +55,7 @@ ylabel ('Contraste');
 
 
 
-title('Simulación de la evolución del contraste en el tiempo','FontWeight', 'bold','FontSize',14);
+title('Evolución del contraste en el tiempo','FontWeight', 'bold','FontSize',14);
 line([ts1 ts1 tf1 tf1 ts1],[ymin1 ymax1 ymax1 ymin1 ymin1],'Color','r','LineWidth',2);
 line([ts ts tf tf ts],[ymin ymax ymax ymin ymin],'Color','b','LineWidth',2);
 line([ts2 ts2 tf2 tf2 ts2],[ymin2 ymax2 ymax2 ymin2 ymin2],'Color','g','LineWidth',2);
