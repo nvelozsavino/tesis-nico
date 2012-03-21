@@ -108,12 +108,13 @@ Yc = fft(y-control,NFFTc)/Lc;
 fc = Fs/2*linspace(0,1,NFFTc/2);
 figure
 % Plot single-sided amplitude spectrum.
-semilogx(fc,2*abs(Y(1:NFFT/2)),'r-o','LineWidth',1);
-% hold on;
-% semilogx(fc,2*abs(Yc(1:NFFTc/2)),'b-x','LineWidth',1);grid on; 
-title('Espectro del ruido obtenido','FontWeight','bold');
+semilogx(fc,2*abs(Y(1:NFFT/2)),'k-','LineWidth',2);
+hold on;
+semilogx(fc,2*abs(Yc(1:NFFTc/2)),'b--','LineWidth',2);grid on; 
+title('Espectro del ruido antes y después','FontWeight','bold');
 xlabel('Frecuencia (Hz)')
 ylabel('|Y(f)|')
+legend ('Espectro inicial','Espectro resultante');
 axis([20 3e3 0 1]);
 
 
