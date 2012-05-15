@@ -1,0 +1,100 @@
+Planteamiento del problema:
+	La necesidad de realizar mediciones en escalas cada vez mas pequeñas ha impulsado el uso del fenómeno de interferencia para lograr este fin.
+	Este fenómeno se basa en la interacción constructiva o destructiva de haces de luz que recorren caminos ópticos diferentes.
+	Utilizando un interferómetro se puede lograr generar un interferograma que nos de información sobre por ejemplo la altura en la cual uno de los haces se reflejó en la muestra.
+	Esta información se puede obtener de acuerdo a la intensidad de la luz recibida por el detector que viene modulada por el término de la fase, que depende de la diferencia de caminos ópticos entre ambos haces.
+	Entre una franja clara y la franja oscura siguiente en un interferograma se sabe que existe una diferencia en alturas que depende de la longitud de onda de la luz incidente.
+	Mientras mas niveles de grises se tengan entre estas franjas, mayor será la resolución con que se pueda determinar la altura en cada punto entre las franjas.
+	Para registrar los interferogramas, comunmente se utiliza una cámara.
+	Cada pixel de la cámara recoge una cantidad de fotones en un tiempo determinado.
+	Si las franjas estan quietas, a los pixeles que inciden las franjas claras obtendrán muchos fotones, mientras que los pixeles de las franjas oscuras no obtendran casi fotones
+	En presencia de vibraciones las franjas se desplazan, por lo tanto en el tiempo en que los pixeles reciben fotones, los fotones de las franjas claras no caeran consistentemente en donde deben caer sino iran cayendo a pixeles adyacentes.
+	Por lo tanto, las franjas claras quedarán menos claras y las oscuras menos oscuras, reduciendo la cantidad de niveles de grises o contraste que se puede medir al digitalizar la información de los píxeles.
+	Por lo tanto si se logra reducir el efecto de las vibraciones sobre el contraste, se podría obtener mayor resolución en las mediadas.
+	
+Antecedentes
+	Para resolver este problema de las vibraciones sobre los sistemas de interferometría, se han utilizado diversas técnicas.
+	
+	En 1994, unos brasileros, Freschi y Frejlich utilizaron un piezoeléctrico con el cual introducian una señal sinusoidal en la fase.
+	Debido a la relación no lineal entre la fase y la intensidad recibida, se producen armónicos en términos de la frecuencia de la señal introducida.
+	Los primeros 2 armónicos son separados con filtros pasabanda y luego sumados, con lo que se obtiene una señal que depende de la frecuencia de la señal introducida y  la vibración, de esta señal se extrae la información de las vibraciones que afectan al sistema y se genera una señal de error para estabilizar el sistema.
+	
+	En el 2001 Zhao y Burge implementan un sistema anidado en el cual utilizan un sistema muy rapido que mide la fase y genera una señal de error y el otro mas lento para realizar mediciones sobre el perfil de una muestra
+	En el sistema de alta velocidad utilizan un laser y un fotodiodo para generar una medida de la fase actual a una velocidad de 4kHz utilizando el método de desplazamiento de fase.
+	Con la medida de la fase actual generan una señal de error que se utiliza para estabilizar la fase mientras se aplica nuevamente el método de desplazamiento de fase pero esta vez con una lámpara y una cámara para registrar el interferograma y realizar la reconstrucción del perfil de la muestra.
+	
+	Otro enfoque presentado por North-Morris y colaboradores en 2002, es tratar de que el haz de la muestra y el de referencia compartan el mismo trayecto.
+	De esta forma las vibraciones afectaran a ambos por igual y el efecto será anulado.
+	La clave de este sistema es lograr separar los haces, lo cual puede hacerse por una placa de dispersión que ligeramente desvia un haz mientras que el otro continua el camino, ambos inciden sobre un espejo curvo que reenfoca ambos haces para llevarlos al detector.
+	
+	En 2004 Iwai y colaboradores utilizaron un esquema similar al de los brasileros pero incluyen en su sistema un diodo superluminiscente y una cámara CCD para obtener el interferograma, a la vez que utilizan un laser, un fotodiodo y un piezoeléctrico para hacer la modulación de la fase y generar la señal de error para estabilizar el sistema-
+	
+	En la mayoria de estas soluciones utilizan un doble sistema de detectores y lámparas, o utilizan complejos sistemas ópticos para lograr reducir el efecto de las vibraciones.
+	
+Objetivos
+	El objetivo General de este trabajo fue desarrollar un esquema de control para la mejora de contraste en interferogramas obtenidos en presencia de vibraciones mecánicas utilizando como único sensor, la misma cámara que obtiene las imágenes de los interferogramas
+	
+	Para lograr este objetivo se plantearon distintos objetivos específicos, como son:
+	
+	Estudiar el modelo matemático del fenómeno de interferencia y analizar la influencia de las vibraciones mecánicas en el contraste de los interferogramas
+	
+	Desarrollar un esquema y un algoritmo de control que permita compensar el efecto de las vibraciones mecánicas en la disminución del contraste de los interferogramas.
+	
+	Implementar el control en el sistema real y verificar su funcionamiento
+	
+Metodología
+
+	Los equipos que se tenían a disposición en el laboratorio de Óptica e Interferometría fueron los siguientes:
+		Un microscopio de reflexión Nikon Optiphot con una lámpara de tungsteno.
+		Un objetivo de mirau de 20X, el cual se puede adaptar a un piezoeléctrico de Phisics Instruments PI720
+		Una cámara CMOS de PixeLINK modelo PL-B776U
+		Adicionalmente una PC con una tarjeta de adquisición de National Instrument modelo 6023E
+	
+	Inicialmente se pendó resolver el problema utilizando un esquema de control clásico, en el cual la referencia del sistema de control es una medida de contraste máximo y el error es calculado con el contraste medido, luego un controlador generaría una señal para el piezoeléctrico que compensara las vibraciones en el sistema
+	Sin embargo, como se utiliza una cámara, el proceso de integración o recolección de fotones durante un tiempo determinado que ocurre en la cámara, hace que la información instantanea de las vibraciones desaparezca, por lo tanto solo se puede observar el efecto de estas al final del tiempo de integración
+	Por lo tanto hacer una compensación instantanea de las vibraciones se hace prácticamente imposible.
+	
+	Sin embargo, en observaciones iniciales del comportamiento del sistema, se observó que existía poco movimiento de las franjas y la disminución del contraste era relativamente constante en todas las imágenes obtenidas.
+	Esto lleva a pensar que las principales componentes frecuenciales de las vibraciones deberían ser múltiplos de la frecuencia de integración de la cámara para que entre cada imagen no exista un movimiento significativo de las franjas.
+	Utilizando un micrófono adherido al mesón de trabajo se registró el espectro de las posibles vibraciones que afectan al mesón y se encontró que los principales picos frecuenciales son múltiplos de 30Hz, que es comunmente la frecuencia de la cámara o un múltiplo de esta.
+	
+	Utilizando los resultados obtenidos del espectro de las vibraciones, en vez de compensar instantaneamente el ruido, se plantea compensar solo las principales componentes del ruido.
+	Si se obtiene la serie temporal del espectro obtenido y se le extrae la envolvente, se puede observar que en cada intervalo de tiempo en que la cámara esta integrando, la envolvente es muy similar.
+	Si se logra introducir una señal durante el tiempo de integración de cada imagen que compense la envolvente, se estarían reduciendo las principales componentes frecuenciales de las vibraciones, reduciendo así el desplazamiento de las franjas y mejorando el contraste
+	Sin embargo, el detectar la envolvente es casi tan complicado como detectar instantaneamente las vibraciones a partir de las imágenes.
+	Por lo tanto en vez de detectar la envolvente, se introducirán señales aleatorias durante el tiempo de integración de cada imagen que busquen compensar esa envolvente.
+	Una vez encontrada una señal que mejore un poco el contraste, entonces esta sera ligeramente modificada buscando maximizar la mejora de contraste en la imagen.
+	
+	El algoritmo propuesto genera una función gaussiana con amplitud y ancho aleatorio que se irá desplazando en cada intervalo de integración.
+	Aquella señal que logre una mejora en el contraste luego sera utilizada para modificar su amplitud hasta encontrar alguna amplitud que mejore el contraste.
+	Una vez terminado el barrido de amplitud, se modifica la mejor señal, cambiandole el ancho. 
+	Una vez obtenida una señal que haya mejorado el contraste luego de haber ajustado, posicion, amplitud y ancho, se repite el proceso pero ahora con la nueva señal incluida como señal base.
+	
+	La implementación del algoritmo se llevó a cabo en 2 fases, una en un simulador y la otra en el sistema real.
+	Se desarrollo un simulador en C++ con la libreria de manejo de imágenes OpenCV.
+	Para el desarrollo de este simulador se tomó en cuenta que los espectros de las fuentes de iluminación no siempre son puntuales.
+	Así como se trató de simular los procesos de tiempos y de absorción de las cámaras, el simulador puede emular el efecto de integración de la cámara asi como generar imágenes a color al utilizar los espectros de absorción para los sensores R, G y B.
+	
+	Se hicieron varias pruebas para validar el funcionamiento del simulador.
+	Se probó simular un plano inclinado con una fuente puntual con laser de Helio-Neon y una fuente de luz blanca con espectro de emisión de una lámpara de tungsteno
+	Tambien se probó la simulación de un perfil obtenido a partir del método de desplazamiento de fase con inclusión de vibraciones para observar la reducción del contraste.
+	
+	
+	
+
+	
+	
+	
+
+	divide en los intervalos de la cámara se puede observar que existe una e
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
