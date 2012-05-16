@@ -18,18 +18,18 @@ yamax=max(y(xf+1:length(y)));
 
 ymin=ypmin-0.02;
 ymax=ypmax+0.05;
-ts=x(xs);
-tf=x(xf);
+ts=x(xs)/10;
+tf=x(xf)/10;
 
 ymin1=yimin-0.05;
 ymax1=yimax+0.02;
-ts1=x(1);
-tf1=x(xs-1);
+ts1=x(1)/10;
+tf1=x(xs-1)/10;
 
 ymin2=yamin-0.05;
 ymax2=yamax+0.02;
-ts2=x(xf+1);
-tf2=x(length(x));
+ts2=x(xf+1)/10;
+tf2=x(length(x))/10;
 
 
 ci=mean(y(1:xs));
@@ -37,13 +37,13 @@ cf=mean(y(xf:length(y)));
 stdi=std(y(1:xs));
 stdf=std(y(xf:length(y)));
 
-t=x;
+t=x/10;
 
 ymina=min([0 ymin-0.1 ymin1 ymin2]);
 ymaxa=0.5;%max([ymax ymax1 ymax2])+0.5;
 
-xmina=x(1);
-xmaxa=x(length(x));
+xmina=x(1)/10;
+xmaxa=x(length(x))/10;
 
 plot(t,y,'k'); grid on;
 axis([xmina xmaxa ymina ymaxa]);

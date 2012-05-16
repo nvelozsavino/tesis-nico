@@ -5,6 +5,7 @@ Planteamiento del problema:
 	Esta información se puede obtener de acuerdo a la intensidad de la luz recibida por el detector que viene modulada por el término de la fase, que depende de la diferencia de caminos ópticos entre ambos haces.
 	Entre una franja clara y la franja oscura siguiente en un interferograma se sabe que existe una diferencia en alturas que depende de la longitud de onda de la luz incidente.
 	Mientras mas niveles de grises se tengan entre estas franjas, mayor será la resolución con que se pueda determinar la altura en cada punto entre las franjas.
+	
 	Para registrar los interferogramas, comunmente se utiliza una cámara.
 	Cada pixel de la cámara recoge una cantidad de fotones en un tiempo determinado.
 	Si las franjas estan quietas, a los pixeles que inciden las franjas claras obtendrán muchos fotones, mientras que los pixeles de las franjas oscuras no obtendran casi fotones
