@@ -1,0 +1,29 @@
+Planteamiento del problema
+	Necesidad de escalas
+	Uso de fenomeno de interferencia
+	Interferencia: interacción entre 2 haces
+	Uso de interferómetro para medir altura de reflexión
+	Informacion a traves de la intensidad
+	Intensidad modulada por la fase
+	Fase depende de la diferencia entre caminos opticos
+	Altura entre franjas claras y oscuras depende de lamda
+	Mas niveles de intensidad, mayor resolución
+	
+	Interferogramas con camaras
+	Pixeles como huecos que se llenan de fotones
+	Franjas enfocadas sobre pixeles
+	Pixeles en franjas claras se llenaran
+	Pixeles en franjas oscuras vacios
+	Vibraciones hacen que las franjas se muevan
+	Al moverse, los fotones caen en pixeles adyacentes
+	Franjas claras menos claras
+	Franjas oscuras menos oscuras
+	Reduccion de contraste o niveles de intensidad
+	Contraste: Intensidad maxima menos intensidad minima
+	Reducir vibraciones -> Aumenta contraste
+	
+	
+	
+	
+	
+	
