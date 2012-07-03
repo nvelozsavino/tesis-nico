@@ -10,13 +10,13 @@ green=load('../C++/archivos/canon_g.dat');
 % g=c(:,3);
 % b=c(:,4);
 figure;
-plot(red(:,1)/10,red(:,2),'r-.','LineWidth',2); hold on;
-plot(green(:,1)/10,green(:,2),'g--','LineWidth',2); hold on;
-plot(blue(:,1)/10,blue(:,2),'b-','LineWidth',2);
+plot(red(:,1)/10,100*red(:,2),'r-.','LineWidth',2); hold on;
+plot(green(:,1)/10,100*green(:,2),'g--','LineWidth',2); hold on;
+plot(blue(:,1)/10,100*blue(:,2),'b-','LineWidth',2);
 % plot(l,b,'b-+',l,r,'r-x',l,g,'g-o');
 grid on;
 xlabel('Longitud de onda \lambda (nm)')
-ylabel('Respuesta');
+ylabel('% Relativo de absorción');
 title('Espectros RGB de absorción de cámara Canon 10D');
 legend('Rojo','Verde','Azul');
-axis([340 730 0 1]);
+axis([340 730 0 1.1*100]);
