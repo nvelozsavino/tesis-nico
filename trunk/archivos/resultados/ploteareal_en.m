@@ -35,7 +35,8 @@ tf2=x(length(x))/10;
 ci=mean(y(1:xs));
 cf=mean(y(xf:length(y)));
 stdi=std(y(1:xs))/sqrt(length(y(1:xs)));
-stdf=std(y(xf:length(y)))/sqrt(length(y(xf:length(y)));
+stdf=std(y(xf:length(y)))/sqrt(length(y(xf:length(y))));
+
 
 t=x/10;
 
@@ -55,13 +56,13 @@ ylabel ('Contraste');
 
 
 
-title('Evolución del contraste en el tiempo','FontWeight', 'bold','FontSize',14);
+title('Contrast Evolution ','FontWeight', 'bold','FontSize',14);
 line([ts1 ts1 tf1 tf1 ts1],[ymin1 ymax1 ymax1 ymin1 ymin1],'Color','r','LineWidth',2);
 line([ts ts tf tf ts],[ymin ymax ymax ymin ymin],'Color','b','LineWidth',2);
 line([ts2 ts2 tf2 tf2 ts2],[ymin2 ymax2 ymax2 ymin2 ymin2],'Color','g','LineWidth',2);
-txt1=text(100,ymina+2*((ymin-ymina)/4),['Contraste Inicial: ', num2str(ci,'%.2f'), ' \pm ',num2str(stdi,'%.2f')], 'BackgroundColor',[1 1 1]);
-txt2=text(100,ymina+1*((ymin-ymina)/4),['Contraste Final:   ', num2str(cf,'%.2f'), ' \pm ',num2str(stdf,'%.2f')], 'BackgroundColor',[1 1 1]);
-txt3=text((tf-ts)/2+ts,ymin,'Proceso de ajuste','HorizontalAlignment','center', 'BackgroundColor','b','FontWeight','bold','color','w');
+txt1=text(100,ymina+2*((ymin-ymina)/4),['Initial Contrast: ', num2str(ci,'%.3f'), ' \pm ',num2str(stdi,'%.3f')], 'BackgroundColor',[1 1 1]);
+txt2=text(100,ymina+1*((ymin-ymina)/4),['Final Contrast:   ', num2str(cf,'%.3f'), ' \pm ',num2str(stdf,'%.3f')], 'BackgroundColor',[1 1 1]);
+txt3=text((tf-ts)/2+ts,ymin,'Adjust Process','HorizontalAlignment','center', 'BackgroundColor','b','FontWeight','bold','color','w');
 % txt4=text((tf1-ts1)/2+ts1,ymin1,'Sin Control','HorizontalAlignment','center', 'BackgroundColor','r','FontWeight','bold','color','w');
 % txt5=text((tf2-ts2)/2+ts2,ymin2,'Adaptado','HorizontalAlignment','center', 'BackgroundColor','g','FontWeight','bold','color','w');
 

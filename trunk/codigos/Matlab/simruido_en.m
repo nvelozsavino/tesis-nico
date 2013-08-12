@@ -78,11 +78,11 @@ for i=1:N
     plot(ti,ci,colores(i),'LineWidth',2); hold on;
 end
 
-grid on; xlabel('Tiempo (s)');
+grid on; xlabel('Time (s)');
 ylabel ('Relative Amplitud');
 title ('Control Signal','FontWeight','bold');
 axis([0  t(length(t)) -maxplot maxplot]);
-legend('Original envelop', 'Signal in image 1Señal en Imagen 1', 'Señal en Imagen 2', 'Señal en Imagen 3', 'Señal en Imagen 4');
+legend('Original envelop', 'Noise signal in image 1', 'Noise signal in image 2', 'Noise signal in image 3', 'Noise signal in image 4');
 
 
 f4=figure;
@@ -91,9 +91,9 @@ f4=figure;
 plot(t,y-control,'k');
 axis([0  t(length(t)) -maxplot maxplot]);
 grid on;
-xlabel('Tiempo (s)');
-ylabel('Amplitud relativa');
-title('Ruido Obtenido','FontWeight','bold');
+xlabel('Time (s)');
+ylabel('Relative Amplitude');
+title('Obtained Noise','FontWeight','bold');
 meany=mean(y)
 meany2=mean(y-control)
 std_y=std(y)
@@ -111,10 +111,10 @@ figure
 semilogx(fc,2*abs(Y(1:NFFT/2)),'k-','LineWidth',2);
 hold on;
 semilogx(fc,2*abs(Yc(1:NFFTc/2)),'b--','LineWidth',2);grid on; 
-title('Espectro del ruido antes y después','FontWeight','bold');
-xlabel('Frecuencia (Hz)')
+title('Noise Spectrum before and after','FontWeight','bold');
+xlabel('Frequency (Hz)')
 ylabel('|Y(f)|')
-legend ('Espectro inicial','Espectro resultante');
+legend ('Initial Spectrum','Resultatn Spectrum');
 axis([20 3e3 0 1]);
 
 

@@ -1,0 +1,22 @@
+close all;
+clear all;
+clc;
+blue=load('../C++/archivos/canon_b.dat');
+red=load('../C++/archivos/canon_r.dat');
+green=load('../C++/archivos/canon_g.dat');
+% c=load('../C++/archivos/ciexyz64_1-2.csv');
+% l=c(:,1);
+% r=c(:,2);
+% g=c(:,3);
+% b=c(:,4);
+figure;
+plot(red(:,1)/10,100*red(:,2),'r-.','LineWidth',2); hold on;
+plot(green(:,1)/10,100*green(:,2),'g--','LineWidth',2); hold on;
+plot(blue(:,1)/10,100*blue(:,2),'b-','LineWidth',2);
+% plot(l,b,'b-+',l,r,'r-x',l,g,'g-o');
+grid on;
+xlabel('Wavelength \lambda (nm)')
+ylabel('Relative % of absorption');
+title('Absorption spectrums of RGB sensors in Canon 10D');
+legend('Red','Green','Blue');
+axis([340 730 0 1.1*100]);

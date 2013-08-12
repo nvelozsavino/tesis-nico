@@ -69,6 +69,7 @@ xlabel ('Frecuencia (Hz)');
 ylabel ('Amplitud relativa');
 title ('Espectro de la señal obtenida con el microfono');
 grid on;
+axis([20 20e3 0 1])
 % figure;
 % semilogx(f2,2*abs(Y(1:NFFT/2))) 
 % title('Single-Sided Amplitude Spectrum of y(t)')
