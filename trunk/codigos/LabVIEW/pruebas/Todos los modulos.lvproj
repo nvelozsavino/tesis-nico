@@ -17,6 +17,7 @@
 		<Item Name="linealidad.vi" Type="VI" URL="../linealidad.vi"/>
 		<Item Name="sitios.vi" Type="VI" URL="../../lib/sitios.vi"/>
 		<Item Name="sound.vi" Type="VI" URL="../sound.vi"/>
+		<Item Name="todo.vi" Type="VI" URL="../../todo.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Property Name="NI.SortType" Type="Int">2</Property>
 			<Item Name="vi.lib" Type="Folder">
@@ -247,8 +248,9 @@
 				<Item Name="IMAQ Copy" Type="VI" URL="/&lt;vilib&gt;/Vision/Management.llb/IMAQ Copy"/>
 				<Item Name="IMAQ Create" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ Create"/>
 				<Item Name="IMAQ Dispose" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ Dispose"/>
-				<Item Name="IMAQ GetImageInfo" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ GetImageInfo"/>
+				<Item Name="IMAQ GetImageInfo" Type="VI" URL="/&lt;vilib&gt;/vision/Basics.llb/IMAQ GetImageInfo"/>
 				<Item Name="IMAQ GetImagePixelPtr" Type="VI" URL="/&lt;vilib&gt;/vision/Basics.llb/IMAQ GetImagePixelPtr"/>
+				<Item Name="IMAQ GetPalette" Type="VI" URL="/&lt;vilib&gt;/Vision/Display.llb/IMAQ GetPalette"/>
 				<Item Name="IMAQ Image.ctl" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/IMAQ Image.ctl"/>
 				<Item Name="IMAQ ImageToArray" Type="VI" URL="/&lt;vilib&gt;/Vision/Basics.llb/IMAQ ImageToArray"/>
 				<Item Name="IMAQ Line" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/IMAQ Line"/>
@@ -256,6 +258,13 @@
 				<Item Name="IMAQ Select Line" Type="VI" URL="/&lt;vilib&gt;/Vision/ROI Construct.llb/IMAQ Select Line"/>
 				<Item Name="IMAQ SetImageSize" Type="VI" URL="/&lt;vilib&gt;/vision/Basics.llb/IMAQ SetImageSize"/>
 				<Item Name="IMAQ WindEraseROI" Type="VI" URL="/&lt;vilib&gt;/vision/ROI Display.llb/IMAQ WindEraseROI"/>
+				<Item Name="IMAQ Write BMP File 2" Type="VI" URL="/&lt;vilib&gt;/vision/Files.llb/IMAQ Write BMP File 2"/>
+				<Item Name="IMAQ Write File 2" Type="VI" URL="/&lt;vilib&gt;/Vision/Files.llb/IMAQ Write File 2"/>
+				<Item Name="IMAQ Write Image And Vision Info File 2" Type="VI" URL="/&lt;vilib&gt;/vision/Files.llb/IMAQ Write Image And Vision Info File 2"/>
+				<Item Name="IMAQ Write JPEG File 2" Type="VI" URL="/&lt;vilib&gt;/vision/Files.llb/IMAQ Write JPEG File 2"/>
+				<Item Name="IMAQ Write JPEG2000 File 2" Type="VI" URL="/&lt;vilib&gt;/vision/Files.llb/IMAQ Write JPEG2000 File 2"/>
+				<Item Name="IMAQ Write PNG File 2" Type="VI" URL="/&lt;vilib&gt;/vision/Files.llb/IMAQ Write PNG File 2"/>
+				<Item Name="IMAQ Write TIFF File 2" Type="VI" URL="/&lt;vilib&gt;/vision/Files.llb/IMAQ Write TIFF File 2"/>
 				<Item Name="Longest Line Length in Pixels.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Longest Line Length in Pixels.vi"/>
 				<Item Name="LVBoundsTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVBoundsTypeDef.ctl"/>
 				<Item Name="MEPR-Translation-SetCallbackConstructor.vi" Type="VI" URL="/&lt;vilib&gt;/addons/PixeLINK/Low Level Functions/TRANSLATION.llb/MEPR-Translation-SetCallbackConstructor.vi"/>
@@ -345,6 +354,7 @@
 			<Item Name="DAQ-SetParameters.vi" Type="VI" URL="../../lib/DAQ/DAQ-SetParameters.vi"/>
 			<Item Name="DAQ-WriteArray.vi" Type="VI" URL="../../lib/DAQ/DAQ-WriteArray.vi"/>
 			<Item Name="DAQ-WriteValue.vi" Type="VI" URL="../../lib/DAQ/DAQ-WriteValue.vi"/>
+			<Item Name="errorMsg.vi" Type="VI" URL="../../errorMsg.vi"/>
 			<Item Name="General-ConvertArray2OneDimension.vi" Type="VI" URL="../../lib/Generales/General-ConvertArray2OneDimension.vi"/>
 			<Item Name="General-GenerateRandomNumber.vi" Type="VI" URL="../../lib/Generales/General-GenerateRandomNumber.vi"/>
 			<Item Name="General-GenerateSineWaveForm.vi" Type="VI" URL="../../lib/Generales/General-GenerateSineWaveForm.vi"/>
@@ -381,6 +391,7 @@
 			<Item Name="PxLLabVIEW.dll" Type="Document" URL="PxLLabVIEW.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
+			<Item Name="saltos.vi" Type="VI" URL="../../lib/control/saltos.vi"/>
 			<Item Name="Sound-ClearDevice.vi" Type="VI" URL="../../lib/Sonido/Sound-ClearDevice.vi"/>
 			<Item Name="Sound-Events2Case.vi" Type="VI" URL="../../lib/Sonido/Sound-Events2Case.vi"/>
 			<Item Name="Sound-InitDevice.vi" Type="VI" URL="../../lib/Sonido/Sound-InitDevice.vi"/>
